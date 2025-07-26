@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,10 +57,46 @@
         #qr-reader__dashboard_section_swaplink {
             display: none !important;
         }
+        
+        /* رسالة تم الجرد */
+        #inventory-done-message {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background-color: #10B981;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+        
+        /* رسالة تم الحذف */
+        #delete-success-message {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background-color: #EF4444;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
     </style>
 </head>
 
 <body class="bg-gray-50 min-h-screen">
+    <!-- رسالة تم الجرد -->
+    <div id="inventory-done-message" class="font-bold">تم الجرد بنجاح</div>
+    
+    <!-- رسالة تم الحذف -->
+    <div id="delete-success-message" class="font-bold">تم حذف الجهاز بنجاح</div>
+    
     <div class="fade-screen">
         <!-- واجهة مسؤول الصيانة -->
         <div id="admin-dashboard" class="min-h-screen bg-gray-100">
@@ -273,6 +308,9 @@
                                 <h3 class="text-base sm:text-lg font-bold text-gray-700 mb-2">معلومات الجهاز (بعد
                                     المسح):</h3>
                                 <div id="scanned-device-info" class="border rounded-md p-3 sm:p-4 bg-gray-50 text-sm">
+                                    <!-- تخزين معرف الجهاز بشكل مخفي -->
+                                    <input type="hidden" id="scanned-device-id">
+                                    
                                     <p><span class="font-medium">الرقم التسلسلي:</span> <span
                                             id="scanned-serial-number">-</span></p>
                                     <p><span class="font-medium">نوع الجهاز:</span> <span
@@ -281,15 +319,20 @@
                                     <p><span class="font-medium">الحالة:</span> <span id="scanned-status">-</span></p>
                                     <p><span class="font-medium">المستخدم الحالي:</span> <span
                                             id="scanned-current-user">-</span></p>
-                                    <div
-                                        class="mt-3 sm:mt-4 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 space-x-reverse">
-                                        <button id="assign-device-btn"
-                                            class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-xs sm:text-sm transition duration-300">
-                                            تخصيص لمستخدم
+                                    
+                                    <!-- الأزرار الجديدة -->
+                                    <div class="mt-4 flex flex-wrap gap-2">
+                                        <button id="inventory-done-btn"
+                                            class="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-md transition duration-300 flex-1 min-w-[120px]">
+                                            تم الجرد
                                         </button>
-                                        <button id="update-status-btn"
-                                            class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-md text-xs sm:text-sm transition duration-300">
-                                            تحديث الحالة
+                                        <button id="edit-scanned-device-btn"
+                                            class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-md transition duration-300 flex-1 min-w-[120px]">
+                                            تعديل
+                                        </button>
+                                        <button id="delete-scanned-device-btn"
+                                            class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md transition duration-300 flex-1 min-w-[120px]">
+                                            حذف
                                         </button>
                                     </div>
                                 </div>
@@ -344,17 +387,17 @@
                         <h3 class="text-base sm:text-lg font-bold text-primary-700 mb-2 sm:mb-3">تقارير مفصلة</h3>
                         <div class="space-y-3 sm:space-y-4 text-sm">
                             <div class="flex items-center justify-between border-b pb-2">
-                                <p class="text-gray-700">تقرير الأجهزة حسب القسم</p>
+                                <p class="text-gray-700">تقرير الأجهزة حسب الحالة</p>
                                 <button
                                     class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-xs">توليد</button>
                             </div>
                             <div class="flex items-center justify-between border-b pb-2">
-                                <p class="text-gray-700">تقرير بلاغات الأعطال حسب النوع</p>
+                                <p class="text-gray-700">تقارير الجرد</p>
                                 <button
                                     class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-xs">توليد</button>
                             </div>
                             <div class="flex items-center justify-between border-b pb-2">
-                                <p class="text-gray-700">سجل تسليم واستلام العُهد</p>
+                                <p class="text-gray-700">تقارير التخريد</p>
                                 <button
                                     class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-xs">توليد</button>
                             </div>
@@ -464,7 +507,6 @@
             </div>
         </div>
 
-        <!-- Edit Device Modal -->
         <!-- Edit Device Modal -->
         <div id="editDeviceModal"
             class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4 sm:p-6 z-50 hidden">
@@ -596,6 +638,84 @@
                 user: 'علي محمود',
                 central: 'سنترال3',
                 notes: 'تحت الصيانة'
+            },
+            // الأجهزة الجديدة المضافة
+            {
+                id: '004',
+                employeeId: '1004',
+                type: 'laptop',
+                model: 'Lenovo ThinkPad X1 Carbon',
+                serial: 'LT32165498',
+                status: 'in-use',
+                user: 'فاطمة حسن',
+                central: 'سنترال1',
+                notes: ''
+            },
+            {
+                id: '005',
+                employeeId: '1005',
+                type: 'desktop',
+                model: 'HP EliteDesk 800 G5',
+                serial: 'PC78912345',
+                status: 'in-use',
+                user: 'سالم عبدالله',
+                central: 'سنترال2',
+                notes: ''
+            },
+            {
+                id: '006',
+                employeeId: '1006',
+                type: 'monitor',
+                model: 'Dell UltraSharp U2722D',
+                serial: 'MN45612378',
+                status: 'in-use',
+                user: 'خالد ناصر',
+                central: 'سنترال4',
+                notes: ''
+            },
+            {
+                id: '007',
+                employeeId: '1007',
+                type: 'printer',
+                model: 'Epson EcoTank ET-4760',
+                serial: 'PR98765432',
+                status: 'in-use',
+                user: 'ريم سليمان',
+                central: 'سنترال3',
+                notes: ''
+            },
+            {
+                id: '008',
+                employeeId: '1008',
+                type: 'laptop',
+                model: 'MacBook Pro M1',
+                serial: 'MBP12345678',
+                status: 'maintenance',
+                user: 'نورة علي',
+                central: 'سنترال1',
+                notes: 'تحت الصيانة - شاشة تالفة'
+            },
+            {
+                id: '009',
+                employeeId: '1009',
+                type: 'desktop',
+                model: 'Apple iMac 24"',
+                serial: 'IMC87654321',
+                status: 'in-use',
+                user: 'عمر راشد',
+                central: 'سنترال4',
+                notes: ''
+            },
+            {
+                id: '010',
+                employeeId: '1010',
+                type: 'monitor',
+                model: 'Samsung Odyssey G7',
+                serial: 'MN78945612',
+                status: 'in-use',
+                user: 'سارة عبدالرحمن',
+                central: 'سنترال2',
+                notes: ''
             }
         ];
 
@@ -798,15 +918,11 @@
 
 
         // عرض نموذج تعديل جهاز
-        // عرض نموذج تعديل جهاز
         function showEditDeviceModal(deviceId) {
             currentEditDeviceId = deviceId;
             const device = devicesData.find(d => d.id === deviceId);
 
             if (device) {
-                // تمت إزالة السطر التالي الذي كان يعرض رقم العهدة
-                // document.getElementById('edit-device-id-display').textContent = device.id;
-
                 document.getElementById('edit-device-type-display').textContent = getDeviceTypeName(device.type);
                 document.getElementById('edit-device-model-display').textContent = device.model;
                 document.getElementById('edit-device-serial-display').textContent = device.serial;
@@ -908,6 +1024,9 @@
 
                 const device = devicesData.find(d => d.serial === decodedText);
                 if (device) {
+                    // تخزين معرف الجهاز في حقل مخفي
+                    document.getElementById('scanned-device-id').value = device.id;
+                    
                     document.getElementById('scanned-device-type').textContent = getDeviceTypeName(device.type);
                     document.getElementById('scanned-model').textContent = device.model;
 
@@ -921,6 +1040,9 @@
                     document.getElementById('scanned-status').textContent = statusText;
                     document.getElementById('scanned-current-user').textContent = device.user || '---';
                 } else {
+                    // إعادة تعيين الحقل المخفي إذا لم يتم العثور على الجهاز
+                    document.getElementById('scanned-device-id').value = '';
+                    
                     document.getElementById('scanned-device-type').textContent = '-';
                     document.getElementById('scanned-model').textContent = '-';
                     document.getElementById('scanned-status').textContent = '-';
@@ -1185,8 +1307,63 @@
             if (document.getElementById('reports-section').classList.contains('active')) {
                 initCharts();
             }
+            
+            // ================================================
+            // الأحداث الجديدة للأزرار في قسم مسح الباركود
+            // ================================================
+            
+            // زر "تم الجرد"
+            document.getElementById('inventory-done-btn').addEventListener('click', function() {
+                const message = document.getElementById('inventory-done-message');
+                message.style.display = 'block';
+                
+                // إخفاء الرسالة بعد 3 ثوان
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 3000);
+            });
+            
+            // زر "تعديل"
+            document.getElementById('edit-scanned-device-btn').addEventListener('click', function() {
+                const deviceId = document.getElementById('scanned-device-id').value;
+                
+                if (deviceId) {
+                    showEditDeviceModal(deviceId);
+                } else {
+                    alert('الرجاء مسح باركود جهاز أولاً');
+                }
+            });
+            
+            // زر "حذف"
+            document.getElementById('delete-scanned-device-btn').addEventListener('click', function() {
+                const deviceId = document.getElementById('scanned-device-id').value;
+                
+                if (deviceId) {
+                    if (confirm('هل أنت متأكد من حذف هذا الجهاز؟')) {
+                        scrapDevice(deviceId);
+                        
+                        // عرض رسالة الحذف
+                        const message = document.getElementById('delete-success-message');
+                        message.style.display = 'block';
+                        
+                        // إخفاء الرسالة بعد 3 ثوان
+                        setTimeout(() => {
+                            message.style.display = 'none';
+                        }, 3000);
+                        
+                        // إعادة تعيين معلومات الجهاز
+                        document.getElementById('scanned-serial-number').textContent = '-';
+                        document.getElementById('scanned-device-type').textContent = '-';
+                        document.getElementById('scanned-model').textContent = '-';
+                        document.getElementById('scanned-status').textContent = '-';
+                        document.getElementById('scanned-current-user').textContent = '-';
+                        document.getElementById('scanner-message').textContent = 'الرجاء مسح باركود جهاز آخر';
+                    }
+                } else {
+                    alert('الرجاء مسح باركود جهاز أولاً');
+                }
+            });
         });
     </script>
 </body>
-
 </html>
