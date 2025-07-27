@@ -87,6 +87,12 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             display: none;
         }
+        
+        .chart-container {
+            position: relative;
+            height: 250px;
+            width: 100%;
+        }
     </style>
 </head>
 
@@ -366,19 +372,19 @@
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
-                            <!-- Device Status Chart -->
+                            <!-- Device Status Chart - أصبح شريطياً -->
                             <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6 border border-gray-200">
                                 <h3 class="text-base sm:text-lg font-bold text-primary-700 mb-3">حالة الأجهزة</h3>
-                                <div class="chart-container" style="position: relative; height:250px; width:100%">
+                                <div class="chart-container">
                                     <canvas id="deviceStatusChart"></canvas>
                                 </div>
                             </div>
 
-                            <!-- Device Type Distribution Chart -->
+                            <!-- Device Type Distribution Chart - أصبح دائرياً -->
                             <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6 border border-gray-200">
                                 <h3 class="text-base sm:text-lg font-bold text-primary-700 mb-3">توزيع الأجهزة حسب النوع
                                 </h3>
-                                <div class="chart-container" style="position: relative; height:250px; width:100%">
+                                <div class="chart-container">
                                     <canvas id="deviceTypeChart"></canvas>
                                 </div>
                             </div>
@@ -1058,64 +1064,24 @@
             html5QrcodeScanner.render(onScanSuccess, onScanError);
         }
 
-        // تهيئة المخططات
+        // تهيئة المخططات (الجزء المعدل)
         function initCharts() {
             if (deviceStatusChart) deviceStatusChart.destroy();
             if (deviceTypeChart) deviceTypeChart.destroy();
 
-            // مخطط حالة الأجهزة
+            // مخطط حالة الأجهزة - أصبح شريطياً
             const statusCtx = document.getElementById('deviceStatusChart').getContext('2d');
             deviceStatusChart = new Chart(statusCtx, {
-                type: 'doughnut',
+                type: 'bar',
                 data: {
                     labels: ['مستخدم', 'تحت الصيانة'],
                     datasets: [{
+                        label: 'عدد الأجهزة',
                         data: [
                             devicesData.filter(d => d.status === 'in-use').length,
                             devicesData.filter(d => d.status === 'maintenance').length
                         ],
                         backgroundColor: ['#10B981', '#F59E0B'],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            rtl: true,
-                            labels: {
-                                usePointStyle: true,
-                                padding: 20,
-                                font: {
-                                    family: 'Tajawal, sans-serif',
-                                    size: 12
-                                }
-                            }
-                        }
-                    },
-                    cutout: '70%'
-                }
-            });
-
-            // مخطط توزيع الأجهزة حسب النوع
-            const typeCtx = document.getElementById('deviceTypeChart').getContext('2d');
-            deviceTypeChart = new Chart(typeCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['لابتوب', 'جهاز مكتبي', 'طابعة', 'شاشة', 'أخرى'],
-                    datasets: [{
-                        label: 'عدد الأجهزة',
-                        data: [
-                            devicesData.filter(d => d.type === 'laptop').length,
-                            devicesData.filter(d => d.type === 'desktop').length,
-                            devicesData.filter(d => d.type === 'printer').length,
-                            devicesData.filter(d => d.type === 'monitor').length,
-                            devicesData.filter(d => d.type === 'other').length
-                        ],
-                        backgroundColor: '#8B5CF6',
-                        borderColor: '#7C3AED',
                         borderWidth: 1
                     }]
                 },
@@ -1144,8 +1110,46 @@
                                 }
                             }
                         }
+                    }
+                }
+            });
+
+            // مخطط توزيع الأجهزة حسب النوع - أصبح دائرياً
+            const typeCtx = document.getElementById('deviceTypeChart').getContext('2d');
+            deviceTypeChart = new Chart(typeCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['لابتوب', 'جهاز مكتبي', 'طابعة', 'شاشة', 'أخرى'],
+                    datasets: [{
+                        data: [
+                            devicesData.filter(d => d.type === 'laptop').length,
+                            devicesData.filter(d => d.type === 'desktop').length,
+                            devicesData.filter(d => d.type === 'printer').length,
+                            devicesData.filter(d => d.type === 'monitor').length,
+                            devicesData.filter(d => d.type === 'other').length
+                        ],
+                        backgroundColor: ['#8B5CF6', '#6366F1', '#EC4899', '#10B981', '#F59E0B'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            rtl: true,
+                            labels: {
+                                usePointStyle: true,
+                                padding: 20,
+                                font: {
+                                    family: 'Tajawal, sans-serif',
+                                    size: 12
+                                }
+                            }
+                        }
                     },
-                    indexAxis: 'y'
+                    cutout: '70%'
                 }
             });
         }
