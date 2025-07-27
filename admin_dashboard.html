@@ -87,6 +87,24 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             display: none;
         }
+        
+        /* تحسينات بصرية */
+        .chart-container {
+            position: relative;
+            height: 250px;
+            width: 100%;
+        }
+        
+        .report-card {
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .report-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 
@@ -103,7 +121,7 @@
             <!-- Header -->
             <header class="bg-primary-800 text-white shadow-md">
                 <div
-                    class="container mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center text-center sm:text-right">
+                    class="container mx-auto px-4 py极3 flex flex-col sm:flex-row justify-between items-center text-center sm:text-right">
                     <h1 class="text-xl sm:text-2xl font-bold mb-2 sm:mb-0">نظام إدارة العُهد الشخصية - لوحة التحكم</h1>
                     <div class="flex items-center space-x-2 sm:space-x-4 space-x-reverse">
                         <span class="text-sm">مرحباً، مسؤول الصيانة</span>
@@ -130,7 +148,7 @@
                         <li class="mb-1 sm:mb-0">
                             <button
                                 class="admin-nav-btn py-1 px-2 text-white opacity-70 hover:opacity-100 border-b-2 border-transparent"
-                                data-target="reports">التقارير والإحصائيات</button>
+                                data极target="reports">التقارير والإحصائيات</button>
                         </li>
                     </ul>
                 </nav>
@@ -148,7 +166,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 ml-1"
                                     viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd"
-                                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                        d="M10 5a1 1 0 011 1v3h3a1 1极0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
                                         clip-rule="evenodd" />
                                 </svg>
                                 إضافة جهاز جديدة
@@ -260,7 +278,7 @@
                                 </button>
                             </div>
                         </form>
-                    </div>
+                    </极div>
                 </div>
 
                 <!-- نافذة نجاح التخريد -->
@@ -341,24 +359,24 @@
                     </div>
                 </div>
 
-                <!-- التقارير والإحصائيات -->
+                <!-- التقارير والإحصائيات (تم تحديث هذا القسم فقط) -->
                 <div id="reports-section" class="admin-section hidden">
                     <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4 sm:mb-6">
                         <h2 class="text-lg sm:text-xl font-bold text-primary-700 mb-3 sm:mb-4">التقارير والإحصائيات</h2>
 
                         <!-- Summary Cards -->
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-6 mb-4 sm:mb-6">
-                            <div class="bg-primary-50 rounded-lg p-3 sm:p-4 text-center border border-primary-200">
+                            <div class="bg-primary-50 rounded-lg p-3 sm:p-4 text-center border border-primary-200 report-card">
                                 <p class="text-xs text-primary-600 mb-1">إجمالي الأجهزة</p>
                                 <p class="text-3xl sm:text-4xl font-bold text-primary-700">124</p>
                                 <p class="text-xs text-gray-600">+5 هذا الشهر</p>
                             </div>
-                            <div class="bg-green-50 rounded-lg p-3 sm:p-4 text-center border border-green-200">
+                            <div class="bg-green-50 rounded-lg p-3 sm:p-4 text-center border border-green-200 report-card">
                                 <p class="text-xs text-green-600 mb-1">الأجهزة المستخدمة</p>
                                 <p class="text-3xl sm:text-4xl font-bold text-green-700">98</p>
                                 <p class="text-xs text-gray-600">79% من الإجمالي</p>
                             </div>
-                            <div class="bg-yellow-50 rounded-lg p-3 sm:p-4 text-center border border-yellow-200">
+                            <div class="bg-yellow-50 rounded-lg p-3 sm:p-4 text-center border border-yellow-200 report-card">
                                 <p class="text-xs text-yellow-600 mb-1">أجهزة تحت الصيانة</p>
                                 <p class="text-3xl sm:text-4xl font-bold text-yellow-700">12</p>
                                 <p class="text-xs text-gray-600">+3 هذا الأسبوع</p>
@@ -366,19 +384,19 @@
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
-                            <!-- Device Status Chart -->
-                            <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6 border border-gray-200">
+                            <!-- مخطط حالة الأجهزة (شريطي أفقي) -->
+                            <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6 border border-gray-200 report-card">
                                 <h3 class="text-base sm:text-lg font-bold text-primary-700 mb-3">حالة الأجهزة</h3>
-                                <div class="chart-container" style="position: relative; height:250px; width:100%">
+                                <div class="chart-container">
                                     <canvas id="deviceStatusChart"></canvas>
                                 </div>
                             </div>
 
-                            <!-- Device Type Distribution Chart -->
-                            <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6 border border-gray-200">
+                            <!-- مخطط توزيع الأجهزة حسب النوع (دائري) -->
+                            <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6 border border-gray-200 report-card">
                                 <h3 class="text-base sm:text-lg font-bold text-primary-700 mb-3">توزيع الأجهزة حسب النوع
                                 </h3>
-                                <div class="chart-container" style="position: relative; height:250px; width:100%">
+                                <div class="chart-container">
                                     <canvas id="deviceTypeChart"></canvas>
                                 </div>
                             </div>
@@ -388,18 +406,24 @@
                         <div class="space-y-3 sm:space-y-4 text-sm">
                             <div class="flex items-center justify-between border-b pb-2">
                                 <p class="text-gray-700">تقرير الأجهزة حسب الحالة</p>
-                                <button
-                                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-xs">توليد</button>
+                                <button id="generate-status-report"
+                                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-xs">
+                                    توليد
+                                </button>
                             </div>
                             <div class="flex items-center justify-between border-b pb-2">
                                 <p class="text-gray-700">تقارير الجرد</p>
-                                <button
-                                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-xs">توليد</button>
+                                <button id="generate-inventory-report"
+                                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-xs">
+                                    توليد
+                                </button>
                             </div>
                             <div class="flex items-center justify-between border-b pb-2">
                                 <p class="text-gray-700">تقارير التخريد</p>
-                                <button
-                                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-xs">توليد</button>
+                                <button id="generate-scrap-report"
+                                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-xs">
+                                    توليد
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -433,7 +457,7 @@
                         </select>
                     </div>
                     <div>
-                        <label for="new-device-model" class="block text-gray-700 font-medium mb-1">الموديل</label>
+                        <label for极"new-device-model" class="block text-gray-700 font-medium mb-1">الموديل</label>
                         <input type="text" id="new-device-model"
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                             placeholder="أدخل موديل الجهاز">
@@ -834,7 +858,7 @@
                     <td class="py-2 px-3 sm:px-4 border-b">${device.model}</td>
                     <td class="py-2 px-3 sm:px-4 border-b">${device.serial}</td>
                     <td class="py-2 px-3 sm:px-4 border-b">
-                        <span class="px-2 py-1 ${statusClass} rounded-full text-xs">${statusText}</span>
+                        <span class="px-2 py-1 ${statusClass} rounded-full text-xs">${status极Text}</span>
                     </td>
                     <td class="py-2 px-3 sm:px-4 border-b text-center">
                         <input type="checkbox" class="inventory-checkbox h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500">
@@ -1058,23 +1082,82 @@
             html5QrcodeScanner.render(onScanSuccess, onScanError);
         }
 
-        // تهيئة المخططات
+        // تهيئة المخططات (تم تحديث هذه الدالة فقط)
         function initCharts() {
-            if (deviceStatusChart) deviceStatusChart.destroy();
-            if (deviceTypeChart) deviceTypeChart.destroy();
-
-            // مخطط حالة الأجهزة
+            // مخطط حالة الأجهزة (شريطي أفقي)
             const statusCtx = document.getElementById('deviceStatusChart').getContext('2d');
-            deviceStatusChart = new Chart(statusCtx, {
-                type: 'doughnut',
+            new Chart(statusCtx, {
+                type: 'bar',
                 data: {
                     labels: ['مستخدم', 'تحت الصيانة'],
                     datasets: [{
+                        label: 'عدد الأجهزة',
                         data: [
                             devicesData.filter(d => d.status === 'in-use').length,
                             devicesData.filter(d => d.status === 'maintenance').length
                         ],
-                        backgroundColor: ['#10B981', '#F59E0B'],
+                        backgroundColor: ['#8B5CF6', '#F59E0B'], // لون بنفسجي وبرتقالي
+                        borderColor: ['#7C3AED', '#D48A08'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1,
+                                font: {
+                                    family: 'Tajawal, sans-serif'
+                                }
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                font: {
+                                    family: 'Tajawal, sans-serif'
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            titleFont: {
+                                family: 'Tajawal, sans-serif'
+                            },
+                            bodyFont: {
+                                family: 'Tajawal, sans-serif'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // مخطط توزيع الأجهزة حسب النوع (دائري)
+            const typeCtx = document.getElementById('deviceTypeChart').getContext('2d');
+            new Chart(typeCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['لابتوب', 'جهاز مكتبي', 'طابعة', 'شاشة'],
+                    datasets: [{
+                        data: [
+                            devicesData.filter(d => d.type === 'laptop').length,
+                            devicesData.filter(d => d.type === 'desktop').length,
+                            devicesData.filter(d => d.type === 'printer').length,
+                            devicesData.filter(d => d.type === 'monitor').length
+                        ],
+                        backgroundColor: [
+                            '#8B5CF6', // بنفسجي
+                            '#A78BFA', // بنفسجي فاتح
+                            '#C4B5FD', // بنفسجي أفتح
+                            '#DDD6FE'  // بنفسجي فاتح جداً
+                        ],
                         borderWidth: 1
                     }]
                 },
@@ -1093,59 +1176,17 @@
                                     size: 12
                                 }
                             }
-                        }
-                    },
-                    cutout: '70%'
-                }
-            });
-
-            // مخطط توزيع الأجهزة حسب النوع
-            const typeCtx = document.getElementById('deviceTypeChart').getContext('2d');
-            deviceTypeChart = new Chart(typeCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['لابتوب', 'جهاز مكتبي', 'طابعة', 'شاشة', 'أخرى'],
-                    datasets: [{
-                        label: 'عدد الأجهزة',
-                        data: [
-                            devicesData.filter(d => d.type === 'laptop').length,
-                            devicesData.filter(d => d.type === 'desktop').length,
-                            devicesData.filter(d => d.type === 'printer').length,
-                            devicesData.filter(d => d.type === 'monitor').length,
-                            devicesData.filter(d => d.type === 'other').length
-                        ],
-                        backgroundColor: '#8B5CF6',
-                        borderColor: '#7C3AED',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                stepSize: 1,
-                                font: {
-                                    family: 'Tajawal, sans-serif'
-                                }
-                            }
                         },
-                        x: {
-                            ticks: {
-                                font: {
-                                    family: 'Tajawal, sans-serif'
-                                }
+                        tooltip: {
+                            titleFont: {
+                                family: 'Tajawal, sans-serif'
+                            },
+                            bodyFont: {
+                                family: 'Tajawal, sans-serif'
                             }
                         }
                     },
-                    indexAxis: 'y'
+                    cutout: '60%'
                 }
             });
         }
