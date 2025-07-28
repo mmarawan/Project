@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,27 +59,27 @@
             height: 250px;
             width: 100%;
         }
-        
+
         .scanner-container {
             position: relative;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             margin-bottom: 20px;
             background-color: #ddd;
         }
-        
+
         .scanner-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(180deg, rgba(109,40,217,0.3) 0%, rgba(109,40,217,0.1) 100%);
+            background: linear-gradient(180deg, rgba(109, 40, 217, 0.3) 0%, rgba(109, 40, 217, 0.1) 100%);
             pointer-events: none;
             z-index: 10;
         }
-        
+
         .scanner-frame {
             position: absolute;
             top: 50%;
@@ -88,11 +89,11 @@
             height: 250px;
             border: 3px solid #6d28d9;
             border-radius: 12px;
-            box-shadow: 0 0 0 2000px rgba(0,0,0,0.5);
+            box-shadow: 0 0 0 2000px rgba(0, 0, 0, 0.5);
             z-index: 20;
             pointer-events: none;
         }
-        
+
         .scanner-laser {
             position: absolute;
             top: 0;
@@ -100,24 +101,32 @@
             width: 100%;
             height: 3px;
             background-color: #EF4444;
-            box-shadow: 0 0 10px rgba(239,68,68,0.7);
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.7);
             animation: scanLaser 2s infinite;
             z-index: 30;
         }
-        
+
         @keyframes scanLaser {
-            0% { top: 0; }
-            50% { top: 100%; }
-            100% { top: 0; }
+            0% {
+                top: 0;
+            }
+
+            50% {
+                top: 100%;
+            }
+
+            100% {
+                top: 0;
+            }
         }
-        
+
         #video {
             width: 100%;
             height: 300px;
             object-fit: cover;
             display: none;
         }
-        
+
         #camera-placeholder {
             width: 100%;
             height: 300px;
@@ -129,7 +138,7 @@
             font-weight: bold;
             border-radius: 8px;
         }
-        
+
         .device-status-in-use {
             background-color: #10B981;
             color: white;
@@ -137,7 +146,7 @@
             border-radius: 12px;
             font-size: 12px;
         }
-        
+
         .device-status-maintenance {
             background-color: #F59E0B;
             color: white;
@@ -256,14 +265,14 @@
                             <table class="min-w-full bg-white border border-gray-200 text-sm">
                                 <thead>
                                     <tr class="bg-gray-100">
-                                        <th class="py-2 px-3 sm:px-4 border-b text-right">الرقم العامل</th>
+                                        <th class="py-2 px-3 sm:px-4 border-b text-right">الرقم الخامل</th>
                                         <th class="py-2 px-3 sm:px-4 border-b text-right">اسم المستخدم</th>
                                         <th class="py-2 px-3 sm:px-4 border-b text-right">نوع الجهاز</th>
                                         <th class="py-2 px-3 sm:px-4 border-b text-right">الموديل</th>
                                         <th class="py-2 px-3 sm:px-4 border-b text-right">الرقم التسلسلي</th>
-                                        <th class="py-2 px-3 sm:px-4 border-b text-right">الحالة</th>
+                                        <th class="py-2 px-3 sm:px-4 border-b text-right">الطاقة</th>
                                         <th class="py-2 px-3 sm:px-4 border-b text-right">حالة الجرد</th>
-                                        <th class="py-2 px-3 sm:px-4 border-b text-right">الإجراءات</th>
+                                        <th class="py-2 px-3 sm:px-4 border-b text-">الإجراءات </th>
                                     </tr>
                                 </thead>
                                 <tbody id="inventory-table-body">
@@ -359,7 +368,7 @@
                                     <video id="video" autoplay playsinline></video>
                                     <canvas id="canvas" style="display: none;"></canvas>
                                 </div>
-                                
+
                                 <div class="flex justify-center mt-4 space-x-4 space-x-reverse">
                                     <button id="start-scan-btn"
                                         class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-md transition duration-300">
@@ -374,10 +383,12 @@
                                         إيقاف الكاميرا
                                     </button>
                                 </div>
-                                <p id="scanner-message" class="text-gray-600 mt-2 text-sm text-center">انقر على "تشغيل الكاميرا" لتفعيل الماسح الضوئي</p>
+                                <p id="scanner-message" class="text-gray-600 mt-2 text-sm text-center">انقر على "تشغيل
+                                    الكاميرا" لتفعيل الماسح الضوئي</p>
                             </div>
                             <div>
-                                <h3 class="text-base sm:text-lg font-bold text-gray-700 mb-2">معلومات الجهاز (بعد المسح):</h3>
+                                <h3 class="text-base sm:text-lg font-bold text-gray-700 mb-2">معلومات الجهاز (بعد
+                                    المسح):</h3>
                                 <div id="scanned-device-info" class="border rounded-md p-3 sm:p-4 bg-gray-50 text-sm">
                                     <!-- تخزين معرف الجهاز بشكل مخفي -->
                                     <input type="hidden" id="scanned-device-id">
@@ -458,15 +469,18 @@
                         <div class="space-y-3 sm:space-y-4 text-sm">
                             <div class="flex items-center justify-between border-b pb-2">
                                 <p class="text-gray-700">تقرير الأجهزة</p>
-                                <button class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-xs">توليد</button>
+                                <button
+                                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-xs">توليد</button>
                             </div>
                             <div class="flex items-center justify-between border-b pb-2">
                                 <p class="text-gray-700">تقارير الجرد</p>
-                                <button class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-xs">توليد</button>
+                                <button
+                                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-xs">توليد</button>
                             </div>
                             <div class="flex items-center justify-between border-b pb-2">
                                 <p class="text-gray-700">تقارير التخريد</p>
-                                <button class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-xs">توليد</button>
+                                <button
+                                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded-md text-xs">توليد</button>
                             </div>
                         </div>
                     </div>
@@ -678,124 +692,68 @@
         const stopBtn = document.getElementById('stop-scan-btn');
         const cameraPlaceholder = document.getElementById('camera-placeholder');
         const scannerMessage = document.getElementById('scanner-message');
-        
+
         let stream = null;
         let isCameraActive = false;
 
         // بيانات الأجهزة الافتراضية
         const devicesData = [
-            {
-                id: '001',
-                employeeId: '1001',
-                type: 'laptop',
-                model: 'HP ProBook 450 G8',
-                serial: 'LT78945612',
-                status: 'in-use',
-                user: 'أحمد محمد',
-                central: 'سنترال1',
-                notes: ''
-            },
-            {
-                id: '002',
-                employeeId: '1002',
-                type: 'desktop',
-                model: 'Dell OptiPlex 7080',
-                serial: 'PC45678923',
-                status: 'in-use',
-                user: 'محمد أحمد',
-                central: 'سنترال2',
-                notes: ''
-            },
-            {
-                id: '003',
-                employeeId: '1003',
-                type: 'printer',
-                model: 'HP LaserJet Pro M404dn',
-                serial: 'PR12345678',
-                status: 'maintenance',
-                user: 'علي محمود',
-                central: 'سنترال3',
-                notes: 'تحت الصيانة'
-            },
-            // الأجهزة الجديدة المضافة
-            {
-                id: '004',
-                employeeId: '1004',
-                type: 'laptop',
-                model: 'Lenovo ThinkPad X1 Carbon',
-                serial: 'LT32165498',
-                status: 'in-use',
-                user: 'فاطمة حسن',
-                central: 'سنترال1',
-                notes: ''
-            },
-            {
-                id: '005',
-                employeeId: '1005',
-                type: 'desktop',
-                model: 'HP EliteDesk 800 G5',
-                serial: 'PC78912345',
-                status: 'in-use',
-                user: 'سالم عبدالله',
-                central: 'سنترال2',
-                notes: ''
-            },
-            {
-                id: '006',
-                employeeId: '1006',
-                type: 'monitor',
-                model: 'Dell UltraSharp U2722D',
-                serial: 'MN45612378',
-                status: 'in-use',
-                user: 'خالد ناصر',
-                central: 'سنترال4',
-                notes: ''
-            },
-            {
-                id: '007',
-                employeeId: '1007',
-                type: 'printer',
-                model: 'Epson EcoTank ET-4760',
-                serial: 'PR98765432',
-                status: 'in-use',
-                user: 'ريم سليمان',
-                central: 'سنترال3',
-                notes: ''
-            },
-            {
-                id: '008',
-                employeeId: '1008',
-                type: 'laptop',
-                model: 'MacBook Pro M1',
-                serial: 'MBP12345678',
-                status: 'maintenance',
-                user: 'نورة علي',
-                central: 'سنترال1',
-                notes: 'تحت الصيانة - شاشة تالفة'
-            },
-            {
-                id: '009',
-                employeeId: '1009',
-                type: 'desktop',
-                model: 'Apple iMac 24"',
-                serial: 'IMC87654321',
-                status: 'in-use',
-                user: 'عمر راشد',
-                central: 'سنترال4',
-                notes: ''
-            },
-            {
-                id: '010',
-                employeeId: '1010',
-                type: 'monitor',
-                model: 'Samsung Odyssey G7',
-                serial: 'MN78945612',
-                status: 'in-use',
-                user: 'سارة عبدالرحمن',
-                central: 'سنترال2',
-                notes: ''
-            }
+            { id: '001', employeeId: '1001', type: 'laptop', model: 'HP ProBook 450 G8', serial: 'LT78945612', status: 'in-use', user: 'أحمد محمد', central: 'سنترال1', notes: '' },
+            { id: '002', employeeId: '1002', type: 'desktop', model: 'Dell OptiPlex 7080', serial: 'PC45678923', status: 'in-use', user: 'محمد أحمد', central: 'سنترال2', notes: '' },
+            { id: '003', employeeId: '1003', type: 'printer', model: 'HP LaserJet Pro M404dn', serial: 'PR12345678', status: 'maintenance', user: 'علي محمود', central: 'سنترال3', notes: 'تحت الصيانة' },
+            { id: '004', employeeId: '1004', type: 'laptop', model: 'Lenovo ThinkPad X1 Carbon', serial: 'LT32165498', status: 'in-use', user: 'فاطمة حسن', central: 'سنترال1', notes: '' },
+            { id: '005', employeeId: '1005', type: 'desktop', model: 'HP EliteDesk 800 G5', serial: 'PC78912345', status: 'in-use', user: 'سالم عبدالله', central: 'سنترال2', notes: '' },
+            { id: '006', employeeId: '1006', type: 'monitor', model: 'Dell UltraSharp U2722D', serial: 'MN45612378', status: 'in-use', user: 'خالد ناصر', central: 'سنترال4', notes: '' },
+            { id: '007', employeeId: '1007', type: 'printer', model: 'Epson EcoTank ET-4760', serial: 'PR98765432', status: 'in-use', user: 'ريم سليمان', central: 'سنترال3', notes: '' },
+            { id: '008', employeeId: '1008', type: 'laptop', model: 'MacBook Pro M1', serial: 'MBP12345678', status: 'maintenance', user: 'نورة علي', central: 'سنترال1', notes: 'تحت الصيانة - شاشة تالفة' },
+            { id: '009', employeeId: '1009', type: 'desktop', model: 'Apple iMac 24"', serial: 'IMC87654321', status: 'in-use', user: 'عمر راشد', central: 'سنترال4', notes: '' },
+            { id: '010', employeeId: '1010', type: 'monitor', model: 'Samsung Odyssey G7', serial: 'MN78945612', status: 'in-use', user: 'سارة عبدالرحمن', central: 'سنترال2', notes: '' },
+
+            // الأجهزة الإضافية
+            { id: '011', employeeId: '1011', type: 'tablet', model: 'iPad Air 4', serial: 'TB11223344', status: 'in-use', user: 'يوسف خالد', central: 'سنترال1', notes: '' },
+            { id: '012', employeeId: '1012', type: 'laptop', model: 'Asus ZenBook 14', serial: 'LT44556677', status: 'maintenance', user: 'مريم فهد', central: 'سنترال2', notes: 'بطارية تالفة' },
+            { id: '013', employeeId: '1013', type: 'printer', model: 'Canon Pixma TS6350', serial: 'PR33445566', status: 'in-use', user: 'هيثم عبدالله', central: 'سنترال3', notes: '' },
+            { id: '014', employeeId: '1014', type: 'desktop', model: 'Lenovo ThinkCentre M720s', serial: 'PC66778899', status: 'scrapped', user: 'ليلى حمد', central: 'سنترال4', notes: 'تم تخريده' },
+            { id: '015', employeeId: '1015', type: 'monitor', model: 'LG UltraFine 5K', serial: 'MN99887766', status: 'in-use', user: 'سعد علي', central: 'سنترال2', notes: '' },
+            { id: '016', employeeId: '1016', type: 'laptop', model: 'Acer Swift 3', serial: 'LT11224455', status: 'in-use', user: 'داليا سامي', central: 'سنترال1', notes: '' },
+            { id: '017', employeeId: '1017', type: 'desktop', model: 'MSI MPG Trident 3', serial: 'PC55667788', status: 'in-use', user: 'نادر ناصر', central: 'سنترال3', notes: '' },
+            { id: '018', employeeId: '1018', type: 'tablet', model: 'Samsung Galaxy Tab S7', serial: 'TB22334455', status: 'in-use', user: 'سلوى حسن', central: 'سنترال4', notes: '' },
+            { id: '019', employeeId: '1019', type: 'printer', model: 'Brother HL-L2350DW', serial: 'PR77889900', status: 'maintenance', user: 'طارق فهد', central: 'سنترال1', notes: 'مشكلة في الحبر' },
+            { id: '020', employeeId: '1020', type: 'monitor', model: 'BenQ EX3501R', serial: 'MN33446688', status: 'in-use', user: 'رنا سمير', central: 'سنترال2', notes: '' },
+            // تكملة الأجهزة من 21 إلى 50
+            { id: '021', employeeId: '1021', type: 'laptop', model: 'Dell XPS 13', serial: 'LT90123456', status: 'in-use', user: 'أمينة خالد', central: 'سنترال1', notes: '' },
+            { id: '022', employeeId: '1022', type: 'desktop', model: 'HP Pavilion TP01', serial: 'PC10293847', status: 'scrapped', user: 'شريف منصور', central: 'سنترال2', notes: 'قديم' },
+            { id: '023', employeeId: '1023', type: 'monitor', model: 'AOC 24B2XH', serial: 'MN56473829', status: 'in-use', user: 'سهى علاء', central: 'سنترال3', notes: '' },
+            { id: '024', employeeId: '1024', type: 'printer', model: 'Lexmark B3340dw', serial: 'PR67584930', status: 'maintenance', user: 'ضياء سالم', central: 'سنترال4', notes: 'تحتاج تنظيف' },
+            { id: '025', employeeId: '1025', type: 'tablet', model: 'Lenovo Tab P11', serial: 'TB91827364', status: 'in-use', user: 'نورهان حسين', central: 'سنترال1', notes: '' },
+            { id: '026', employeeId: '1026', type: 'laptop', model: 'MSI Modern 14', serial: 'LT83746592', status: 'in-use', user: 'زياد سامي', central: 'سنترال2', notes: '' },
+            { id: '027', employeeId: '1027', type: 'desktop', model: 'Asus ROG Strix G15', serial: 'PC18374659', status: 'maintenance', user: 'صفاء أمين', central: 'سنترال3', notes: 'مشكلة في كرت الشاشة' },
+            { id: '028', employeeId: '1028', type: 'monitor', model: 'ViewSonic VX3276', serial: 'MN91827364', status: 'in-use', user: 'عبدالله مراد', central: 'سنترال4', notes: '' },
+            { id: '029', employeeId: '1029', type: 'printer', model: 'Ricoh SP 330DN', serial: 'PR73628190', status: 'in-use', user: 'عائشة محمد', central: 'سنترال1', notes: '' },
+            { id: '030', employeeId: '1030', type: 'tablet', model: 'Huawei MatePad 11', serial: 'TB56473829', status: 'in-use', user: 'معتز فؤاد', central: 'سنترال2', notes: '' },
+            { id: '031', employeeId: '1031', type: 'laptop', model: 'Samsung Galaxy Book2', serial: 'LT34561278', status: 'in-use', user: 'نجوى حسين', central: 'سنترال3', notes: '' },
+            { id: '032', employeeId: '1032', type: 'desktop', model: 'Intel NUC 11', serial: 'PC98765432', status: 'in-use', user: 'مصطفى سامي', central: 'سنترال4', notes: '' },
+            { id: '033', employeeId: '1033', type: 'monitor', model: 'Philips 273V7QJAB', serial: 'MN11112222', status: 'scrapped', user: 'سامح خليل', central: 'سنترال1', notes: 'مكسور' },
+            { id: '034', employeeId: '1034', type: 'printer', model: 'HP DeskJet 2720', serial: 'PR22223333', status: 'maintenance', user: 'غادة هاني', central: 'سنترال2', notes: 'تعليق الورق' },
+            { id: '035', employeeId: '1035', type: 'tablet', model: 'Amazon Fire HD 10', serial: 'TB33334444', status: 'in-use', user: 'لينا خالد', central: 'سنترال3', notes: '' },
+            { id: '036', employeeId: '1036', type: 'laptop', model: 'Toshiba Dynabook', serial: 'LT44445555', status: 'in-use', user: 'هيثم خليل', central: 'سنترال4', notes: '' },
+            { id: '037', employeeId: '1037', type: 'desktop', model: 'Fujitsu Esprimo D7010', serial: 'PC55556666', status: 'in-use', user: 'ملك عماد', central: 'سنترال1', notes: '' },
+            { id: '038', employeeId: '1038', type: 'monitor', model: 'Dell SE2419HR', serial: 'MN66667777', status: 'maintenance', user: 'وسام خالد', central: 'سنترال2', notes: 'به نقاط سوداء' },
+            { id: '039', employeeId: '1039', type: 'printer', model: 'Epson L3150', serial: 'PR77778888', status: 'in-use', user: 'بسمة عادل', central: 'سنترال3', notes: '' },
+            { id: '040', employeeId: '1040', type: 'tablet', model: 'Microsoft Surface Go 3', serial: 'TB88889999', status: 'in-use', user: 'مهاب أحمد', central: 'سنترال4', notes: '' },
+            { id: '041', employeeId: '1041', type: 'laptop', model: 'Razer Blade Stealth', serial: 'LT99990000', status: 'in-use', user: 'هالة جلال', central: 'سنترال1', notes: '' },
+            { id: '042', employeeId: '1042', type: 'desktop', model: 'Alienware Aurora R10', serial: 'PC00001111', status: 'scrapped', user: 'نور علوي', central: 'سنترال2', notes: 'قطع غيار فقط' },
+            { id: '043', employeeId: '1043', type: 'monitor', model: 'Gigabyte M27Q', serial: 'MN12121212', status: 'in-use', user: 'أنس خميس', central: 'سنترال3', notes: '' },
+            { id: '044', employeeId: '1044', type: 'printer', model: 'Xerox Phaser 3260', serial: 'PR34343434', status: 'in-use', user: 'هاني فؤاد', central: 'سنترال4', notes: '' },
+            { id: '045', employeeId: '1045', type: 'tablet', model: 'iPad Mini 6', serial: 'TB45454545', status: 'in-use', user: 'إيمان خالد', central: 'سنترال1', notes: '' },
+            { id: '046', employeeId: '1046', type: 'laptop', model: 'LG Gram 17', serial: 'LT56565656', status: 'in-use', user: 'إيهاب يوسف', central: 'سنترال2', notes: '' },
+            { id: '047', employeeId: '1047', type: 'desktop', model: 'Zotac Zbox CI662', serial: 'PC67676767', status: 'maintenance', user: 'جمال رضا', central: 'سنترال3', notes: 'صوت مراوح عالي' },
+            { id: '048', employeeId: '1048', type: 'monitor', model: 'HP V27i', serial: 'MN78787878', status: 'in-use', user: 'هند مصطفى', central: 'سنترال4', notes: '' },
+            { id: '049', employeeId: '1049', type: 'printer', model: 'Kyocera FS-1040', serial: 'PR89898989', status: 'maintenance', user: 'إبراهيم بدر', central: 'سنترال1', notes: 'حبر غير أصلي' },
+            { id: '050', employeeId: '1050', type: 'tablet', model: 'Google Pixel Slate', serial: 'TB90909090', status: 'in-use', user: 'يسرا حسن', central: 'سنترال2', notes: '' }
+
         ];
+
 
         // عرض الأجهزة في الجدول
         function displayInventory() {
@@ -816,9 +774,6 @@
                         statusClass = 'bg-yellow-100 text-yellow-800';
                         statusText = 'تحت الصيانة';
                         break;
-                    default:
-                        statusClass = 'bg-gray-100 text-gray-800';
-                        statusText = 'غير معروف';
                 }
 
                 row.innerHTML = `
@@ -830,6 +785,7 @@
                     <td class="py-2 px-3 sm:px-4 border-b">
                         <span class="px-2 py-1 ${statusClass} rounded-full text-xs">${statusText}</span>
                     </td>
+
                     <td class="py-2 px-3 sm:px-4 border-b text-center">
                         <input type="checkbox" class="inventory-checkbox h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500">
                     </td>
@@ -900,9 +856,6 @@
                         statusClass = 'bg-yellow-100 text-yellow-800';
                         statusText = 'تحت الصيانة';
                         break;
-                    default:
-                        statusClass = 'bg-gray-100 text-gray-800';
-                        statusText = 'غير معروف';
                 }
 
                 row.innerHTML = `
@@ -914,9 +867,7 @@
                     <td class="py-2 px-3 sm:px-4 border-b">
                         <span class="px-2 py-1 ${statusClass} rounded-full text-xs">${statusText}</span>
                     </td>
-                    <td class="py-2 px-3 sm:px-4 border-b text-center">
-                        <input type="checkbox" class="inventory-checkbox h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500">
-                    </td>
+                    
                     <td class="py-2 px-3 sm:px-4 border-b">
                         <div class="flex space-x-2 space-x-reverse">
                             <button class="edit-device-btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-xs" 
@@ -1063,19 +1014,19 @@
         // تشغيل الكاميرا
         async function startCamera() {
             try {
-                stream = await navigator.mediaDevices.getUserMedia({ 
+                stream = await navigator.mediaDevices.getUserMedia({
                     video: { facingMode: "environment" },
                     audio: false
                 });
-                
+
                 video.srcObject = stream;
                 video.style.display = 'block';
                 cameraPlaceholder.style.display = 'none';
-                
+
                 startBtn.classList.add('hidden');
                 captureBtn.classList.remove('hidden');
                 stopBtn.classList.remove('hidden');
-                
+
                 isCameraActive = true;
                 scannerMessage.textContent = 'الكاميرا جاهزة. انقر على "مسح الباركود"';
             } catch (err) {
@@ -1090,36 +1041,52 @@
                 scannerMessage.textContent = 'الرجاء تشغيل الكاميرا أولاً';
                 return;
             }
-            
+
             const context = canvas.getContext('2d');
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            
+
             // محاكاة مسح الباركود
             simulateBarcodeScan();
         }
 
         // محاكاة مسح الباركود
+        // في دالة simulateBarcodeScan()
         function simulateBarcodeScan() {
             const device = devicesData[Math.floor(Math.random() * devicesData.length)];
-            
+
             document.getElementById('scanned-serial-number').textContent = device.serial;
             document.getElementById('scanned-device-type').textContent = getDeviceTypeName(device.type);
             document.getElementById('scanned-model').textContent = device.model;
-            
+
             let statusText;
             switch (device.status) {
                 case 'in-use': statusText = 'مستخدم'; break;
                 case 'maintenance': statusText = 'تحت الصيانة'; break;
-                default: statusText = 'غير معروف';
             }
-            
+
             document.getElementById('scanned-status').textContent = statusText;
             document.getElementById('scanned-current-user').textContent = device.user || '---';
             document.getElementById('scanned-device-id').value = device.id;
-            
+
             scannerMessage.textContent = 'تم مسح الباركود بنجاح';
+
+            // تحديث حالة الجرد في الجدول
+            updateInventoryCheckbox(device.id, true);
+        }
+
+        // دالة لتحديث حالة checkbox الجرد
+        function updateInventoryCheckbox(deviceId, isChecked) {
+            const rows = document.querySelectorAll('#inventory-table-body tr');
+            rows.forEach(row => {
+                if (row.getAttribute('data-device-id') === deviceId) {
+                    const checkbox = row.querySelector('.inventory-checkbox');
+                    if (checkbox) {
+                        checkbox.checked = isChecked;
+                    }
+                }
+            });
         }
 
         // إيقاف الكاميرا
@@ -1129,11 +1096,11 @@
                 video.srcObject = null;
                 video.style.display = 'none';
                 cameraPlaceholder.style.display = 'flex';
-                
+
                 startBtn.classList.remove('hidden');
                 captureBtn.classList.add('hidden');
                 stopBtn.classList.add('hidden');
-                
+
                 isCameraActive = false;
                 scannerMessage.textContent = 'تم إيقاف الكاميرا. انقر على "تشغيل الكاميرا" لتفعيل الماسح الضوئي';
             }
@@ -1394,14 +1361,24 @@
             // ================================================
 
             // زر "تم الجرد"
+            // زر "تم الجرد"
             document.getElementById('inventory-done-btn').addEventListener('click', function () {
-                const message = document.getElementById('inventory-done-message');
-                message.style.display = 'block';
+                const deviceId = document.getElementById('scanned-device-id').value;
 
-                // إخفاء الرسالة بعد 3 ثوان
-                setTimeout(() => {
-                    message.style.display = 'none';
-                }, 3000);
+                if (deviceId) {
+                    // تحديث حالة الجرد في الجدول
+                    updateInventoryCheckbox(deviceId, true);
+
+                    const message = document.getElementById('inventory-done-message');
+                    message.style.display = 'block';
+
+                    // إخفاء الرسالة بعد 3 ثوان
+                    setTimeout(() => {
+                        message.style.display = 'none';
+                    }, 3000);
+                } else {
+                    alert('الرجاء مسح باركود جهاز أولاً');
+                }
             });
 
             // زر "تعديل"
@@ -1452,4 +1429,5 @@
         });
     </script>
 </body>
+
 </html>
