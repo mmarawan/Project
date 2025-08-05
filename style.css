@@ -84,7 +84,8 @@ canvas {
 #qr-reader {
     width: 100%;
     max-width: 600px;
-    height: 300px; /* Add fixed height */
+    height: 300px;
+    /* Add fixed height */
     margin: 0 auto;
     border: 2px dashed #ccc;
 }
@@ -104,4 +105,11 @@ canvas {
     font-size: 14px;
     margin: 5px;
     transition: background-color 0.3s;
+}
+
+/* أضف هذا داخل <style> أو ملف CSS خارجي */
+#addDeviceModal .scrollable-content {
+  max-height: 80vh; /* ارتفاع أقصى 80% من الشاشة */
+  overflow-y: auto; /* تمكين التمرير */
+  padding-right: 4px; /* مظهر أفضل للتمرير */
 }

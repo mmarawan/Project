@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,14 +8,29 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script>
-        // Tailwind CSS configuration must be present in each HTML file
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         primary: {
-                            50: '#f5f3ff',                            100: '#ede9fe',                            200: '#ddd6fe',                            300: '#c4b5fd',                            400: '#a78bfa',                            500: '#8b5cf6',                            600: '#7c3aed',                            700: '#6d28d9',                            800: '#5b21b6',                            900: '#4c1d95',
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#6e2d91', /* changed from #8b5cf6 */
+                            600: '#6a2a85', /* adjusted shade */
+                            700: '#5e246f', /* adjusted shade */
+                            800: '#521f5a', /* adjusted shade */
+                            900: '#461a48', /* adjusted shade */
                         }
+                    },
+                    fontFamily: {
+                        sans: ['Tajawal', 'sans-serif'],
+                    },
+                    animation: {
+                        'spin-slow': 'spin 2s linear infinite',
+                        'pulse-slow': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     }
                 }
             }
@@ -22,11 +38,13 @@
     </script>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body class="bg-gray-50 min-h-screen">
     <!-- Added a wrapper div for fade transitions -->
     <div class="fade-screen">
         <!-- شاشة تسجيل الدخول -->
-        <div id="login-screen" class="min-h-screen flex items-center justify-center py-6 sm:py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary-50 to-primary-100">
+        <div id="login-screen"
+            class="min-h-screen flex items-center justify-center py-6 sm:py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary-50 to-primary-100">
             <div class="max-w-xs sm:max-w-md w-full bg-white rounded-lg shadow-lg p-6 sm:p-8">
                 <div class="text-center">
                     <h2 class="text-xl sm:text-3xl font-bold text-primary-700 mb-2">نظام إدارة العُهد الشخصية</h2>
@@ -34,16 +52,21 @@
                 </div>
 
                 <div class="mb-4 sm:mb-6">
-                    <div class="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-4 sm:space-x-reverse mb-4 sm:mb-6">
+                    <div
+                        class="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-4 sm:space-x-reverse mb-4 sm:mb-6">
                         <div class="user-type-selector">
-                            <input type="radio" id="regular-user" name="user-type" value="regular" class="hidden" checked>
-                            <label for="regular-user" class="block text-center cursor-pointer px-3 py-2 rounded-md border-2 border-primary-300 text-primary-700 hover:bg-primary-50 transition user-type-label selected text-sm">
+                            <input type="radio" id="regular-user" name="user-type" value="regular" class="hidden"
+                                checked>
+                            <label for="regular-user"
+                                class="block text-center cursor-pointer px-3 py-2 rounded-md border-2 border-primary-300 text-primary-700 hover:bg-primary-50 transition user-type-label selected text-sm">
                                 مستخدم عادي
                             </label>
                         </div>
                         <div class="user-type-selector">
-                            <input type="radio" id="maintenance-admin" name="user-type" value="maintenance" class="hidden">
-                            <label for="maintenance-admin" class="block text-center cursor-pointer px-3 py-2 rounded-md border-2 border-primary-300 text-primary-700 hover:bg-primary-50 transition user-type-label text-sm">
+                            <input type="radio" id="maintenance-admin" name="user-type" value="maintenance"
+                                class="hidden">
+                            <label for="maintenance-admin"
+                                class="block text-center cursor-pointer px-3 py-2 rounded-md border-2 border-primary-300 text-primary-700 hover:bg-primary-50 transition user-type-label text-sm">
                                 مسؤول صيانة
                             </label>
                         </div>
@@ -51,25 +74,33 @@
 
                     <div class="mb-3 sm:mb-4">
                         <label for="employee-id" class="block text-sm font-medium text-gray-700 mb-1">رقم العامل</label>
-                        <input type="number" id="employee-id" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm" placeholder="أدخل رقم العامل" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                        <input type="number" id="employee-id"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm"
+                            placeholder="أدخل رقم العامل" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                     </div>
 
                     <div class="mb-4 sm:mb-6">
                         <label for="password" class="block text-sm font-medium text-gray-700 mb-1">كلمة المرور</label>
-                        <input type="password" id="password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm" placeholder="أدخل كلمة المرور">
+                        <input type="password" id="password"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm"
+                            placeholder="أدخل كلمة المرور">
                     </div>
 
-                    <div class="flex flex-col sm:flex-row items-center justify-between mb-4 sm:mb-6 space-y-2 sm:space-y-0">
+                    <div
+                        class="flex flex-col sm:flex-row items-center justify-between mb-4 sm:mb-6 space-y-2 sm:space-y-0">
                         <div class="flex items-center">
-                            <input id="remember-me" type="checkbox" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
+                            <input id="remember-me" type="checkbox"
+                                class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
                             <label for="remember-me" class="mr-2 block text-sm text-gray-700">تذكرني</label>
                         </div>
                         <div>
-                            <a href="forgot_password.html" class="text-sm text-primary-600 hover:text-primary-800" id="forgot-password-link">نسيت كلمة المرور؟</a>
+                            <a href="forgot_password.html" class="text-sm text-primary-600 hover:text-primary-800"
+                                id="forgot-password-link">نسيت كلمة المرور؟</a>
                         </div>
                     </div>
 
-                    <button id="login-btn" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 text-base">
+                    <button id="login-btn"
+                        class="w-full bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 text-base">
                         تسجيل الدخول
                     </button>
                 </div>
@@ -77,7 +108,8 @@
                 <div class="text-center">
                     <p class="text-xs sm:text-sm text-gray-600">
                         ليس لديك حساب؟
-                        <a href="register.html" class="text-primary-600 hover:text-primary-800 font-medium" id="register-link">إنشاء حساب جديد</a>
+                        <a href="register.html" class="text-primary-600 hover:text-primary-800 font-medium"
+                            id="register-link">إنشاء حساب جديد</a>
                     </p>
                 </div>
             </div>
@@ -85,4 +117,5 @@
     </div>
     <script src="script.js"></script>
 </body>
+
 </html>

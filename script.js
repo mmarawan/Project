@@ -1637,3 +1637,4 @@ function initCharts() {
     });
 }
 
+const selectedYear = document.getElementById('inventoryYear').value.split('-')[0]; // مثلاً "2024-01" => "2024"
