@@ -20,11 +20,11 @@
                             200: '#ddd6fe',
                             300: '#c4b5fd',
                             400: '#a78bfa',
-                            500: '#6e2d91', /* changed from #8b5cf6 */
-                            600: '#6a2a85', /* adjusted shade */
-                            700: '#5e246f', /* adjusted shade */
-                            800: '#521f5a', /* adjusted shade */
-                            900: '#461a48', /* adjusted shade */
+                            500: '#6e2d91',
+                            600: '#6a2a85',
+                            700: '#5e246f',
+                            800: '#521f5a',
+                            900: '#461a48',
                         }
                     },
                     fontFamily: {
@@ -194,6 +194,14 @@
             font-size: 12px;
         }
 
+        .device-status-scrapped {
+            background-color: #EF4444;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
         .inventory-checked {
             background-color: #d1fae5;
             border: 2px solid #10B981;
@@ -336,6 +344,149 @@
                 background-color: transparent;
             }
         }
+
+        /* أنماط الجرس والإشعارات */
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #EF4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .notification-btn {
+            position: relative;
+            transition: transform 0.2s;
+        }
+
+        .notification-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .notification-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* نافذة الإشعارات */
+        #notifications-container {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            width: 320px;
+            z-index: 1000;
+            display: none;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .notification-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .notification-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .notification-content {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .notification-time {
+            font-size: 11px;
+            color: #999;
+            text-align: left;
+            margin-top: 3px;
+        }
+
+        /* Fixed modal scrolling */
+        .modal-content {
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        /* تم إضافة أنماط جديدة للتقارير */
+        .stat-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-card {
+            background: linear-gradient(135deg, #f9fafb, #f3f4f6);
+        }
+
+        .report-section {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .highlight-row {
+            animation: highlight 2s ease;
+        }
+
+        @keyframes highlight {
+            0% {
+                background-color: #dbeafe;
+            }
+
+            100% {
+                background-color: transparent;
+            }
+        }
+
+        .apply-filters-btn {
+            background: linear-gradient(to right, #6d28d9, #8b5cf6);
+        }
+
+        .scrapped-row {
+            background-color: #fff5f5;
+            border-left: 4px solid #ef4444;
+        }
+
+        .scrapped-row:hover {
+            background-color: #ffebeb;
+        }
+
+        .scrap-animation {
+            animation: scrapPulse 2s ease;
+        }
+
+        @keyframes scrapPulse {
+            0% {
+                background-color: #fee2e2;
+            }
+
+            50% {
+                background-color: #fecaca;
+            }
+
+            100% {
+                background-color: #fff5f5;
+            }
+        }
     </style>
 </head>
 
@@ -346,6 +497,16 @@
     <!-- رسالة تم الحذف -->
     <div id="delete-success-message" class="font-bold">تم تخريد الجهاز بنجاح</div>
 
+    <!-- نافذة الإشعارات -->
+    <div id="notifications-container">
+        <div class="p-3 border-b bg-gray-50">
+            <h3 class="font-bold text-lg text-gray-800">الإشعارات</h3>
+        </div>
+        <div id="notifications-list">
+            <!-- سيتم ملؤه ديناميكيًا -->
+        </div>
+    </div>
+
     <div class="fade-screen">
         <!-- واجهة مسؤول الصيانة -->
         <div id="admin-dashboard" class="min-h-screen bg-gray-100">
@@ -355,6 +516,19 @@
                     class="container mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center text-center sm:text-right">
                     <h1 class="text-xl sm:text-2xl font-bold mb-2 sm:mb-0">نظام إدارة العُهد الشخصية - لوحة التحكم</h1>
                     <div class="flex items-center space-x-2 sm:space-x-4 space-x-reverse">
+                        <!-- زر الإشعارات -->
+                        <div class="relative">
+                            <button id="notification-btn"
+                                class="notification-btn text-white p-1 rounded-full hover:bg-primary-700 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                                </svg>
+                                <span id="notification-badge" class="notification-badge">3</span>
+                            </button>
+                        </div>
+
                         <span class="text-sm">مرحباً، مسؤول الصيانة</span>
                         <button id="admin-logout-btn"
                             class="bg-primary-900 hover:bg-primary-950 px-3 py-1 rounded-md text-xs sm:text-sm transition duration-300">
@@ -461,6 +635,16 @@
                                 </svg>
                                 إضافة جهاز جديدة
                             </button>
+                            <div class="mt-3 sm:mt-0">
+                                <span class="text-sm font-medium text-gray-700">عدد الأجهزة: <span
+                                        id="total-devices-count">0</span></span>
+                                <span class="mx-2">|</span>
+                                <span class="text-sm font-medium text-green-600">مستخدمة: <span
+                                        id="active-devices-count">0</span></span>
+                                <span class="mx-2">|</span>
+                                <span class="text-sm font-medium text-red-600">مخردة: <span
+                                        id="scrapped-devices-count">0</span></span>
+                            </div>
                         </div>
 
                         <!-- فلتر السنترال -->
@@ -485,6 +669,7 @@
                                     <option value="all">الكل</option>
                                     <option value="in-use">مستخدم</option>
                                     <option value="maintenance">تحت الصيانة</option>
+                                    <option value="scrapped">مخرد</option>
                                 </select>
                             </div>
                         </div>
@@ -509,7 +694,7 @@
                             <table class="min-w-full bg-white border border-gray-200 text-sm">
                                 <thead>
                                     <tr class="bg-gray-100">
-                                        <th class="py-2 px-3 sm:px-4 border-b text-right">الرقم الخامل</th>
+                                        <th class="py-2 px-3 sm:px-4 border-b text-right">الرقم العامل</th>
                                         <th class="py-2 px-3 sm:px-4 border-b text-right">اسم المستخدم</th>
                                         <th class="py-2 px-3 sm:px-4 border-b text-right">نوع الجهاز</th>
                                         <th class="py-2 px-3 sm:px-4 border-b text-right">الموديل</th>
@@ -539,7 +724,7 @@
                         </div>
 
                         <!-- Filters Section -->
-                        <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8 mobile-card">
+                        <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8 mobile-card filter-card">
                             <h2 class="text-lg sm:text-xl font-semibold text-gray-800 mb-4">🔍 فلاتر البحث</h2>
 
                             <!-- Radio Buttons لتحديد نوع البحث -->
@@ -649,7 +834,7 @@
 
                             <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
                                 <button id="applyFilters"
-                                    class="btn-primary px-4 sm:px-6 py-2 font-medium text-sm sm:text-base">
+                                    class="apply-filters-btn text-white px-4 sm:px-6 py-2 font-medium rounded-lg text-sm sm:text-base">
                                     🔍 تطبيق الفلاتر
                                 </button>
                                 <button id="resetFilters"
@@ -665,7 +850,7 @@
 
                         <!-- Statistics Cards -->
                         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
-                            <div class="bg-white rounded-xl shadow-lg p-3 sm:p-6 text-center mobile-card">
+                            <div class="bg-white rounded-xl shadow-lg p-3 sm:p-6 text-center mobile-card stat-card">
                                 <div class="text-2xl sm:text-3xl mb-1 sm:mb-2">💻</div>
                                 <h3 class="text-sm sm:text-lg font-semibold text-gray-800">أجهزة كمبيوتر</h3>
                                 <p class="text-lg sm:text-2xl font-bold text-blue-600" id="computerCount">0</p>
@@ -675,7 +860,7 @@
                                     <p class="text-sm sm:text-lg font-bold text-blue-800" id="computerNewCount">+0</p>
                                 </div>
                             </div>
-                            <div class="bg-white rounded-xl shadow-lg p-3 sm:p-6 text-center mobile-card">
+                            <div class="bg-white rounded-xl shadow-lg p-3 sm:p-6 text-center mobile-card stat-card">
                                 <div class="text-2xl sm:text-3xl mb-1 sm:mb-2">🖥️</div>
                                 <h3 class="text-sm sm:text-lg font-semibold text-gray-800">شاشات</h3>
                                 <p class="text-lg sm:text-2xl font-bold text-green-600" id="monitorCount">0</p>
@@ -685,7 +870,7 @@
                                     <p class="text-sm sm:text-lg font-bold text-green-800" id="monitorNewCount">+0</p>
                                 </div>
                             </div>
-                            <div class="bg-white rounded-xl shadow-lg p-3 sm:p-6 text-center mobile-card">
+                            <div class="bg-white rounded-xl shadow-lg p-3 sm:p-6 text-center mobile-card stat-card">
                                 <div class="text-2xl sm:text-3xl mb-1 sm:mb-2">💻</div>
                                 <h3 class="text-sm sm:text-lg font-semibold text-gray-800">لاب توب</h3>
                                 <p class="text-lg sm:text-2xl font-bold text-purple-600" id="laptopCount">0</p>
@@ -695,7 +880,7 @@
                                     <p class="text-sm sm:text-lg font-bold text-purple-800" id="laptopNewCount">+0</p>
                                 </div>
                             </div>
-                            <div class="bg-white rounded-xl shadow-lg p-3 sm:p-6 text-center mobile-card">
+                            <div class="bg-white rounded-xl shadow-lg p-3 sm:p-6 text-center mobile-card stat-card">
                                 <div class="text-2xl sm:text-3xl mb-1 sm:mb-2">🖨️</div>
                                 <h3 class="text-sm sm:text-lg font-semibold text-gray-800">طابعات</h3>
                                 <p class="text-lg sm:text-2xl font-bold text-orange-600" id="printerCount">0</p>
@@ -709,14 +894,14 @@
 
                         <!-- Charts Section -->
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 mb-6 sm:mb-8">
-                            <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 mobile-card">
+                            <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 mobile-card report-section">
                                 <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-4 text-center">📈 توزيع
                                     الأجهزة حسب النوع</h3>
                                 <div class="h-80 flex items-center justify-center">
                                     <canvas id="deviceChart"></canvas>
                                 </div>
                             </div>
-                            <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 mobile-card">
+                            <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 mobile-card report-section">
                                 <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-4 text-center">📊 حالة
                                     الأجهزة</h3>
                                 <div class="h-80 flex items-center justify-center">
@@ -726,7 +911,7 @@
                         </div>
 
                         <!-- Detailed Table -->
-                        <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 mobile-card">
+                        <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 mobile-card report-section">
                             <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-4">📋 تفاصيل الأجهزة</h3>
                             <div class="mb-4">
                                 <input type="text" id="searchInput" placeholder="🔍 البحث في تفاصيل الأجهزة..."
@@ -764,7 +949,7 @@
                         </div>
 
                         <!-- Summary Section -->
-                        <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 mt-6 sm:mt-8 mobile-card">
+                        <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 mt-6 sm:mt-8 mobile-card report-section">
                             <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-4">📈 ملخص التقرير</h3>
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
                                 <div class="text-center p-3 sm:p-4 bg-blue-50 rounded-lg">
@@ -779,6 +964,21 @@
                                 <div class="text-center p-3 sm:p-4 bg-red-50 rounded-lg">
                                     <h4 class="text-sm sm:text-base font-semibold text-red-800">مخردة</h4>
                                     <p class="text-xl sm:text-2xl font-bold text-red-600" id="scrappedDevices">0</p>
+                                </div>
+                            </div>
+
+                            <!-- شريط تقدم الأجهزة المخردة -->
+                            <div class="mt-6">
+                                <h4 class="text-sm sm:text-base font-semibold text-gray-800 mb-2">نسبة الأجهزة المخردة
+                                </h4>
+                                <div class="w-full bg-gray-200 rounded-full h-4">
+                                    <div id="scrap-progress-bar" class="bg-red-600 h-4 rounded-full" style="width: 0%">
+                                    </div>
+                                </div>
+                                <div class="flex justify-between mt-1">
+                                    <span class="text-xs text-gray-600">0%</span>
+                                    <span class="text-xs text-gray-600" id="scrap-percentage">0%</span>
+                                    <span class="text-xs text-gray-600">100%</span>
                                 </div>
                             </div>
                         </div>
@@ -865,190 +1065,185 @@
                 </div>
 
                 <form id="addDeviceForm" class="space-y-4 text-sm">
-                    <!-- Add a wrapper div with a class for scrolling inside the Add Device modal -->
-                    <div class="modal-content scrollable-content">
-                        <div id="addDeviceModal" class="modal">
-                            <div>
-                                <label for="new-device-type" class="block text-gray-700 font-medium mb-1">نوع
-                                    الجهاز</label>
-                                <select id="new-device-type"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
-                                    <option value="">-- اختر نوع الجهاز --</option>
-                                    <option value="laptop">لابتوب</option>
-                                    <option value="desktop">جهاز مكتبي</option>
-                                    <option value="printer">طابعة</option>
-                                    <option value="monitor">شاشة</option>
-                                    <option value="other">أخرى</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="new-device-model"
-                                    class="block text-gray-700 font-medium mb-1">الموديل</label>
-                                <input type="text" id="new-device-model"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                                    placeholder="أدخل موديل الجهاز">
-                            </div>
-                            <div>
-                                <label for="new-device-serial" class="block text-gray-700 font-medium mb-1">الرقم
-                                    التسلسلي</label>
-                                <input type="text" id="new-device-serial"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                                    placeholder="أدخل الرقم التسلسلي">
-                            </div>
-                            <div>
-                                <label for="new-device-status"
-                                    class="block text-gray-700 font-medium mb-1">الحالة</label>
-                                <select id="new-device-status"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
-                                    <option value="">-- اختر الحالة --</option>
-                                    <option value="in-use">مستخدم</option>
-                                    <option value="maintenance">تحت الصيانة</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="new-device-employee-id" class="block text-gray-700 font-medium mb-1">الرقم
-                                    العامل</label>
-                                <input type="text" id="new-device-employee-id"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                                    placeholder="أدخل الرقم العامل">
-                            </div>
-                            <div>
-                                <label for="new-device-user" class="block text-gray-700 font-medium mb-1">المستخدم (اسم
-                                    المستخدم)</label>
-                                <input type="text" id="new-device-user"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                                    placeholder="أدخل اسم المستخدم الحالي (اختياري)">
-                            </div>
-                            <div>
-                                <label for="new-device-central"
-                                    class="block text-gray-700 font-medium mb-1">السنترال</label>
-                                <select id="new-device-central"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
-                                    <option value="سنترال1">سنترال1</option>
-                                    <option value="سنترال2">سنترال2</option>
-                                    <option value="سنترال3">سنترال3</option>
-                                    <option value="سنترال4">سنترال4</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="new-device-receipt-date" class="block text-gray-700 font-medium mb-1">تاريخ
-                                    الاستلام</label>
-                                <input type="date" id="new-device-receipt-date"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                                    required>
-                            </div>
-                            <div>
-                                <label for="new-device-notes" class="block text-gray-700 font-medium mb-1">ملاحظات
-                                    (اختياري)</label>
-                                <textarea id="new-device-notes" rows="3"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                                    placeholder="أضف أي ملاحظات إضافية"></textarea>
-                            </div>
+                    <div class="modal-content">
+                        <div>
+                            <label for="new-device-type" class="block text-gray-700 font-medium mb-1">نوع
+                                الجهاز</label>
+                            <select id="new-device-type"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                <option value="">-- اختر نوع الجهاز --</option>
+                                <option value="laptop">لابتوب</option>
+                                <option value="desktop">جهاز مكتبي</option>
+                                <option value="printer">طابعة</option>
+                                <option value="monitor">شاشة</option>
+                                <option value="other">أخرى</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="new-device-model" class="block text-gray-700 font-medium mb-1">الموديل</label>
+                            <input type="text" id="new-device-model"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                                placeholder="أدخل موديل الجهاز">
+                        </div>
+                        <div>
+                            <label for="new-device-serial" class="block text-gray-700 font-medium mb-1">الرقم
+                                التسلسلي</label>
+                            <input type="text" id="new-device-serial"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                                placeholder="أدخل الرقم التسلسلي">
+                        </div>
+                        <div>
+                            <label for="new-device-status" class="block text-gray-700 font-medium mb-1">الحالة</label>
+                            <select id="new-device-status"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                <option value="">-- اختر الحالة --</option>
+                                <option value="in-use">مستخدم</option>
+                                <option value="maintenance">تحت الصيانة</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="new-device-employee-id" class="block text-gray-700 font-medium mb-1">الرقم
+                                العامل</label>
+                            <input type="text" id="new-device-employee-id"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                                placeholder="أدخل الرقم العامل">
+                        </div>
+                        <div>
+                            <label for="new-device-user" class="block text-gray-700 font-medium mb-1">المستخدم (اسم
+                                المستخدم)</label>
+                            <input type="text" id="new-device-user"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                                placeholder="أدخل اسم المستخدم الحالي (اختياري)">
+                        </div>
+                        <div>
+                            <label for="new-device-central"
+                                class="block text-gray-700 font-medium mb-1">السنترال</label>
+                            <select id="new-device-central"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                <option value="سنترال1">سنترال1</option>
+                                <option value="سنترال2">سنترال2</option>
+                                <option value="سنترال3">سنترال3</option>
+                                <option value="سنترال4">سنترال4</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="new-device-receipt-date" class="block text-gray-700 font-medium mb-1">تاريخ
+                                الاستلام</label>
+                            <input type="date" id="new-device-receipt-date"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                                required>
+                        </div>
+                        <div>
+                            <label for="new-device-notes" class="block text-gray-700 font-medium mb-1">ملاحظات
+                                (اختياري)</label>
+                            <textarea id="new-device-notes" rows="3"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                                placeholder="أضف أي ملاحظات إضافية"></textarea>
+                        </div>
 
-                            <div class="flex justify-between mt-6 space-x-4 space-x-reverse">
-                                <button type="button" id="cancelAddDevice"
-                                    class="w-1/2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
-                                    إلغاء
-                                </button>
-                                <button type="submit" id="saveNewDevice"
-                                    class="w-1/2 bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
-                                    حفظ
-                                </button>
-                            </div>
+                        <div class="flex justify-between mt-6 space-x-4 space-x-reverse">
+                            <button type="button" id="cancelAddDevice"
+                                class="w-1/2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                                إلغاء
+                            </button>
+                            <button type="submit" id="saveNewDevice"
+                                class="w-1/2 bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
+                                حفظ
+                            </button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-    </div>
 
 
-    <!-- Edit Device Modal -->
-    <div id="editDeviceModal"
-        class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4 sm:p-6 z-50 hidden">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-sm sm:max-w-md p-6 relative">
-            <button id="closeEditDeviceModal"
-                class="absolute top-3 left-3 text-gray-500 hover:text-gray-700 text-2xl font-bold">
-                &times;
-            </button>
-            <div class="text-center mb-4">
-                <h3 class="text-xl font-bold text-primary-700">تعديل العهدة</h3>
-            </div>
-
-            <form id="editDeviceForm" class="space-y-4 text-sm">
-                <input type="hidden" id="edit-device-id">
-
-                <div class="bg-gray-50 p-3 rounded-md border border-gray-200">
-                    <p class="font-medium text-gray-700 mb-1">معلومات العهدة</p>
-                    <p><span class="text-gray-600">النوع:</span> <span id="edit-device-type-display"></span></p>
-                    <p><span class="text-gray-600">الموديل:</span> <span id="edit-device-model-display"></span></p>
-                    <p><span class="text-gray-600">الرقم التسلسلي:</span> <span id="edit-device-serial-display"></span>
-                    </p>
+        <!-- Edit Device Modal -->
+        <div id="editDeviceModal"
+            class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4 sm:p-6 z-50 hidden">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-sm sm:max-w-md p-6 relative">
+                <button id="closeEditDeviceModal"
+                    class="absolute top-3 left-3 text-gray-500 hover:text-gray-700 text-2xl font-bold">
+                    &times;
+                </button>
+                <div class="text-center mb-4">
+                    <h3 class="text-xl font-bold text-primary-700">تعديل العهدة</h3>
                 </div>
 
-                <!-- التعديل هنا: تغيير التسمية -->
-                <div>
-                    <label for="edit-device-employee-id" class="block text-gray-700 font-medium mb-1">المستخدم
-                        الجديد (رقم العامل) *</label>
-                    <input type="text" id="edit-device-employee-id"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                        placeholder="أدخل رقم العامل للمستخدم الجديد" required>
-                </div>
+                <form id="editDeviceForm" class="space-y-4 text-sm">
+                    <input type="hidden" id="edit-device-id">
 
-                <div>
-                    <label for="edit-device-status" class="block text-gray-700 font-medium mb-1">الحالة
-                        *</label>
-                    <select id="edit-device-status"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                        required>
-                        <option value="in-use">مستخدم</option>
-                        <option value="maintenance">تحت الصيانة</option>
-                    </select>
-                </div>
+                    <div class="bg-gray-50 p-3 rounded-md border border-gray-200">
+                        <p class="font-medium text-gray-700 mb-1">معلومات العهدة</p>
+                        <p><span class="text-gray-600">النوع:</span> <span id="edit-device-type-display"></span></p>
+                        <p><span class="text-gray-600">الموديل:</span> <span id="edit-device-model-display"></span></p>
+                        <p><span class="text-gray-600">الرقم التسلسلي:</span> <span
+                                id="edit-device-serial-display"></span>
+                        </p>
+                    </div>
 
-                <!-- تم حذف حقل اسم المستخدم بالكامل -->
+                    <!-- التعديل هنا: تغيير التسمية -->
+                    <div>
+                        <label for="edit-device-employee-id" class="block text-gray-700 font-medium mb-1">المستخدم
+                            الجديد (رقم العامل) *</label>
+                        <input type="text" id="edit-device-employee-id"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                            placeholder="أدخل رقم العامل للمستخدم الجديد" required>
+                    </div>
 
-                <div>
-                    <label for="edit-device-central" class="block text-gray-700 font-medium mb-1">السنترال *</label>
-                    <select id="edit-device-central"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                        required>
-                        <option value="سنترال1">سنترال1</option>
-                        <option value="سنترال2">سنترال2</option>
-                        <option value="سنترال3">سنترال3</option>
-                        <option value="سنترال4">سنترال4</option>
-                    </select>
-                </div>
+                    <div>
+                        <label for="edit-device-status" class="block text-gray-700 font-medium mb-1">الحالة
+                            *</label>
+                        <select id="edit-device-status"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                            required>
+                            <option value="in-use">مستخدم</option>
+                            <option value="maintenance">تحت الصيانة</option>
+                        </select>
+                    </div>
 
-                <div>
-                    <label for="receipt-upload" class="block text-gray-700 font-medium mb-1">إرفاق إيصال
-                        الاستلام</label>
-                    <div class="flex items-center">
-                        <input type="file" id="receipt-upload" class="hidden" accept=".pdf,.jpg,.jpeg,.png">
-                        <input type="text" id="receipt-file-name"
-                            class="flex-grow px-3 py-2 border border-gray-300 rounded-r-md text-sm"
-                            placeholder="لم يتم اختيار ملف" readonly>
-                        <button type="button" onclick="document.getElementById('receipt-upload').click()"
-                            class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-2 rounded-l-md border border-gray-300 text-sm">
-                            اختر ملف
+                    <!-- تم حذف حقل اسم المستخدم بالكامل -->
+
+                    <div>
+                        <label for="edit-device-central" class="block text-gray-700 font-medium mb-1">السنترال *</label>
+                        <select id="edit-device-central"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                            required>
+                            <option value="سنترال1">سنترال1</option>
+                            <option value="سنترال2">سنترال2</option>
+                            <option value="سنترال3">سنترال3</option>
+                            <option value="سنترال4">سنترال4</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="receipt-upload" class="block text-gray-700 font-medium mb-1">إرفاق إيصال
+                            الاستلام</label>
+                        <div class="flex items-center">
+                            <input type="file" id="receipt-upload" class="hidden" accept=".pdf,.jpg,.jpeg,.png">
+                            <input type="text" id="receipt-file-name"
+                                class="flex-grow px-3 py-2 border border-gray-300 rounded-r-md text-sm"
+                                placeholder="لم يتم اختيار ملف" readonly>
+                            <button type="button" onclick="document.getElementById('receipt-upload').click()"
+                                class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-2 rounded-l-md border border-gray-300 text-sm">
+                                اختر ملف
+                            </button>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">يجب أن يكون الملف من نوع PDF, JPG, أو PNG</p>
+                    </div>
+
+                    <div class="flex justify-between mt-6 space-x-4 space-x-reverse">
+                        <button type="button" id="cancelEditDevice"
+                            class="w-1/2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                            إلغاء
+                        </button>
+                        <button type="submit" id="saveEditedDevice"
+                            class="w-1/2 bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
+                            حفظ التغييرات
                         </button>
                     </div>
-                    <p class="text-xs text-gray-500 mt-1">يجب أن يكون الملف من نوع PDF, JPG, أو PNG</p>
-                </div>
-
-                <div class="flex justify-between mt-6 space-x-4 space-x-reverse">
-                    <button type="button" id="cancelEditDevice"
-                        class="w-1/2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
-                        إلغاء
-                    </button>
-                    <button type="submit" id="saveEditedDevice"
-                        class="w-1/2 bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
-                        حفظ التغييرات
-                    </button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
     </div>
 
     <script>
@@ -1088,18 +1283,23 @@
             { id: '011', employeeId: '1011', type: 'tablet', model: 'iPad Air 4', serial: 'TB11223344', status: 'in-use', user: 'يوسف خالد', central: 'سنترال1', notes: '', inventoryDone: false },
             { id: '012', employeeId: '1012', type: 'laptop', model: 'Asus ZenBook 14', serial: 'LT44556677', status: 'maintenance', user: 'مريم فهد', central: 'سنترال2', notes: 'بطارية تالفة', inventoryDone: false },
             { id: '013', employeeId: '1013', type: 'printer', model: 'Canon Pixma TS6350', serial: 'PR33445566', status: 'in-use', user: 'هيثم عبدالله', central: 'سنترال3', notes: '', inventoryDone: false },
-            { id: '014', employeeId: '1014', type: 'desktop', model: 'Lenovo ThinkCentre M720s', serial: 'PC66778899', status: 'scrapped', user: 'ليلى حمد', central: 'سنترال4', notes: 'تم تخريده', inventoryDone: false },
             { id: '015', employeeId: '1015', type: 'monitor', model: 'LG UltraFine 5K', serial: 'MN99887766', status: 'in-use', user: 'سعد علي', central: 'سنترال2', notes: '', inventoryDone: false },
             { id: '016', employeeId: '1016', type: 'laptop', model: 'Acer Swift 3', serial: 'LT11224455', status: 'in-use', user: 'داليا سامي', central: 'سنترال1', notes: '', inventoryDone: false },
             { id: '017', employeeId: '1017', type: 'desktop', model: 'MSI MPG Trident 3', serial: 'PC55667788', status: 'in-use', user: 'نادر ناصر', central: 'سنترال3', notes: '', inventoryDone: false },
             { id: '018', employeeId: '1018', type: 'tablet', model: 'Samsung Galaxy Tab S7', serial: 'TB22334455', status: 'in-use', user: 'سلوى حسن', central: 'سنترال4', notes: '', inventoryDone: false },
             { id: '019', employeeId: '1019', type: 'printer', model: 'Brother HL-L2350DW', serial: 'PR77889900', status: 'maintenance', user: 'طارق فهد', central: 'سنترال1', notes: 'مشكلة في الحبر', inventoryDone: false },
             { id: '020', employeeId: '1020', type: 'monitor', model: 'BenQ EX3501R', serial: 'MN33446688', status: 'in-use', user: 'رنا سمير', central: 'سنترال2', notes: '', inventoryDone: false },
-            // ... (بقية الأجهزة)
+        ];
+
+        // إشعارات التخريد
+        const scrapNotifications = [
+            { id: 1, title: "تخريد جهاز جديد", content: "تم تخريد لابتوب من قبل محمد أحمد", time: "قبل 10 دقائق", read: false },
+            { id: 2, title: "تخريد طابعة", content: "تم تخريد طابعة HP LaserJet Pro M404dn", time: "قبل 30 دقيقة", read: false },
+            { id: 3, title: "تخريد شاشة", content: "تم تخريد شاشة Dell UltraSharp U2722D", time: "قبل ساعة", read: false }
         ];
 
         // =====================================
-        // كود التقارير والإحصائيات
+        // كود التقارير والإحصائيات - مع التعديلات
         // =====================================
 
         // دالة لإنشاء بيانات التقارير من بيانات الأجهزة
@@ -1116,33 +1316,28 @@
                 }
 
                 return {
-                    id: device.id,
                     employeeId: device.employeeId,
                     name: device.user,
                     type: device.type,
                     model: device.model,
                     serialNumber: device.serial,
-                    area: device.central,
-                    inventoryDate: formatDate(inventoryDate),
-                    inventoryYear: inventoryDate.getFullYear(),
-                    status: device.status,
-                    scrapDate: scrapDate ? formatDate(scrapDate) : null,
-                    scrapYear: scrapDate ? scrapDate.getFullYear() : null,
-                    isNewThisMonth: Math.random() > 0.7
+                    inventoryDate: device.inventoryDone ? 'تم الجرد' : '-',
+                    scrapDate: device.status === 'scrapped' ? device.scrapDate || 'تاريخ التخريد غير محدد' : null,
+                    status: device.status
                 };
             });
         }
 
-        // تهيئة المخططات للتقارير
-        function initReportsCharts() {
+        // تهيئة المخططات للتقارير مع البيانات المفلترة
+        function initReportsCharts(reportData) {
             // مخطط توزيع الأجهزة حسب النوع
             const deviceCtx = document.getElementById('deviceChart').getContext('2d');
             const deviceCounts = {
-                laptop: filteredReportData.filter(d => d.type === 'laptop').length,
-                desktop: filteredReportData.filter(d => d.type === 'desktop').length,
-                printer: filteredReportData.filter(d => d.type === 'printer').length,
-                monitor: filteredReportData.filter(d => d.type === 'monitor').length,
-                tablet: filteredReportData.filter(d => d.type === 'tablet').length
+                laptop: reportData.filter(d => d.type === 'laptop').length,
+                desktop: reportData.filter(d => d.type === 'desktop').length,
+                printer: reportData.filter(d => d.type === 'printer').length,
+                monitor: reportData.filter(d => d.type === 'monitor').length,
+                tablet: reportData.filter(d => d.type === 'tablet').length
             };
 
             const total = Object.values(deviceCounts).reduce((sum, count) => sum + count, 0);
@@ -1239,9 +1434,9 @@
             // مخطط حالة الأجهزة
             const statusCtx = document.getElementById('statusChart').getContext('2d');
             const statusCounts = {
-                'in-use': filteredReportData.filter(d => d.status === 'in-use').length,
-                maintenance: filteredReportData.filter(d => d.status === 'maintenance').length,
-                scrapped: filteredReportData.filter(d => d.status === 'scrapped').length
+                'in-use': reportData.filter(d => d.status === 'in-use').length,
+                maintenance: reportData.filter(d => d.status === 'maintenance').length,
+                scrapped: reportData.filter(d => d.status === 'scrapped').length
             };
 
             if (window.statusChartInstance) {
@@ -1343,15 +1538,15 @@
             });
         }
 
-        // تحديث الجدول
-        function updateReportTable() {
+        // تحديث الجدول بالبيانات المفلترة
+        function updateReportTable(reportData) {
             const tbody = document.getElementById('deviceTableBody');
             tbody.innerHTML = '';
 
-            filteredReportData.forEach(device => {
+            reportData.forEach(device => {
                 const row = document.createElement('tr');
                 const isScrapped = device.status === 'scrapped';
-                row.className = `border-b hover:bg-gray-50 ${isScrapped ? 'text-red-600' : ''}`;
+                row.className = `border-b hover:bg-gray-50 ${isScrapped ? 'text-red-600 scrapped-row' : ''}`;
 
                 row.innerHTML = `
                     <td class="px-2 sm:px-4 py-2 sm:py-3 font-medium text-xs sm:text-sm">${device.employeeId}</td>
@@ -1365,20 +1560,20 @@
             });
         }
 
-        // تحديث الإحصائيات
-        function updateReportStats() {
+        // تحديث الإحصائيات بالبيانات المفلترة
+        function updateReportStats(reportData) {
             const stats = {
-                computer: filteredReportData.filter(d => d.type === 'desktop').length,
-                monitor: filteredReportData.filter(d => d.type === 'monitor').length,
-                laptop: filteredReportData.filter(d => d.type === 'laptop').length,
-                printer: filteredReportData.filter(d => d.type === 'printer').length,
-                active: filteredReportData.filter(d => d.status === 'in-use').length,
-                maintenance: filteredReportData.filter(d => d.status === 'maintenance').length,
-                scrapped: filteredReportData.filter(d => d.status === 'scrapped').length,
-                computerNew: filteredReportData.filter(d => d.type === 'desktop' && d.isNewThisMonth).length,
-                monitorNew: filteredReportData.filter(d => d.type === 'monitor' && d.isNewThisMonth).length,
-                laptopNew: filteredReportData.filter(d => d.type === 'laptop' && d.isNewThisMonth).length,
-                printerNew: filteredReportData.filter(d => d.type === 'printer' && d.isNewThisMonth).length
+                computer: reportData.filter(d => d.type === 'desktop').length,
+                monitor: reportData.filter(d => d.type === 'monitor').length,
+                laptop: reportData.filter(d => d.type === 'laptop').length,
+                printer: reportData.filter(d => d.type === 'printer').length,
+                scrapped: reportData.filter(d => d.status === 'scrapped').length,
+                active: reportData.filter(d => d.status === 'in-use').length,
+                maintenance: reportData.filter(d => d.status === 'maintenance').length,
+                computerNew: reportData.filter(d => d.type === 'desktop' && d.isNew).length || 0,
+                monitorNew: reportData.filter(d => d.type === 'monitor' && d.isNew).length || 0,
+                laptopNew: reportData.filter(d => d.type === 'laptop' && d.isNew).length || 0,
+                printerNew: reportData.filter(d => d.type === 'printer' && d.isNew).length || 0
             };
 
             document.getElementById('computerCount').textContent = stats.computer;
@@ -1393,6 +1588,12 @@
             document.getElementById('monitorNewCount').textContent = '+' + stats.monitorNew;
             document.getElementById('laptopNewCount').textContent = '+' + stats.laptopNew;
             document.getElementById('printerNewCount').textContent = '+' + stats.printerNew;
+
+            // تحديث شريط تقدم الأجهزة المخردة
+            const totalDevices = reportData.length;
+            const scrappedPercentage = totalDevices > 0 ? Math.round((stats.scrapped / totalDevices) * 100) : 0;
+            document.getElementById('scrap-progress-bar').style.width = scrappedPercentage + '%';
+            document.getElementById('scrap-percentage').textContent = scrappedPercentage + '%';
         }
 
         // تطبيق الفلاتر
@@ -1405,24 +1606,35 @@
             const scrapArea = document.getElementById('scrapArea').value;
             const scrapYear = document.getElementById('scrapYear').value;
 
-            filteredReportData = generateReportData().filter(device => {
+            // توليد البيانات الأصلية
+            const allReportData = generateReportData();
+
+            // فلترة البيانات
+            const filteredReportData = allReportData.filter(device => {
                 if (searchType === 'inventory') {
-                    // فلترة الجرد
                     return (deviceType === 'all' || device.type === deviceType) &&
                         (area === 'all' || device.area === area) &&
                         (inventoryYear === 'all' || device.inventoryYear.toString() === inventoryYear);
                 } else {
-                    // فلترة المخردات
                     return device.status === 'scrapped' &&
                         (scrapDeviceType === 'all' || device.type === scrapDeviceType) &&
                         (scrapArea === 'all' || device.area === scrapArea) &&
-                        (scrapYear === 'all' || device.scrapYear?.toString() === scrapYear);
+                        (scrapYear === 'all' || (device.scrapYear && device.scrapYear.toString() === scrapYear));
                 }
             });
 
-            updateReportTable();
-            updateReportStats();
-            initReportsCharts();
+            // تحديث المكونات بالبيانات المفلترة
+            updateReportTable(filteredReportData);
+            updateReportStats(filteredReportData);
+            initReportsCharts(filteredReportData);
+
+            // إضافة تأثير تمييز للصفوف
+            document.querySelectorAll('#deviceTableBody tr').forEach(row => {
+                row.classList.add('highlight-row');
+                setTimeout(() => {
+                    row.classList.remove('highlight-row');
+                }, 2000);
+            });
         }
 
         // إعادة تعيين الفلاتر
@@ -1439,10 +1651,8 @@
             document.getElementById('inventory-search-section').classList.remove('hidden');
             document.getElementById('scrap-search-section').classList.add('hidden');
 
-            filteredReportData = generateReportData();
-            updateReportTable();
-            updateReportStats();
-            initReportsCharts();
+            // تطبيق الفلاتر بعد الإعادة
+            applyReportFilters();
         }
 
         // دالة لإظهار/إخفاء أقسام الفلاتر بناءً على الاختيار
@@ -1460,8 +1670,11 @@
 
         // تصدير التقرير
         function exportReport() {
+            // توليد البيانات الأصلية
+            const allReportData = generateReportData();
+
             // تحضير البيانات للتصدير
-            const excelData = filteredReportData.map(device => ({
+            const excelData = allReportData.map(device => ({
                 'رقم العامل': device.employeeId,
                 'اسم المستخدم': device.name,
                 'نوع الجهاز': getDeviceTypeName(device.type),
@@ -1489,6 +1702,7 @@
             // إظهار رسالة تأكيد
             alert('تم تصدير التقرير بنجاح! 📥 سيتم تنزيل ملف Excel قريبًا');
         }
+
         // البحث في الجدول
         function searchReportTable() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
@@ -1526,10 +1740,10 @@
 
         // تهيئة صفحة التقارير
         function initReportsPage() {
-            filteredReportData = generateReportData();
-            updateReportTable();
-            updateReportStats();
-            initReportsCharts();
+            const reportData = generateReportData();
+            updateReportTable(reportData);
+            updateReportStats(reportData);
+            initReportsCharts(reportData);
 
             // إضافة تأثير تمييز للقسم
             const reportsSection = document.getElementById('reports-section');
@@ -1537,7 +1751,21 @@
             setTimeout(() => {
                 reportsSection.classList.remove('report-highlight');
             }, 2000);
+
+            // إضافة تأثير للأجهزة المخردة
+            document.querySelectorAll('#deviceTableBody tr').forEach(row => {
+                if (row.classList.contains('scrapped-row')) {
+                    row.classList.add('highlight-row');
+                    setTimeout(() => {
+                        row.classList.remove('highlight-row');
+                    }, 3000);
+                }
+            });
         }
+
+        // =====================================
+        // بقية الكود كما هو مع التعديلات على التخريد
+        // =====================================
 
         // عرض الأجهزة في الجدول
         function displayInventory() {
@@ -1549,17 +1777,20 @@
 
             let filteredDevices = [...devicesData];
 
-            // فلترة حسب السنترال
+            // Filter by central
             if (selectedCentral !== 'all') {
                 filteredDevices = filteredDevices.filter(device => device.central === selectedCentral);
             }
 
-            // فلترة حسب الحالة
+            // Filter by status
             if (selectedStatus !== 'all') {
                 filteredDevices = filteredDevices.filter(device => device.status === selectedStatus);
+            } else {
+                // Exclude scrapped devices by default when status filter is 'all'
+                filteredDevices = filteredDevices.filter(device => device.status !== 'scrapped');
             }
 
-            // فلترة حسب البحث
+            // Filter by search term
             if (searchTerm) {
                 filteredDevices = filteredDevices.filter(device =>
                     (device.employeeId && device.employeeId.includes(searchTerm)) ||
@@ -1568,10 +1799,24 @@
                 );
             }
 
+            // تحديث إحصائيات الأجهزة
+            const totalDevices = filteredDevices.length;
+            const activeDevices = filteredDevices.filter(d => d.status === 'in-use').length;
+            const scrappedDevices = filteredDevices.filter(d => d.status === 'scrapped').length;
+
+            document.getElementById('total-devices-count').textContent = totalDevices;
+            document.getElementById('active-devices-count').textContent = activeDevices;
+            document.getElementById('scrapped-devices-count').textContent = scrappedDevices;
+
             filteredDevices.forEach(device => {
                 const row = document.createElement('tr');
                 row.setAttribute('data-device-id', device.id);
                 row.classList.add('animate-pop', 'table-row-highlight');
+
+                // إضافة فئة للأجهزة المخردة
+                if (device.status === 'scrapped') {
+                    row.classList.add('scrapped-row');
+                }
 
                 // تحديد لون وحالة الجهاز
                 let statusClass, statusText;
@@ -1705,14 +1950,47 @@
             document.getElementById('editDeviceForm').reset();
         }
 
-        // حذف الجهاز من المخزون
+        // حذف الجهاز من المخزون مع تحديث التقارير
         function scrapDevice(deviceId) {
-            const index = devicesData.findIndex(d => d.id === deviceId);
-            if (index !== -1) {
-                devicesData[index].status = 'scrapped';
+            const device = devicesData.find(d => d.id === deviceId);
+            if (device) {
+                device.status = 'scrapped';
+                device.scrapDate = new Date().toISOString().split('T')[0]; // Set scrap date to today
+
+                // Refresh the inventory display
                 displayInventory();
+
+                // Update the reports data and stats
+                const reportData = generateReportData();
+                updateReportTable(reportData);
+                updateReportStats(reportData);
+                initReportsCharts(reportData);
+
+                // Add a new notification
+                const notification = {
+                    title: 'Device Scrapped',
+                    content: `You scrapped device ${device.model} (${device.serial})`,
+                    time: new Date().toLocaleTimeString(),
+                    read: false
+                };
+                scrapNotifications.push(notification);
+                updateNotificationBadge();
+
+                // Show success message
+                const message = document.getElementById('delete-success-message');
+                message.style.display = 'block';
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 3000);
+
+                // Hide scrap modal and show success modal
+                hideScrapModal();
+                showScrapSuccessModal();
+            } else {
+                alert('Device not found');
             }
         }
+
 
         // تبديل بين أقسام لوحة التحكم
         function switchAdminSection(target) {
@@ -1870,15 +2148,75 @@
             }
         }
 
+        // تحديث شارة الإشعارات
+        function updateNotificationBadge() {
+            console.log('updateNotificationBadge called');
+            const badge = document.getElementById('notification-badge');
+            if (!badge) return;
+
+            const unreadCount = scrapNotifications.filter(n => !n.read).length;
+            console.log('Unread notifications:', unreadCount);
+
+            if (unreadCount > 0) {
+                badge.textContent = unreadCount;
+                badge.style.display = 'inline-block';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        // عرض الإشعارات
+        function showNotifications() {
+            console.log('showNotifications called');
+            const container = document.getElementById('notifications-container');
+            const list = document.getElementById('notifications-list');
+
+            console.log('Notifications array:', scrapNotifications);
+
+            container.style.display = 'block';
+            list.innerHTML = '';
+
+            // Reverse the notifications array to show new notifications at the top
+            scrapNotifications.reverse().forEach(notification => {
+                const item = document.createElement('div');
+                item.className = `notification-item ${notification.read ? '' : 'bg-blue-50'}`;
+                item.innerHTML = `
+      <div class="notification-title">${notification.title}</div>
+      <div class="notification-content">${notification.content}</div>
+      <div class="notification-time">${notification.time}</div>
+    `;
+
+                // Translate notification text to Arabic
+                if (notification.title === 'Device Scrapped') {
+                    item.querySelector('.notification-title').textContent = 'تم إزالة الجهاز';
+                }
+                if (notification.content.includes('You scrapped device')) {
+                    const deviceModel = notification.content.match(/device (.*) \(/)[1];
+                    const deviceSerial = notification.content.match(/\((.*)\)/)[1];
+                    item.querySelector('.notification-content').textContent = `تم إزالة جهاز ${deviceModel} (${deviceSerial})`;
+                }
+
+                item.addEventListener('click', () => {
+                    notification.read = true;
+                    updateNotificationBadge();
+                    container.style.display = 'none';
+                });
+
+                list.appendChild(item);
+            });
+        }
+
         // =====================
         // تهيئة الصفحة عند التحميل
         // =====================
         document.addEventListener('DOMContentLoaded', function () {
             // تعريف متغير البيانات المفلترة للتقارير
-            let filteredReportData = [];
 
             // عرض الأجهزة
             displayInventory();
+
+            // تحديث شارة الإشعارات
+            updateNotificationBadge();
 
             // معالجة النقر على أزرار الجرد
             document.addEventListener('click', function (e) {
@@ -1925,13 +2263,6 @@
                     scrapDevice(currentScrapDeviceId);
                     hideScrapModal();
                     showScrapSuccessModal();
-
-                    // عرض رسالة التأكيد
-                    const message = document.getElementById('delete-success-message');
-                    message.style.display = 'block';
-                    setTimeout(() => {
-                        message.style.display = 'none';
-                    }, 3000);
                 }
             });
 
@@ -1996,22 +2327,20 @@
             document.getElementById('editDeviceForm').addEventListener('submit', function (e) {
                 e.preventDefault();
 
-                const deviceId = currentEditDeviceId;
-                const status = document.getElementById('edit-device-status').value;
-                const employeeId = document.getElementById('edit-device-employee-id').value;
-                const central = document.getElementById('edit-device-central').value;
+                const deviceId = document.getElementById('edit-device-id').value;
+                const newStatus = document.getElementById('edit-device-status').value;
+                const newEmployeeId = document.getElementById('edit-device-employee-id').value;
+                const newCentral = document.getElementById('edit-device-central').value;
 
-                if (!employeeId) {
-                    alert('الرجاء إدخال جميع الحقول المطلوبة');
-                    return;
-                }
-
-                const deviceIndex = devicesData.findIndex(d => d.id === deviceId);
-                if (deviceIndex !== -1) {
-                    devicesData[deviceIndex].status = status;
-                    devicesData[deviceIndex].employeeId = employeeId;
-                    devicesData[deviceIndex].central = central;
+                const deviceIndex = devicesData.findIndex(item => item.id === deviceId);
+                if (deviceIndex > -1) {
+                    devicesData[deviceIndex].status = newStatus;
+                    devicesData[deviceIndex].employeeId = newEmployeeId;
+                    devicesData[deviceIndex].central = newCentral;
                     displayInventory();
+                    showMessage('تم تحديث بيانات الجهاز بنجاح', 'success');
+                } else {
+                    showMessage('خطأ: لم يتم العثور على الجهاز لتحديثه.', 'error');
                 }
 
                 hideEditDeviceModal();
@@ -2066,34 +2395,12 @@
             });
 
             // زر "تخريد"
-            document.getElementById('delete-scanned-device-btn').addEventListener('click', function () {
+            document.getElementById('delete-scanned-device-btn').addEventListener('click', () => {
                 const deviceId = document.getElementById('scanned-device-id').value;
-
                 if (deviceId) {
-                    if (confirm('هل أنت متأكد من تخريد هذا الجهاز؟')) {
-                        scrapDevice(deviceId);
-
-                        // عرض رسالة الحذف
-                        const message = document.getElementById('delete-success-message');
-                        message.style.display = 'block';
-
-                        // إخفاء الرسالة بعد 3 ثوان
-                        setTimeout(() => {
-                            message.style.display = 'none';
-                        }, 3000);
-
-                        // إعادة تعيين معلومات الجهاز
-                        document.getElementById('scanned-serial-number').textContent = '-';
-                        document.getElementById('scanned-device-type').textContent = '-';
-                        document.getElementById('scanned-model').textContent = '-';
-                        document.getElementById('scanned-status').textContent = '-';
-                        document.getElementById('scanned-current-user').textContent = '-';
-                        // إعادة تعيين معرف الجهاز
-                        document.getElementById('scanned-device-id').value = '';
-                        document.getElementById('scanner-message').textContent = 'الرجاء مسح باركود جهاز آخر';
-                    }
+                    scrapDevice(deviceId);
                 } else {
-                    alert('الرجاء مسح باركود جهاز أولاً');
+                    alert('لم يتم تحديد جهاز للحذف');
                 }
             });
 
@@ -2123,6 +2430,23 @@
 
             // تهيئة قسم التقارير
             initReportsPage();
+
+            // أحداث الجرس والإشعارات
+            document.getElementById('notification-btn').addEventListener('click', function () {
+                showNotifications();
+            });
+
+            // إغلاق الإشعارات عند النقر خارجها
+            document.addEventListener('click', function (e) {
+                const notifications = document.getElementById('notifications-container');
+                const bell = document.getElementById('notification-btn');
+
+                if (notifications.style.display === 'block' &&
+                    !notifications.contains(e.target) &&
+                    !bell.contains(e.target)) {
+                    notifications.style.display = 'none';
+                }
+            });
         });
     </script>
 </body>
