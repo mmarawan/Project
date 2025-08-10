@@ -487,36 +487,41 @@
                 background-color: #fff5f5;
             }
         }
+
+        /* أنماط جديدة لمعلومات الجهاز */
+        .device-specs {
+            font-size: 12px;
+            line-height: 1.4;
+            color: #4b5563;
+        }
+
+        .specs-title {
+            font-weight: 600;
+            color: #1f2937;
+        }
     </style>
 </head>
 
 <body class="bg-gray-50 min-h-screen">
-    <!-- رسالة تم الجرد -->
     <div id="inventory-done-message" class="font-bold">تم الجرد بنجاح</div>
 
-    <!-- رسالة تم الحذف -->
     <div id="delete-success-message" class="font-bold">تم تخريد الجهاز بنجاح</div>
 
-    <!-- نافذة الإشعارات -->
     <div id="notifications-container">
         <div class="p-3 border-b bg-gray-50">
             <h3 class="font-bold text-lg text-gray-800">الإشعارات</h3>
         </div>
         <div id="notifications-list">
-            <!-- سيتم ملؤه ديناميكيًا -->
         </div>
     </div>
 
     <div class="fade-screen">
-        <!-- واجهة مسؤول الصيانة -->
         <div id="admin-dashboard" class="min-h-screen bg-gray-100">
-            <!-- Header -->
             <header class="bg-primary-800 text-white shadow-md">
                 <div
                     class="container mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center text-center sm:text-right">
                     <h1 class="text-xl sm:text-2xl font-bold mb-2 sm:mb-0">نظام إدارة العُهد الشخصية - لوحة التحكم</h1>
                     <div class="flex items-center space-x-2 sm:space-x-4 space-x-reverse">
-                        <!-- زر الإشعارات -->
                         <div class="relative">
                             <button id="notification-btn"
                                 class="notification-btn text-white p-1 rounded-full hover:bg-primary-700 transition">
@@ -537,7 +542,6 @@
                     </div>
                 </div>
 
-                <!-- Navigation -->
                 <nav class="container mx-auto px-4 py-2">
                     <ul
                         class="flex flex-wrap justify-center sm:justify-start space-x-4 sm:space-x-6 space-x-reverse text-sm sm:text-base">
@@ -554,9 +558,7 @@
                 </nav>
             </header>
 
-            <!-- Main Content -->
             <main class="container mx-auto px-4 py-4 sm:py-6">
-                <!-- مسح الباركود -->
                 <div id="barcode-section" class="admin-section active">
                     <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4 sm:mb-6">
                         <h2 class="text-lg sm:text-xl font-bold text-primary-700 mb-3 sm:mb-4">مسح الباركود</h2>
@@ -593,7 +595,6 @@
                                 <h3 class="text-base sm:text-lg font-bold text-gray-700 mb-2">معلومات الجهاز (بعد
                                     المسح):</h3>
                                 <div id="scanned-device-info" class="border rounded-md p-3 sm:p-4 bg-gray-50 text-sm">
-                                    <!-- تخزين معرف الجهاز بشكل مخفي -->
                                     <input type="hidden" id="scanned-device-id">
 
                                     <p><span class="font-medium">الرقم التسلسلي:</span> <span
@@ -601,11 +602,14 @@
                                     <p><span class="font-medium">نوع الجهاز:</span> <span
                                             id="scanned-device-type">-</span></p>
                                     <p><span class="font-medium">الموديل:</span> <span id="scanned-model">-</span></p>
+                                    <p><span class="font-medium">معلومات الجهاز:</span> <span
+                                            id="scanned-specs">-</span></p>
                                     <p><span class="font-medium">الحالة:</span> <span id="scanned-status">-</span></p>
                                     <p><span class="font-medium">المستخدم الحالي:</span> <span
                                             id="scanned-current-user">-</span></p>
+                                    <p><span class="font-medium">السنترال:</span> <span id="scanned-central">-</span>
+                                    </p>
 
-                                    <!-- الأزرار الجديدة -->
                                     <div class="mt-4 flex flex-wrap gap-2">
                                         <button id="inventory-done-btn" class="btn-success flex-1 min-w-[120px]">
                                             تم الجرد
@@ -622,7 +626,6 @@
                         </div>
                     </div>
 
-                    <!-- المخزون (العهد) - تم نقله تحت قسم مسح الباركود -->
                     <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4 sm:mb-6">
                         <div class="flex flex-col sm:flex-row justify-between items-center mb-3 sm:mb-4">
                             <button id="add-inventory-btn"
@@ -647,7 +650,6 @@
                             </div>
                         </div>
 
-                        <!-- فلتر السنترال فقط -->
                         <div class="mb-4">
                             <label for="central-filter" class="block text-sm font-medium text-gray-700 mb-1">اختر
                                 السنترال</label>
@@ -658,6 +660,9 @@
                                 <option value="سنترال2">سنترال2</option>
                                 <option value="سنترال3">سنترال3</option>
                                 <option value="سنترال4">سنترال4</option>
+                                <option value="سنترال5">سنترال5</option>
+                                <option value="سنترال6">سنترال6</option>
+                                <option value="سنترال7">سنترال7</option>
                             </select>
                         </div>
 
@@ -685,6 +690,7 @@
                                         <th class="py-2 px-3 sm:px-4 border-b text-right">اسم المستخدم</th>
                                         <th class="py-2 px-3 sm:px-4 border-b text-right">نوع الجهاز</th>
                                         <th class="py-2 px-3 sm:px-4 border-b text-right">الموديل</th>
+                                        <th class="py-2 px-3 sm:px-4 border-b text-right">معلومات الجهاز</th>
                                         <th class="py-2 px-3 sm:px-4 border-b text-right">الرقم التسلسلي</th>
                                         <th class="py-2 px-3 sm:px-4 border-b text-right">حالة الجهاز</th>
                                         <th class="py-2 px-3 sm:px-4 border-b text-center">حالة الجرد</th>
@@ -692,17 +698,14 @@
                                     </tr>
                                 </thead>
                                 <tbody id="inventory-table-body">
-                                    <!-- سيتم ملؤه ديناميكيًا -->
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
 
-                <!-- التقارير والإحصائيات -->
                 <div id="reports-section" class="admin-section hidden">
                     <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4 sm:mb-6">
-                        <!-- Header -->
                         <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8 mobile-card">
                             <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 text-center mb-2">📊 تقارير الأجهزة
                             </h1>
@@ -710,11 +713,9 @@
                                 والمعدات</p>
                         </div>
 
-                        <!-- Filters Section -->
                         <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8 mobile-card filter-card">
                             <h2 class="text-lg sm:text-xl font-semibold text-gray-800 mb-4">🔍 فلاتر البحث</h2>
 
-                            <!-- Radio Buttons لتحديد نوع البحث -->
                             <div class="mb-6 border-b pb-4">
                                 <h3 class="text-md font-medium text-blue-700 mb-3">نوع البحث</h3>
                                 <div class="flex flex-wrap gap-4">
@@ -737,13 +738,13 @@
                                 </div>
                             </div>
 
-                            <!-- البحث في الجرد -->
                             <div id="inventory-search-section" class="mb-6">
                                 <h3 class="text-md font-medium text-blue-700 mb-3 border-b border-blue-200 pb-2">🔍
                                     البحث في الجرد</h3>
                                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">نوع الجهاز</label>
+                                        <label for="deviceType" class="block text-sm font-medium text-gray-700 mb-2">نوع
+                                            الجهاز</label>
                                         <select id="deviceType"
                                             class="w-full p-2 sm:p-3 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
                                             <option value="all">جميع الأجهزة</option>
@@ -755,7 +756,8 @@
                                         </select>
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">السنترال</label>
+                                        <label for="area"
+                                            class="block text-sm font-medium text-gray-700 mb-2">السنترال</label>
                                         <select id="area"
                                             class="w-full p-2 sm:p-3 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
                                             <option value="all">كل السنترالات</option>
@@ -763,10 +765,14 @@
                                             <option value="سنترال2">سنترال 2</option>
                                             <option value="سنترال3">سنترال 3</option>
                                             <option value="سنترال4">سنترال 4</option>
+                                            <option value="سنترال5">سنترال 5</option>
+                                            <option value="سنترال6">سنترال 6</option>
+                                            <option value="سنترال7">سنترال 7</option>
                                         </select>
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">سنة الجرد</label>
+                                        <label for="inventoryYear"
+                                            class="block text-sm font-medium text-gray-700 mb-2">سنة الجرد</label>
                                         <select id="inventoryYear"
                                             class="w-full p-2 sm:p-3 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
                                             <option value="all">جميع السنوات</option>
@@ -778,13 +784,13 @@
                                 </div>
                             </div>
 
-                            <!-- البحث في المخردات -->
                             <div id="scrap-search-section" class="mb-6 hidden">
                                 <h3 class="text-md font-medium text-red-700 mb-3 border-b border-red-200 pb-2">🗑️ البحث
                                     في المخردات</h3>
                                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">نوع الجهاز</label>
+                                        <label for="scrapDeviceType"
+                                            class="block text-sm font-medium text-gray-700 mb-2">نوع الجهاز</label>
                                         <select id="scrapDeviceType"
                                             class="w-full p-2 sm:p-3 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
                                             <option value="all">جميع الأجهزة</option>
@@ -796,7 +802,8 @@
                                         </select>
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">السنترال</label>
+                                        <label for="scrapArea"
+                                            class="block text-sm font-medium text-gray-700 mb-2">السنترال</label>
                                         <select id="scrapArea"
                                             class="w-full p-2 sm:p-3 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
                                             <option value="all">كل السنترالات</option>
@@ -804,10 +811,14 @@
                                             <option value="سنترال2">سنترال 2</option>
                                             <option value="سنترال3">سنترال 3</option>
                                             <option value="سنترال4">سنترال 4</option>
+                                            <option value="سنترال5">سنترال 5</option>
+                                            <option value="سنترال6">سنترال 6</option>
+                                            <option value="سنترال7">سنترال 7</option>
                                         </select>
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">سنة التخريد</label>
+                                        <label for="scrapYear" class="block text-sm font-medium text-gray-700 mb-2">سنة
+                                            التخريد</label>
                                         <select id="scrapYear"
                                             class="w-full p-2 sm:p-3 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
                                             <option value="all">جميع السنوات</option>
@@ -835,7 +846,6 @@
                             </div>
                         </div>
 
-                        <!-- Statistics Cards -->
                         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
                             <div class="bg-white rounded-xl shadow-lg p-3 sm:p-6 text-center mobile-card stat-card">
                                 <div class="text-2xl sm:text-3xl mb-1 sm:mb-2">💻</div>
@@ -879,7 +889,6 @@
                             </div>
                         </div>
 
-                        <!-- Charts Section -->
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 mb-6 sm:mb-8">
                             <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 mobile-card report-section">
                                 <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-4 text-center">📈 توزيع
@@ -897,7 +906,6 @@
                             </div>
                         </div>
 
-                        <!-- Detailed Table -->
                         <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 mobile-card report-section">
                             <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-4">📋 تفاصيل الأجهزة</h3>
                             <div class="mb-4">
@@ -929,13 +937,11 @@
                                         </tr>
                                     </thead>
                                     <tbody id="deviceTableBody">
-                                        <!-- سيتم ملؤه ديناميكيًا -->
                                     </tbody>
                                 </table>
                             </div>
                         </div>
 
-                        <!-- Summary Section -->
                         <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6 mt-6 sm:mt-8 mobile-card report-section">
                             <h3 class="text-lg sm:text-xl font-semibold text-gray-800 mb-4">📈 ملخص التقرير</h3>
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
@@ -954,7 +960,6 @@
                                 </div>
                             </div>
 
-                            <!-- شريط تقدم الأجهزة المخردة -->
                             <div class="mt-6">
                                 <h4 class="text-sm sm:text-base font-semibold text-gray-800 mb-2">نسبة الأجهزة المخردة
                                 </h4>
@@ -974,7 +979,6 @@
             </main>
         </div>
 
-        <!-- نافذة التخريد -->
         <div id="scrapModal"
             class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4 sm:p-6 z-50 hidden">
             <div class="bg-white rounded-lg shadow-xl w-full max-w-sm sm:max-w-md p-6 relative">
@@ -984,15 +988,23 @@
                 </button>
                 <div class="text-center mb-4">
                     <h3 class="text-xl font-bold text-primary-700">تخريد الجهاز</h3>
+                    <!-- إضافة قسم معلومات العهدة -->
                     <div class="bg-gray-50 p-3 rounded-md border border-gray-200 mt-2 text-right">
                         <p class="font-medium text-gray-700 mb-1">معلومات العهدة</p>
-                        <p><span class="text-gray-600">اسم المستخدم:</span> <span id="scrap-user-name"></span>
-                        </p>
-                        <p><span class="text-gray-600">نوع الجهاز:</span> <span id="scrap-device-type"></span>
-                        </p>
+                        <!-- 1. النوع -->
+                        <p><span class="text-gray-600">النوع:</span> <span id="scrap-device-type"></span></p>
+                        <!-- 2. الموديل -->
                         <p><span class="text-gray-600">الموديل:</span> <span id="scrap-device-model"></span></p>
+                        <!-- 3. الرقم التسلسلي -->
                         <p><span class="text-gray-600">الرقم التسلسلي:</span> <span id="scrap-device-serial"></span></p>
+                        <!-- 4. اسم المستخدم -->
+                        <p><span class="text-gray-600">اسم المستخدم:</span> <span id="scrap-user-name"></span></p>
+                        <!-- 5. الحالة -->
                         <p><span class="text-gray-600">الحالة:</span> <span id="scrap-device-status"></span></p>
+                        <!-- 6. المواصفات -->
+                        <p><span class="text-gray-600">المواصفات:</span> <span id="scrap-device-specs"></span></p>
+                        <!-- 7. السنترال -->
+                        <p><span class="text-gray-600">السنترال:</span> <span id="scrap-central"></span></p>
                     </div>
                 </div>
 
@@ -1020,7 +1032,6 @@
             </div>
         </div>
 
-        <!-- نافذة نجاح التخريد -->
         <div id="scrapSuccessModal"
             class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4 sm:p-6 z-50 hidden">
             <div class="bg-white rounded-lg shadow-xl w-full max-w-sm sm:max-w-md p-6 relative text-center">
@@ -1039,7 +1050,6 @@
             </div>
         </div>
 
-        <!-- Add New Device Modal -->
         <div id="addDeviceModal"
             class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4 sm:p-6 z-50 hidden">
             <div class="bg-white rounded-lg shadow-xl w-full max-w-sm sm:max-w-md p-6 relative">
@@ -1072,6 +1082,34 @@
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                                 placeholder="أدخل موديل الجهاز">
                         </div>
+
+                        <!-- قسم مواصفات الجهاز (للابتوب والكمبيوتر المكتبي فقط) -->
+                        <div id="specs-fields" class="hidden">
+                            <div>
+                                <label for="new-device-ram" class="block text-gray-700 font-medium mb-1">الرام</label>
+                                <select id="new-device-ram"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                    <option value="">-- اختر حجم الرام --</option>
+                                    <option value="DDR3 4G">DDR3 4G</option>
+                                    <option value="DDR3 8G">DDR3 8G</option>
+                                    <option value="DDR3 16G">DDR3 16G</option>
+                                    <option value="DDR4 8G">DDR4 8G</option>
+                                    <option value="DDR4 16G">DDR4 16G</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="new-device-hdd" class="block text-gray-700 font-medium mb-1">الهارد</label>
+                                <select id="new-device-hdd"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                    <option value="">-- اختر نوع الهارد --</option>
+                                    <option value="HDD500G">HDD500G</option>
+                                    <option value="HDD1T">HDD1T</option>
+                                    <option value="HDD500G+SSD240G">HDD500G+SSD240G</option>
+                                    <option value="HDD500G+SSD500G">HDD500G+SSD500G</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div>
                             <label for="new-device-serial" class="block text-gray-700 font-medium mb-1">الرقم
                                 التسلسلي</label>
@@ -1111,6 +1149,9 @@
                                 <option value="سنترال2">سنترال2</option>
                                 <option value="سنترال3">سنترال3</option>
                                 <option value="سنترال4">سنترال4</option>
+                                <option value="سنترال5">سنترال5</option>
+                                <option value="سنترال6">سنترال6</option>
+                                <option value="سنترال7">سنترال7</option>
                             </select>
                         </div>
                         <div>
@@ -1144,7 +1185,6 @@
         </div>
 
 
-        <!-- Edit Device Modal -->
         <div id="editDeviceModal"
             class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4 sm:p-6 z-50 hidden">
             <div class="bg-white rounded-lg shadow-xl w-full max-w-sm sm:max-w-md p-6 relative">
@@ -1159,16 +1199,35 @@
                 <form id="editDeviceForm" class="space-y-4 text-sm">
                     <input type="hidden" id="edit-device-id">
 
+                    <!-- داخل قسم editDeviceModal -->
                     <div class="bg-gray-50 p-3 rounded-md border border-gray-200">
                         <p class="font-medium text-gray-700 mb-1">معلومات العهدة</p>
+                        <!-- 1. النوع -->
                         <p><span class="text-gray-600">النوع:</span> <span id="edit-device-type-display"></span></p>
+
+                        <!-- 2. الموديل -->
                         <p><span class="text-gray-600">الموديل:</span> <span id="edit-device-model-display"></span></p>
+
+                        <!-- 3. الرقم التسلسلي -->
                         <p><span class="text-gray-600">الرقم التسلسلي:</span> <span
-                                id="edit-device-serial-display"></span>
+                                id="edit-device-serial-display"></span></p>
+
+                        <!-- 4. اسم المستخدم -->
+                        <p><span class="text-gray-600">اسم المستخدم:</span> <span id="edit-device-user-display"></span>
+                        </p>
+
+                        <!-- 5. الحالة -->
+                        <p><span class="text-gray-600">الحالة:</span> <span id="edit-device-status-display"></span></p>
+
+                        <!-- 6. المواصفات -->
+                        <p><span class="text-gray-600">المواصفات:</span> <span id="edit-device-specs-display"></span>
+                        </p>
+
+                        <!-- 7. السنترال -->
+                        <p><span class="text-gray-600">السنترال:</span> <span id="edit-device-central-display"></span>
                         </p>
                     </div>
 
-                    <!-- التعديل هنا: تغيير التسمية -->
                     <div>
                         <label for="edit-device-employee-id" class="block text-gray-700 font-medium mb-1">المستخدم
                             الجديد (رقم العامل) *</label>
@@ -1188,8 +1247,6 @@
                         </select>
                     </div>
 
-                    <!-- تم حذف حقل اسم المستخدم بالكامل -->
-
                     <div>
                         <label for="edit-device-central" class="block text-gray-700 font-medium mb-1">السنترال *</label>
                         <select id="edit-device-central"
@@ -1199,6 +1256,9 @@
                             <option value="سنترال2">سنترال2</option>
                             <option value="سنترال3">سنترال3</option>
                             <option value="سنترال4">سنترال4</option>
+                            <option value="سنترال5">سنترال5</option>
+                            <option value="سنترال6">سنترال6</option>
+                            <option value="سنترال7">سنترال7</option>
                         </select>
                     </div>
 
@@ -1255,109 +1315,122 @@
         let stream = null;
         let isCameraActive = false;
 
+        // توليد مواصفات عشوائية للأجهزة
+        function generateRandomSpecs() {
+            const rams = ['DDR3 4G', 'DDR3 8G', 'DDR3 16G', 'DDR4 8G', 'DDR4 16G'];
+            const hdds = ['HDD500G', 'HDD1T', 'HDD500G+SSD240G', 'HDD500G+SSD500G'];
+
+            const ram = rams[Math.floor(Math.random() * rams.length)];
+            const hdd = hdds[Math.floor(Math.random() * hdds.length)];
+
+            return `رام: ${ram} | هارد: ${hdd}`;
+        }
+
         // بيانات الأجهزة الافتراضية مع حالة جرد فارغة للجميع
         const devicesData = [
-            { "id": "001", "employeeId": "1001", "type": "laptop", "model": "HP ProBook 450 G8", "serial": "LA00000001", "status": "in-use", "user": "أحمد محمد", "central": "سنترال1", "notes": "", "inventoryDone": false },
-            { "id": "002", "employeeId": "1002", "type": "desktop", "model": "HP EliteDesk 800 G5", "serial": "DE00000002", "status": "in-use", "user": "محمد أحمد", "central": "سنترال2", "notes": "", "inventoryDone": false },
-            { "id": "003", "employeeId": "1003", "type": "monitor", "model": "LG UltraFine 5K", "serial": "MO00000003", "status": "maintenance", "user": "علي محمود", "central": "سنترال3", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "004", "employeeId": "1004", "type": "printer", "model": "Brother HL-L2350DW", "serial": "PR00000004", "status": "in-use", "user": "فاطمة حسن", "central": "سنترال4", "notes": "", "inventoryDone": false },
-            { "id": "005", "employeeId": "1005", "type": "tablet", "model": "iPad Air 4", "serial": "TA00000005", "status": "maintenance", "user": "سالم عبدالله", "central": "سنترال1", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "006", "employeeId": "1006", "type": "laptop", "model": "HP EliteBook 840 G7", "serial": "LA00000006", "status": "in-use", "user": "خالد ناصر", "central": "سنترال2", "notes": "", "inventoryDone": false },
-            { "id": "007", "employeeId": "1007", "type": "desktop", "model": "Dell OptiPlex 7080", "serial": "DE00000007", "status": "in-use", "user": "ريم سليمان", "central": "سنترال3", "notes": "", "inventoryDone": false },
-            { "id": "008", "employeeId": "1008", "type": "monitor", "model": "Samsung Odyssey G7", "serial": "MO00000008", "status": "in-use", "user": "نورة علي", "central": "سنترال4", "notes": "", "inventoryDone": false },
-            { "id": "009", "employeeId": "1009", "type": "printer", "model": "Canon Pixma TS6350", "serial": "PR00000009", "status": "maintenance", "user": "عمر راشد", "central": "سنترال1", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "010", "employeeId": "1010", "type": "tablet", "model": "Samsung Galaxy Tab S7", "serial": "TA00000010", "status": "in-use", "user": "سارة عبدالرحمن", "central": "سنترال2", "notes": "", "inventoryDone": false },
-            { "id": "011", "employeeId": "1011", "type": "laptop", "model": "Dell Latitude 5420", "serial": "LA00000011", "status": "maintenance", "user": "يوسف سعيد", "central": "سنترال3", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "012", "employeeId": "1012", "type": "desktop", "model": "Lenovo ThinkCentre M70q", "serial": "DE00000012", "status": "in-use", "user": "مريم حسين", "central": "سنترال4", "notes": "", "inventoryDone": false },
-            { "id": "013", "employeeId": "1013", "type": "monitor", "model": "Dell UltraSharp U2721DE", "serial": "MO00000013", "status": "in-use", "user": "طارق وليد", "central": "سنترال1", "notes": "", "inventoryDone": false },
-            { "id": "014", "employeeId": "1014", "type": "printer", "model": "HP LaserJet Pro M404n", "serial": "PR00000014", "status": "maintenance", "user": "ليلى خالد", "central": "سنترال2", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "015", "employeeId": "1015", "type": "tablet", "model": "Microsoft Surface Pro 7", "serial": "TA00000015", "status": "in-use", "user": "حسن جمال", "central": "سنترال3", "notes": "", "inventoryDone": false },
-            { "id": "016", "employeeId": "1016", "type": "laptop", "model": "Lenovo ThinkPad T14", "serial": "LA00000016", "status": "maintenance", "user": "آمنة فهد", "central": "سنترال4", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "017", "employeeId": "1017", "type": "desktop", "model": "HP Pavilion Gaming Desktop", "serial": "DE00000017", "status": "maintenance", "user": "إبراهيم مصطفى", "central": "سنترال1", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "018", "employeeId": "1018", "type": "monitor", "model": "HP Z27k G3", "serial": "MO00000018", "status": "in-use", "user": "هدى ياسر", "central": "سنترال2", "notes": "", "inventoryDone": false },
-            { "id": "019", "employeeId": "1019", "type": "printer", "model": "Epson EcoTank ET-2720", "serial": "PR00000019", "status": "in-use", "user": "عبدالرحمن منصور", "central": "سنترال3", "notes": "", "inventoryDone": false },
-            { "id": "020", "employeeId": "1020", "type": "tablet", "model": "iPad Pro 11", "serial": "TA00000020", "status": "in-use", "user": "زينب إبراهيم", "central": "سنترال4", "notes": "", "inventoryDone": false },
-            { "id": "021", "employeeId": "1021", "type": "laptop", "model": "HP ProBook 450 G8", "serial": "LA00000021", "status": "maintenance", "user": "فيصل تركي", "central": "سنترال1", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "022", "employeeId": "1022", "type": "desktop", "model": "HP EliteDesk 800 G5", "serial": "DE00000022", "status": "maintenance", "user": "منى صالح", "central": "سنترال2", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "023", "employeeId": "1023", "type": "monitor", "model": "LG UltraFine 5K", "serial": "MO00000023", "status": "in-use", "user": "سعود بندر", "central": "سنترال3", "notes": "", "inventoryDone": false },
-            { "id": "024", "employeeId": "1024", "type": "printer", "model": "Brother HL-L2350DW", "serial": "PR00000024", "status": "in-use", "user": "جواهر سعد", "central": "سنترال4", "notes": "", "inventoryDone": false },
-            { "id": "025", "employeeId": "1025", "type": "tablet", "model": "iPad Air 4", "serial": "TA00000025", "status": "maintenance", "user": "ماجد سلطان", "central": "سنترال1", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "026", "employeeId": "1026", "type": "laptop", "model": "HP EliteBook 840 G7", "serial": "LA00000026", "status": "in-use", "user": "رنا نايف", "central": "سنترال2", "notes": "", "inventoryDone": false },
-            { "id": "027", "employeeId": "1027", "type": "desktop", "model": "Dell OptiPlex 7080", "serial": "DE00000027", "status": "in-use", "user": "ياسر عبدالعزيز", "central": "سنترال3", "notes": "", "inventoryDone": false },
-            { "id": "028", "employeeId": "1028", "type": "monitor", "model": "Samsung Odyssey G7", "serial": "MO00000028", "status": "in-use", "user": "شهد فيصل", "central": "سنترال4", "notes": "", "inventoryDone": false },
-            { "id": "029", "employeeId": "1029", "type": "printer", "model": "Canon Pixma TS6350", "serial": "PR00000029", "status": "in-use", "user": "مشعل حمد", "central": "سنترال1", "notes": "", "inventoryDone": false },
-            { "id": "030", "employeeId": "1030", "type": "tablet", "model": "Samsung Galaxy Tab S7", "serial": "TA00000030", "status": "maintenance", "user": "أمل عبدالله", "central": "سنترال2", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "031", "employeeId": "1031", "type": "laptop", "model": "Dell Latitude 5420", "serial": "LA00000031", "status": "in-use", "user": "بدر خالد", "central": "سنترال3", "notes": "", "inventoryDone": false },
-            { "id": "032", "employeeId": "1032", "type": "desktop", "model": "Lenovo ThinkCentre M70q", "serial": "DE00000032", "status": "maintenance", "user": "حنان محمد", "central": "سنترال4", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "033", "employeeId": "1033", "type": "monitor", "model": "Dell UltraSharp U2721DE", "serial": "MO00000033", "status": "in-use", "user": "فهد علي", "central": "سنترال1", "notes": "", "inventoryDone": false },
-            { "id": "034", "employeeId": "1034", "type": "printer", "model": "HP LaserJet Pro M404n", "serial": "PR00000034", "status": "maintenance", "user": "غادة سالم", "central": "سنترال2", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "035", "employeeId": "1035", "type": "tablet", "model": "Microsoft Surface Pro 7", "serial": "TA00000035", "status": "in-use", "user": "تركي فواز", "central": "سنترال3", "notes": "", "inventoryDone": false },
-            { "id": "036", "employeeId": "1036", "type": "laptop", "model": "Lenovo ThinkPad T14", "serial": "LA00000036", "status": "in-use", "user": "ديمة عبدالعزيز", "central": "سنترال4", "notes": "", "inventoryDone": false },
-            { "id": "037", "employeeId": "1037", "type": "desktop", "model": "HP Pavilion Gaming Desktop", "serial": "DE00000037", "status": "maintenance", "user": "نواف مشعل", "central": "سنترال1", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "038", "employeeId": "1038", "type": "monitor", "model": "HP Z27k G3", "serial": "MO00000038", "status": "in-use", "user": "لمى منصور", "central": "سنترال2", "notes": "", "inventoryDone": false },
-            { "id": "039", "employeeId": "1039", "type": "printer", "model": "Epson EcoTank ET-2720", "serial": "PR00000039", "status": "maintenance", "user": "عبدالعزيز سعد", "central": "سنترال3", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "040", "employeeId": "1040", "type": "tablet", "model": "iPad Pro 11", "serial": "TA00000040", "status": "maintenance", "user": "روان ناصر", "central": "سنترال4", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "041", "employeeId": "1041", "type": "laptop", "model": "HP ProBook 450 G8", "serial": "LA00000041", "status": "in-use", "user": "سلطان إبراهيم", "central": "سنترال1", "notes": "", "inventoryDone": false },
-            { "id": "042", "employeeId": "1042", "type": "desktop", "model": "HP EliteDesk 800 G5", "serial": "DE00000042", "status": "in-use", "user": "أثير حمدان", "central": "سنترال2", "notes": "", "inventoryDone": false },
-            { "id": "043", "employeeId": "1043", "type": "monitor", "model": "LG UltraFine 5K", "serial": "MO00000043", "status": "in-use", "user": "راشد وليد", "central": "سنترال3", "notes": "", "inventoryDone": false },
-            { "id": "044", "employeeId": "1044", "type": "printer", "model": "Brother HL-L2350DW", "serial": "PR00000044", "status": "maintenance", "user": "رغد خالد", "central": "سنترال4", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "045", "employeeId": "1045", "type": "tablet", "model": "iPad Air 4", "serial": "TA00000045", "status": "maintenance", "user": "جمال حسين", "central": "سنترال1", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "046", "employeeId": "1046", "type": "laptop", "model": "HP EliteBook 840 G7", "serial": "LA00000046", "status": "in-use", "user": "نجلاء فهد", "central": "سنترال2", "notes": "", "inventoryDone": false },
-            { "id": "047", "employeeId": "1047", "type": "desktop", "model": "Dell OptiPlex 7080", "serial": "DE00000047", "status": "in-use", "user": "منصور أحمد", "central": "سنترال3", "notes": "", "inventoryDone": false },
-            { "id": "048", "employeeId": "1048", "type": "monitor", "model": "Samsung Odyssey G7", "serial": "MO00000048", "status": "maintenance", "user": "هيا محمد", "central": "سنترال4", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "049", "employeeId": "1049", "type": "printer", "model": "Canon Pixma TS6350", "serial": "PR00000049", "status": "in-use", "user": "حمدان سالم", "central": "سنترال1", "notes": "", "inventoryDone": false },
-            { "id": "050", "employeeId": "1050", "type": "tablet", "model": "Samsung Galaxy Tab S7", "serial": "TA00000050", "status": "in-use", "user": "لطيفة علي", "central": "سنترال2", "notes": "", "inventoryDone": false },
-            { "id": "051", "employeeId": "1051", "type": "laptop", "model": "Dell Latitude 5420", "serial": "LA00000051", "status": "maintenance", "user": "نايف صالح", "central": "سنترال3", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "052", "employeeId": "1052", "type": "desktop", "model": "Lenovo ThinkCentre M70q", "serial": "DE00000052", "status": "in-use", "user": "بسمة ياسر", "central": "سنترال4", "notes": "", "inventoryDone": false },
-            { "id": "053", "employeeId": "1053", "type": "monitor", "model": "Dell UltraSharp U2721DE", "serial": "MO00000053", "status": "maintenance", "user": "وليد خالد", "central": "سنترال1", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "054", "employeeId": "1054", "type": "printer", "model": "HP LaserJet Pro M404n", "serial": "PR00000054", "status": "in-use", "user": "جود إبراهيم", "central": "سنترال2", "notes": "", "inventoryDone": false },
-            { "id": "055", "employeeId": "1055", "type": "tablet", "model": "Microsoft Surface Pro 7", "serial": "TA00000055", "status": "in-use", "user": "صالح عبدالله", "central": "سنترال3", "notes": "", "inventoryDone": false },
-            { "id": "056", "employeeId": "1056", "type": "laptop", "model": "Lenovo ThinkPad T14", "serial": "LA00000056", "status": "maintenance", "user": "نوف تركي", "central": "سنترال4", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "057", "employeeId": "1057", "type": "desktop", "model": "HP Pavilion Gaming Desktop", "serial": "DE00000057", "status": "in-use", "user": "سعد فيصل", "central": "سنترال1", "notes": "", "inventoryDone": false },
-            { "id": "058", "employeeId": "1058", "type": "monitor", "model": "HP Z27k G3", "serial": "MO00000058", "status": "maintenance", "user": "دانة سلطان", "central": "سنترال2", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "059", "employeeId": "1059", "type": "printer", "model": "Epson EcoTank ET-2720", "serial": "PR00000059", "status": "in-use", "user": "فواز حمد", "central": "سنترال3", "notes": "", "inventoryDone": false },
-            { "id": "060", "employeeId": "1060", "type": "tablet", "model": "iPad Pro 11", "serial": "TA00000060", "status": "in-use", "user": "شروق عبدالعزيز", "central": "سنترال4", "notes": "", "inventoryDone": false },
-            { "id": "061", "employeeId": "1061", "type": "laptop", "model": "HP ProBook 450 G8", "serial": "LA00000061", "status": "maintenance", "user": "بندر ناصر", "central": "سنترال1", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "062", "employeeId": "1062", "type": "desktop", "model": "HP EliteDesk 800 G5", "serial": "DE00000062", "status": "in-use", "user": "ريما منصور", "central": "سنترال2", "notes": "", "inventoryDone": false },
-            { "id": "063", "employeeId": "1063", "type": "monitor", "model": "LG UltraFine 5K", "serial": "MO00000063", "status": "in-use", "user": "عبدالله بدر", "central": "سنترال3", "notes": "", "inventoryDone": false },
-            { "id": "064", "employeeId": "1064", "type": "printer", "model": "Brother HL-L2350DW", "serial": "PR00000064", "status": "maintenance", "user": "سمر ماجد", "central": "سنترال4", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "065", "employeeId": "1065", "type": "tablet", "model": "iPad Air 4", "serial": "TA00000065", "status": "in-use", "user": "مصطفى جمال", "central": "سنترال1", "notes": "", "inventoryDone": false },
-            { "id": "066", "employeeId": "1066", "type": "laptop", "model": "HP EliteBook 840 G7", "serial": "LA00000066", "status": "in-use", "user": "عائشة عبدالرحمن", "central": "سنترال2", "notes": "", "inventoryDone": false },
-            { "id": "067", "employeeId": "1067", "type": "desktop", "model": "Dell OptiPlex 7080", "serial": "DE00000067", "status": "maintenance", "user": "أيمن حسن", "central": "سنترال3", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "068", "employeeId": "1068", "type": "monitor", "model": "Samsung Odyssey G7", "serial": "MO00000068", "status": "maintenance", "user": "منال فهد", "central": "سنترال4", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "069", "employeeId": "1069", "type": "printer", "model": "Canon Pixma TS6350", "serial": "PR00000069", "status": "in-use", "user": "هشام علي", "central": "سنترال1", "notes": "", "inventoryDone": false },
-            { "id": "070", "employeeId": "1070", "type": "tablet", "model": "Samsung Galaxy Tab S7", "serial": "TA00000070", "status": "in-use", "user": "العنود خالد", "central": "سنترال2", "notes": "", "inventoryDone": false },
-            { "id": "071", "employeeId": "1071", "type": "laptop", "model": "Dell Latitude 5420", "serial": "LA00000071", "status": "maintenance", "user": "سامي وليد", "central": "سنترال3", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "072", "employeeId": "1072", "type": "desktop", "model": "Lenovo ThinkCentre M70q", "serial": "DE00000072", "status": "in-use", "user": "سحر إبراهيم", "central": "سنترال4", "notes": "", "inventoryDone": false },
-            { "id": "073", "employeeId": "1073", "type": "monitor", "model": "Dell UltraSharp U2721DE", "serial": "MO00000073", "status": "in-use", "user": "أنس عبدالله", "central": "سنترال1", "notes": "", "inventoryDone": false },
-            { "id": "074", "employeeId": "1074", "type": "printer", "model": "HP LaserJet Pro M404n", "serial": "PR00000074", "status": "in-use", "user": "فرح سعد", "central": "سنترال2", "notes": "", "inventoryDone": false },
-            { "id": "075", "employeeId": "1075", "type": "tablet", "model": "Microsoft Surface Pro 7", "serial": "TA00000075", "status": "maintenance", "user": "مهند تركي", "central": "سنترال3", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "076", "employeeId": "1076", "type": "laptop", "model": "Lenovo ThinkPad T14", "serial": "LA00000076", "status": "in-use", "user": "أريج حمد", "central": "سنترال4", "notes": "", "inventoryDone": false },
-            { "id": "077", "employeeId": "1077", "type": "desktop", "model": "HP Pavilion Gaming Desktop", "serial": "DE00000077", "status": "in-use", "user": "رياض منصور", "central": "سنترال1", "notes": "", "inventoryDone": false },
-            { "id": "078", "employeeId": "1078", "type": "monitor", "model": "HP Z27k G3", "serial": "MO00000078", "status": "maintenance", "user": "وجدان ناصر", "central": "سنترال2", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "079", "employeeId": "1079", "type": "printer", "model": "Epson EcoTank ET-2720", "serial": "PR00000079", "status": "in-use", "user": "فارس خالد", "central": "سنترال3", "notes": "", "inventoryDone": false },
-            { "id": "080", "employeeId": "1080", "type": "tablet", "model": "iPad Pro 11", "serial": "TA00000080", "status": "maintenance", "user": "موضي سلطان", "central": "سنترال4", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "081", "employeeId": "1081", "type": "laptop", "model": "HP ProBook 450 G8", "serial": "LA00000081", "status": "in-use", "user": "زياد عبدالعزيز", "central": "سنترال1", "notes": "", "inventoryDone": false },
-            { "id": "082", "employeeId": "1082", "type": "desktop", "model": "HP EliteDesk 800 G5", "serial": "DE00000082", "status": "maintenance", "user": "أروى فيصل", "central": "سنترال2", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "083", "employeeId": "1083", "type": "monitor", "model": "LG UltraFine 5K", "serial": "MO00000083", "status": "in-use", "user": "طلال فواز", "central": "سنترال3", "notes": "", "inventoryDone": false },
-            { "id": "084", "employeeId": "1084", "type": "printer", "model": "Brother HL-L2350DW", "serial": "PR00000084", "status": "in-use", "user": "غيداء بدر", "central": "سنترال4", "notes": "", "inventoryDone": false },
-            { "id": "085", "employeeId": "1085", "type": "tablet", "model": "iPad Air 4", "serial": "TA00000085", "status": "maintenance", "user": "وائل جمال", "central": "سنترال1", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "086", "employeeId": "1086", "type": "laptop", "model": "HP EliteBook 840 G7", "serial": "LA00000086", "status": "in-use", "user": "رهف ماجد", "central": "سنترال2", "notes": "", "inventoryDone": false },
-            { "id": "087", "employeeId": "1087", "type": "desktop", "model": "Dell OptiPlex 7080", "serial": "DE00000087", "status": "maintenance", "user": "معاذ عبدالرحمن", "central": "سنترال3", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "088", "employeeId": "1088", "type": "monitor", "model": "Samsung Odyssey G7", "serial": "MO00000088", "status": "in-use", "user": "أسيل حسن", "central": "سنترال4", "notes": "", "inventoryDone": false },
-            { "id": "089", "employeeId": "1089", "type": "printer", "model": "Canon Pixma TS6350", "serial": "PR00000089", "status": "maintenance", "user": "راكان فهد", "central": "سنترال1", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "090", "employeeId": "1090", "type": "tablet", "model": "Samsung Galaxy Tab S7", "serial": "TA00000090", "status": "in-use", "user": "دينا علي", "central": "سنترال2", "notes": "", "inventoryDone": false },
-            { "id": "091", "employeeId": "1091", "type": "laptop", "model": "Dell Latitude 5420", "serial": "LA00000091", "status": "maintenance", "user": "ثامر وليد", "central": "سنترال3", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "092", "employeeId": "1092", "type": "desktop", "model": "Lenovo ThinkCentre M70q", "serial": "DE00000092", "status": "in-use", "user": "ليان إبراهيم", "central": "سنترال4", "notes": "", "inventoryDone": false },
-            { "id": "093", "employeeId": "1093", "type": "monitor", "model": "Dell UltraSharp U2721DE", "serial": "MO00000093", "status": "in-use", "user": "عزام عبدالله", "central": "سنترال1", "notes": "", "inventoryDone": false },
-            { "id": "094", "employeeId": "1094", "type": "printer", "model": "HP LaserJet Pro M404n", "serial": "PR00000094", "status": "maintenance", "user": "رناد سعد", "central": "سنترال2", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "095", "employeeId": "1095", "type": "tablet", "model": "Microsoft Surface Pro 7", "serial": "TA00000095", "status": "maintenance", "user": "بسام تركي", "central": "سنترال3", "notes": "تحت الصيانة", "inventoryDone": false },
-            { "id": "096", "employeeId": "1096", "type": "laptop", "model": "Lenovo ThinkPad T14", "serial": "LA00000096", "status": "in-use", "user": "حنين حمد", "central": "سنترال4", "notes": "", "inventoryDone": false },
-            { "id": "097", "employeeId": "1097", "type": "desktop", "model": "HP Pavilion Gaming Desktop", "serial": "DE00000097", "status": "in-use", "user": "مروان منصور", "central": "سنترال1", "notes": "", "inventoryDone": false },
-            { "id": "098", "employeeId": "1098", "type": "monitor", "model": "HP Z27k G3", "serial": "MO00000098", "status": "in-use", "user": "يارا ناصر", "central": "سنترال2", "notes": "", "inventoryDone": false },
-            { "id": "099", "employeeId": "1099", "type": "printer", "model": "Epson EcoTank ET-2720", "serial": "PR00000099", "status": "in-use", "user": "فراس خالد", "central": "سنترال1", "notes": "", "inventoryDone": false },
-            { "id": "100", "employeeId": "1100", "type": "tablet", "model": "iPad Pro 11", "serial": "TA00000100", "status": "maintenance", "user": "جمانة سلطان", "central": "سنترال2", "notes": "تحت الصيانة", "inventoryDone": false }
-        ]
+            { "id": "001", "employeeId": "1001", "type": "laptop", "model": "HP ProBook 450 G8", "serial": "LA00000001", "status": "in-use", "user": "أحمد محمد", "central": "سنترال1", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "002", "employeeId": "1002", "type": "desktop", "model": "HP EliteDesk 800 G5", "serial": "DE00000002", "status": "in-use", "user": "محمد أحمد", "central": "سنترال2", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "003", "employeeId": "1003", "type": "monitor", "model": "LG UltraFine 5K", "serial": "MO00000003", "status": "maintenance", "user": "علي محمود", "central": "سنترال3", "notes": "تحت الصيانة", "inventoryDone": false, "specs": "" },
+            { "id": "004", "employeeId": "1004", "type": "printer", "model": "Brother HL-L2350DW", "serial": "PR00000004", "status": "in-use", "user": "فاطمة حسن", "central": "سنترال4", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "005", "employeeId": "1005", "type": "tablet", "model": "iPad Air 4", "serial": "TA00000005", "status": "maintenance", "user": "سالم عبدالله", "central": "سنترال5", "notes": "تحت الصيانة", "inventoryDone": false, "specs": "" },
+            { "id": "006", "employeeId": "1006", "type": "laptop", "model": "HP EliteBook 840 G7", "serial": "LA00000006", "status": "in-use", "user": "خالد ناصر", "central": "سنترال6", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "007", "employeeId": "1007", "type": "desktop", "model": "Dell OptiPlex 7080", "serial": "DE00000007", "status": "in-use", "user": "ريم سليمان", "central": "سنترال7", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "008", "employeeId": "1008", "type": "monitor", "model": "Samsung Odyssey G7", "serial": "MO00000008", "status": "in-use", "user": "نورة علي", "central": "سنترال1", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "009", "employeeId": "1009", "type": "printer", "model": "Canon Pixma TS6350", "serial": "PR00000009", "status": "maintenance", "user": "عمر راشد", "central": "سنترال2", "notes": "تحت الصيانة", "inventoryDone": false, "specs": "" },
+            { "id": "010", "employeeId": "1010", "type": "tablet", "model": "Samsung Galaxy Tab S7", "serial": "TA00000010", "status": "in-use", "user": "سارة عبدالرحمن", "central": "سنترال3", "notes": "", "inventoryDone": false, "specs": "" },
+
+            // Additional 90 devices
+            { "id": "011", "employeeId": "1011", "type": "laptop", "model": "Dell XPS 13", "serial": "LA00000011", "status": "in-use", "user": "مريم خالد", "central": "سنترال4", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "012", "employeeId": "1012", "type": "desktop", "model": "Lenovo ThinkCentre M90n", "serial": "DE00000012", "status": "in-use", "user": "ياسر فاروق", "central": "سنترال5", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "013", "employeeId": "1013", "type": "monitor", "model": "Dell UltraSharp U2720Q", "serial": "MO00000013", "status": "in-use", "user": "هناء صالح", "central": "سنترال6", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "014", "employeeId": "1014", "type": "printer", "model": "HP LaserJet Pro M404n", "serial": "PR00000014", "status": "in-use", "user": "طارق إبراهيم", "central": "سنترال7", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "015", "employeeId": "1015", "type": "tablet", "model": "Microsoft Surface Pro 7", "serial": "TA00000015", "status": "in-use", "user": "لطيفة عبدالعزيز", "central": "سنترال1", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "016", "employeeId": "1016", "type": "laptop", "model": "MacBook Pro 13\"", "serial": "LA00000016", "status": "in-use", "user": "وليد حامد", "central": "سنترال2", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "017", "employeeId": "1017", "type": "desktop", "model": "Apple iMac 24\"", "serial": "DE00000017", "status": "in-use", "user": "أسماء ناصر", "central": "سنترال3", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "018", "employeeId": "1018", "type": "monitor", "model": "BenQ PD3200U", "serial": "MO00000018", "status": "maintenance", "user": "بدر سعود", "central": "سنترال4", "notes": "تحت الصيانة", "inventoryDone": false, "specs": "" },
+            { "id": "019", "employeeId": "1019", "type": "printer", "model": "Epson EcoTank ET-3760", "serial": "PR00000019", "status": "in-use", "user": "حصة راشد", "central": "سنترال5", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "020", "employeeId": "1020", "type": "tablet", "model": "Lenovo Tab P11 Pro", "serial": "TA00000020", "status": "in-use", "user": "عبدالرحمن خليفة", "central": "سنترال6", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "021", "employeeId": "1021", "type": "laptop", "model": "Asus ZenBook 14", "serial": "LA00000021", "status": "in-use", "user": "منى عبدالله", "central": "سنترال7", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "022", "employeeId": "1022", "type": "desktop", "model": "Acer Aspire TC-895", "serial": "DE00000022", "status": "in-use", "user": "سعد علي", "central": "سنترال1", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "023", "employeeId": "1023", "type": "monitor", "model": "Acer Predator XB273K", "serial": "MO00000023", "status": "in-use", "user": "مها سعيد", "central": "سنترال2", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "024", "employeeId": "1024", "type": "printer", "model": "Xerox VersaLink C405", "serial": "PR00000024", "status": "maintenance", "user": "فيصل ناجي", "central": "سنترال3", "notes": "تحت الصيانة", "inventoryDone": false, "specs": "" },
+            { "id": "025", "employeeId": "1025", "type": "tablet", "model": "Huawei MatePad Pro", "serial": "TA00000025", "status": "in-use", "user": "عبير فهد", "central": "سنترال4", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "026", "employeeId": "1026", "type": "laptop", "model": "Lenovo ThinkPad X1 Carbon", "serial": "LA00000026", "status": "in-use", "user": "ناصر حمد", "central": "سنترال5", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "027", "employeeId": "1027", "type": "desktop", "model": "HP Z2 Small Form Factor G5", "serial": "DE00000027", "status": "in-use", "user": "هند محمد", "central": "سنترال6", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "028", "employeeId": "1028", "type": "monitor", "model": "MSI Optix MAG274QRF", "serial": "MO00000028", "status": "in-use", "user": "رامي عادل", "central": "سنترال7", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "029", "employeeId": "1029", "type": "printer", "model": "Lexmark CX625ade", "serial": "PR00000029", "status": "in-use", "user": "شيماء وليد", "central": "سنترال1", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "030", "employeeId": "1030", "type": "tablet", "model": "Amazon Fire HD 10", "serial": "TA00000030", "status": "in-use", "user": "فواز عبدالمحسن", "central": "سنترال2", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "031", "employeeId": "1031", "type": "laptop", "model": "Microsoft Surface Laptop 4", "serial": "LA00000031", "status": "in-use", "user": "جواهر سلمان", "central": "سنترال3", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "032", "employeeId": "1032", "type": "desktop", "model": "Intel NUC 11 Pro", "serial": "DE00000032", "status": "in-use", "user": "بندر خالد", "central": "سنترال4", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "033", "employeeId": "1033", "type": "monitor", "model": "Philips 276E8VJSB", "serial": "MO00000033", "status": "maintenance", "user": "أمل رضا", "central": "سنترال5", "notes": "تحت الصيانة", "inventoryDone": false, "specs": "" },
+            { "id": "034", "employeeId": "1034", "type": "printer", "model": "Ricoh IM C4500", "serial": "PR00000034", "status": "in-use", "user": "سلمان عبدالهادي", "central": "سنترال6", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "035", "employeeId": "1035", "type": "tablet", "model": "Samsung Galaxy Tab A7", "serial": "TA00000035", "status": "in-use", "user": "نوف عبدالكريم", "central": "سنترال7", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "036", "employeeId": "1036", "type": "laptop", "model": "Acer Swift 3", "serial": "LA00000036", "status": "in-use", "user": "زياد فؤاد", "central": "سنترال1", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "037", "employeeId": "1037", "type": "desktop", "model": "Dell Precision 3240", "serial": "DE00000037", "status": "in-use", "user": "مشاعل نايف", "central": "سنترال2", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "038", "employeeId": "1038", "type": "monitor", "model": "ViewSonic VP2768", "serial": "MO00000038", "status": "in-use", "user": "عبدالله سعد", "central": "سنترال3", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "039", "employeeId": "1039", "type": "printer", "model": "Kyocera ECOSYS P5026cdn", "serial": "PR00000039", "status": "in-use", "user": "لمى سامي", "central": "سنترال4", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "040", "employeeId": "1040", "type": "tablet", "model": "Lenovo Yoga Tab 13", "serial": "TA00000040", "status": "in-use", "user": "ياسين محسن", "central": "سنترال5", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "041", "employeeId": "1041", "type": "laptop", "model": "LG Gram 17", "serial": "LA00000041", "status": "in-use", "user": "أروى صباح", "central": "سنترال6", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "042", "employeeId": "1042", "type": "desktop", "model": "ASUS ExpertCenter D500SA", "serial": "DE00000042", "status": "in-use", "user": "إيهاب رامي", "central": "سنترال7", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "043", "employeeId": "1043", "type": "monitor", "model": "Samsung UR55", "serial": "MO00000043", "status": "in-use", "user": "غادة عثمان", "central": "سنترال1", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "044", "employeeId": "1044", "type": "printer", "model": "HP OfficeJet Pro 9025e", "serial": "PR00000044", "status": "maintenance", "user": "خالدية حسن", "central": "سنترال2", "notes": "تحت الصيانة", "inventoryDone": false, "specs": "" },
+            { "id": "045", "employeeId": "1045", "type": "tablet", "model": "Apple iPad Pro 12.9\"", "serial": "TA00000045", "status": "in-use", "user": "فهد زايد", "central": "سنترال3", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "046", "employeeId": "1046", "type": "laptop", "model": "MSI Prestige 14", "serial": "LA00000046", "status": "in-use", "user": "سلطانة ماجد", "central": "سنترال4", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "047", "employeeId": "1047", "type": "desktop", "model": "Lenovo Legion T5", "serial": "DE00000047", "status": "in-use", "user": "مازن هاشم", "central": "سنترال5", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "048", "employeeId": "1048", "type": "monitor", "model": "AOC 24G2", "serial": "MO00000048", "status": "in-use", "user": "سحر نبيل", "central": "سنترال6", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "049", "employeeId": "1049", "type": "printer", "model": "Canon imageCLASS LBP623Cdw", "serial": "PR00000049", "status": "in-use", "user": "رائد طارق", "central": "سنترال7", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "050", "employeeId": "1050", "type": "tablet", "model": "Microsoft Surface Go 3", "serial": "TA00000050", "status": "in-use", "user": "هدى سليمان", "central": "سنترال1", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "051", "employeeId": "1051", "type": "laptop", "model": "Razer Blade 15", "serial": "LA00000051", "status": "in-use", "user": "سليمان ربيع", "central": "سنترال2", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "052", "employeeId": "1052", "type": "desktop", "model": "CyberPowerPC Gamer Xtreme", "serial": "DE00000052", "status": "in-use", "user": "أحلام سمير", "central": "سنترال3", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "053", "employeeId": "1053", "type": "monitor", "model": "Alienware AW3420DW", "serial": "MO00000053", "status": "maintenance", "user": "عبدالعزيز منصور", "central": "سنترال4", "notes": "تحت الصيانة", "inventoryDone": false, "specs": "" },
+            { "id": "054", "employeeId": "1054", "type": "printer", "model": "Pantum P2502W", "serial": "PR00000054", "status": "in-use", "user": "مريم عبدالغني", "central": "سنترال5", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "055", "employeeId": "1055", "type": "tablet", "model": "TCL Tab 10s", "serial": "TA00000055", "status": "in-use", "user": "سعد عبدالمنعم", "central": "سنترال6", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "056", "employeeId": "1056", "type": "laptop", "model": "Samsung Galaxy Book Pro", "serial": "LA00000056", "status": "in-use", "user": "نادية فارس", "central": "سنترال7", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "057", "employeeId": "1057", "type": "desktop", "model": "HP Pavilion TP01", "serial": "DE00000057", "status": "in-use", "user": "فارس عادل", "central": "سنترال1", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "058", "employeeId": "1058", "type": "monitor", "model": "Gigabyte G27QC", "serial": "MO00000058", "status": "in-use", "user": "حنان سيف", "central": "سنترال2", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "059", "employeeId": "1059", "type": "printer", "model": "OKI MC853dn", "serial": "PR00000059", "status": "in-use", "user": "عبدالمجيد خالد", "central": "سنترال3", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "060", "employeeId": "1060", "type": "tablet", "model": "Realme Pad", "serial": "TA00000060", "status": "in-use", "user": "أميرة وائل", "central": "سنترال4", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "061", "employeeId": "1061", "type": "laptop", "model": "Lenovo IdeaPad 5", "serial": "LA00000061", "status": "in-use", "user": "بسام رامي", "central": "سنترال5", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "062", "employeeId": "1062", "type": "desktop", "model": "ASUS ROG Strix G15", "serial": "DE00000062", "status": "in-use", "user": "جمال عبدالرحيم", "central": "سنترال6", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "063", "employeeId": "1063", "type": "monitor", "model": "LG 27GN950-B", "serial": "MO00000063", "status": "in-use", "user": "ريماز خليل", "central": "سنترال7", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "064", "employeeId": "1064", "type": "printer", "model": "Brother MFC-L8900CDW", "serial": "PR00000064", "status": "maintenance", "user": "وسام نبيل", "central": "سنترال1", "notes": "تحت الصيانة", "inventoryDone": false, "specs": "" },
+            { "id": "065", "employeeId": "1065", "type": "tablet", "model": "Oppo Pad Air", "serial": "TA00000065", "status": "in-use", "user": "نبيل سامي", "central": "سنترال2", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "066", "employeeId": "1066", "type": "laptop", "model": "Dell Latitude 7420", "serial": "LA00000066", "status": "in-use", "user": "سامية حازم", "central": "سنترال3", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "067", "employeeId": "1067", "type": "desktop", "model": "Apple Mac mini", "serial": "DE00000067", "status": "in-use", "user": "مازن عاطف", "central": "سنترال4", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "068", "employeeId": "1068", "type": "monitor", "model": "BenQ EW3270U", "serial": "MO00000068", "status": "in-use", "user": "إيناس طه", "central": "سنترال5", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "069", "employeeId": "1069", "type": "printer", "model": "Konica Minolta bizhub C360i", "serial": "PR00000069", "status": "in-use", "user": "وسيم رفعت", "central": "سنترال6", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "070", "employeeId": "1070", "type": "tablet", "model": "Xiaomi Pad 5", "serial": "TA00000070", "status": "in-use", "user": "ليلى عماد", "central": "سنترال7", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "071", "employeeId": "1071", "type": "laptop", "model": "HP Spectre x360", "serial": "LA00000071", "status": "in-use", "user": "هشام كمال", "central": "سنترال1", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "072", "employeeId": "1072", "type": "desktop", "model": "Dell OptiPlex 3090", "serial": "DE00000072", "status": "in-use", "user": "نادين أسامة", "central": "سنترال2", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "073", "employeeId": "1073", "type": "monitor", "model": "ViewSonic XG270QG", "serial": "MO00000073", "status": "in-use", "user": "رامي سمير", "central": "سنترال3", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "074", "employeeId": "1074", "type": "printer", "model": "Sharp MX-3070N", "serial": "PR00000074", "status": "in-use", "user": "سمر حمدي", "central": "سنترال4", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "075", "employeeId": "1075", "type": "tablet", "model": "Alldocube iPlay 50", "serial": "TA00000075", "status": "in-use", "user": "عمران سعيد", "central": "سنترال5", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "076", "employeeId": "1076", "type": "laptop", "model": "Asus ROG Zephyrus G14", "serial": "LA00000076", "status": "in-use", "user": "ميسون رامي", "central": "سنترال6", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "077", "employeeId": "1077", "type": "desktop", "model": "Lenovo ThinkStation P350", "serial": "DE00000077", "status": "in-use", "user": "وسيلة محمود", "central": "سنترال7", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "078", "employeeId": "1078", "type": "monitor", "model": "Acer Nitro XV272U", "serial": "MO00000078", "status": "maintenance", "user": "محمود شريف", "central": "سنترال1", "notes": "تحت الصيانة", "inventoryDone": false, "specs": "" },
+            { "id": "079", "employeeId": "1079", "type": "printer", "model": "Toshiba e-STUDIO3515AC", "serial": "PR00000079", "status": "in-use", "user": "سارة هاني", "central": "سنترال2", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "080", "employeeId": "1080", "type": "tablet", "model": "Blackview Tab 7", "serial": "TA00000080", "status": "in-use", "user": "هاني عاصم", "central": "سنترال3", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "081", "employeeId": "1081", "type": "laptop", "model": "Microsoft Surface Laptop Go", "serial": "LA00000081", "status": "in-use", "user": "إيمان رضا", "central": "سنترال4", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "082", "employeeId": "1082", "type": "desktop", "model": "HP EliteDesk 805 G8", "serial": "DE00000082", "status": "in-use", "user": "رامي نبيل", "central": "سنترال5", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "083", "employeeId": "1083", "type": "monitor", "model": "Samsung S80A", "serial": "MO00000083", "status": "in-use", "user": "ناهد كريم", "central": "سنترال6", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "084", "employeeId": "1084", "type": "printer", "model": "Canon MAXIFY GX4020", "serial": "PR00000084", "status": "in-use", "user": "كريم أسعد", "central": "سنترال7", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "085", "employeeId": "1085", "type": "tablet", "model": "Doogee T10", "serial": "TA00000085", "status": "in-use", "user": "أسعد فريد", "central": "سنترال1", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "086", "employeeId": "1086", "type": "laptop", "model": "Dell Inspiron 16 Plus", "serial": "LA00000086", "status": "in-use", "user": "فريد أنور", "central": "سنترال2", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "087", "employeeId": "1087", "type": "desktop", "model": "ASUS ExpertCenter D7", "serial": "DE00000087", "status": "in-use", "user": "أنور ماهر", "central": "سنترال3", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "088", "employeeId": "1088", "type": "monitor", "model": "LG UltraWide 34WN80C", "serial": "MO00000088", "status": "in-use", "user": "ماهر سليم", "central": "سنترال4", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "089", "employeeId": "1089", "type": "printer", "model": "HP Neverstop 1202nw", "serial": "PR00000089", "status": "in-use", "user": "سليم عدنان", "central": "سنترال5", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "090", "employeeId": "1090", "type": "tablet", "model": "Ulefone Power Armor 13", "serial": "TA00000090", "status": "in-use", "user": "عدنان ماهر", "central": "سنترال6", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "091", "employeeId": "1091", "type": "laptop", "model": "Lenovo Yoga 9i", "serial": "LA00000091", "status": "in-use", "user": "ماهر ناصر", "central": "سنترال7", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "092", "employeeId": "1092", "type": "desktop", "model": "Dell Vostro 3681", "serial": "DE00000092", "status": "in-use", "user": "ناصر حامد", "central": "سنترال1", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "093", "employeeId": "1093", "type": "monitor", "model": "Philips 345E2AE", "serial": "MO00000093", "status": "in-use", "user": "حامد سفيان", "central": "سنترال2", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "094", "employeeId": "1094", "type": "printer", "model": "Epson WorkForce WF-2860", "serial": "PR00000094", "status": "maintenance", "user": "سفيان طلال", "central": "سنترال3", "notes": "تحت الصيانة", "inventoryDone": false, "specs": "" },
+            { "id": "095", "employeeId": "1095", "type": "tablet", "model": "Samsung Galaxy Tab S6 Lite", "serial": "TA00000095", "status": "in-use", "user": "طلال رامي", "central": "سنترال4", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "096", "employeeId": "1096", "type": "laptop", "model": "Acer Chromebook Spin 713", "serial": "LA00000096", "status": "in-use", "user": "رامي وسام", "central": "سنترال5", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "097", "employeeId": "1097", "type": "desktop", "model": "HP ProDesk 400 G7", "serial": "DE00000097", "status": "in-use", "user": "وسام نادر", "central": "سنترال6", "notes": "", "inventoryDone": false, "specs": generateRandomSpecs() },
+            { "id": "098", "employeeId": "1098", "type": "monitor", "model": "Dell S2721QS", "serial": "MO00000098", "status": "in-use", "user": "نادر عمرو", "central": "سنترال7", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "099", "employeeId": "1099", "type": "printer", "model": "Brother DCP-L2550DW", "serial": "PR00000099", "status": "in-use", "user": "عمرو سامح", "central": "سنترال1", "notes": "", "inventoryDone": false, "specs": "" },
+            { "id": "100", "employeeId": "1100", "type": "tablet", "model": "HONOR Pad 8", "serial": "TA00000100", "status": "in-use", "user": "سامح رفعت", "central": "سنترال2", "notes": "", "inventoryDone": false, "specs": "" }
+        ];
 
         // إشعارات التخريد
         const scrapNotifications = [
@@ -1391,10 +1464,13 @@
                     serialNumber: device.serial,
                     inventoryDate: device.inventoryDone ? 'تم الجرد' : '-',
                     scrapDate: device.status === 'scrapped' ? device.scrapDate || 'تاريخ التخريد غير محدد' : null,
-                    status: device.status
+                    status: device.status,
+                    area: device.central,
+                    inventoryYear: new Date().getFullYear() // Simplified for example
                 };
             });
         }
+
 
         // تهيئة المخططات للتقارير مع البيانات المفلترة
         function initReportsCharts(reportData) {
@@ -1902,6 +1978,7 @@
                     <td class="py-2 px-3 sm:px-4 border-b">${device.user || '---'}</td>
                     <td class="py-2 px-3 sm:px-4 border-b">${getDeviceTypeName(device.type)}</td>
                     <td class="py-2 px-3 sm:px-4 border-b">${device.model}</td>
+                    <td class="py-2 px-3 sm:px-4 border-b device-specs">${device.specs || ''}</td>
                     <td class="py-2 px-3 sm:px-4 border-b">${device.serial}</td>
                     <td class="py-2 px-3 sm:px-4 border-b">
                         <span class="px-2 py-1 ${statusClass} rounded-full text-xs">${statusText}</span>
@@ -1946,11 +2023,15 @@
             const device = devicesData.find(d => d.id === deviceId);
 
             if (device) {
-                document.getElementById('scrap-user-name').textContent = device.user || '---';
+                // تعبئة معلومات العهدة بالترتيب الجديد
                 document.getElementById('scrap-device-type').textContent = getDeviceTypeName(device.type);
                 document.getElementById('scrap-device-model').textContent = device.model;
                 document.getElementById('scrap-device-serial').textContent = device.serial;
+                document.getElementById('scrap-user-name').textContent = device.user || '---';
+                document.getElementById('scrap-device-specs').textContent = device.specs || '---';
+                document.getElementById('scrap-central').textContent = device.central || '---';
 
+                // تحويل الحالة إلى نص
                 let statusText;
                 switch (device.status) {
                     case 'in-use': statusText = 'مستخدم'; break;
@@ -1996,15 +2077,34 @@
             const device = devicesData.find(d => d.id === deviceId);
 
             if (device) {
+                document.getElementById('edit-device-id').value = device.id;
+
+                // تعبئة معلومات العهدة بالترتيب الجديد
                 document.getElementById('edit-device-type-display').textContent = getDeviceTypeName(device.type);
                 document.getElementById('edit-device-model-display').textContent = device.model;
                 document.getElementById('edit-device-serial-display').textContent = device.serial;
+                document.getElementById('edit-device-user-display').textContent = device.user || '---';
+                document.getElementById('edit-device-specs-display').textContent = device.specs || '---';
+                document.getElementById('edit-device-central-display').textContent = device.central || '---';
+
+                // تحويل الحالة إلى نص
+                let statusText;
+                switch (device.status) {
+                    case 'in-use': statusText = 'مستخدم'; break;
+                    case 'maintenance': statusText = 'تحت الصيانة'; break;
+                    case 'scrapped': statusText = 'مخرد'; break;
+                }
+                document.getElementById('edit-device-status-display').textContent = statusText;
+
+                // تعبئة حقول التعديل
                 document.getElementById('edit-device-status').value = device.status;
                 document.getElementById('edit-device-employee-id').value = device.employeeId || '';
                 document.getElementById('edit-device-central').value = device.central || 'سنترال1';
+
                 document.getElementById('editDeviceModal').classList.remove('hidden');
             }
         }
+
 
         // إخفاء نموذج تعديل جهاز
         function hideEditDeviceModal() {
@@ -2133,13 +2233,44 @@
             simulateBarcodeScan();
         }
 
-        // محاكاة مسح الباركود
+        // محاكاة مسح الباركود بشكل ذكي
         function simulateBarcodeScan() {
-            const device = devicesData[Math.floor(Math.random() * devicesData.length)];
+            const selectedCentral = document.getElementById('central-filter').value;
+            let candidateDevices;
 
+            if (selectedCentral && selectedCentral !== 'all') {
+                // فلترة الأجهزة حسب السنترال المحدد (مع استثناء الأجهزة المخردة)
+                candidateDevices = devicesData.filter(device =>
+                    device.central === selectedCentral && device.status !== 'scrapped'
+                );
+            } else {
+                // إذا لم يتم تحديد سنترال، استخدم كل الأجهزة غير المخردة
+                candidateDevices = devicesData.filter(device => device.status !== 'scrapped');
+            }
+
+            // التحقق من وجود أجهزة متاحة للمسح في القائمة المفلترة
+            if (candidateDevices.length === 0) {
+                scannerMessage.textContent = 'لا توجد أجهزة متاحة للجرد في هذا السنترال.';
+                // مسح البيانات السابقة
+                document.getElementById('scanned-serial-number').textContent = '-';
+                document.getElementById('scanned-device-type').textContent = '-';
+                document.getElementById('scanned-model').textContent = '-';
+                document.getElementById('scanned-specs').textContent = '-';
+                document.getElementById('scanned-status').textContent = '-';
+                document.getElementById('scanned-current-user').textContent = '-';
+                document.getElementById('scanned-central').textContent = '-';
+                document.getElementById('scanned-device-id').value = '';
+                return; // الخروج من الدالة
+            }
+
+            // اختيار جهاز عشوائي من القائمة المرشحة
+            const device = candidateDevices[Math.floor(Math.random() * candidateDevices.length)];
+
+            // عرض بيانات الجهاز المختار
             document.getElementById('scanned-serial-number').textContent = device.serial;
             document.getElementById('scanned-device-type').textContent = getDeviceTypeName(device.type);
             document.getElementById('scanned-model').textContent = device.model;
+            document.getElementById('scanned-specs').textContent = device.specs || '---';
 
             let statusText;
             switch (device.status) {
@@ -2150,11 +2281,10 @@
 
             document.getElementById('scanned-status').textContent = statusText;
             document.getElementById('scanned-current-user').textContent = device.user || '---';
+            document.getElementById('scanned-central').textContent = device.central || '---';
             document.getElementById('scanned-device-id').value = device.id;
 
             scannerMessage.textContent = 'تم مسح الباركود بنجاح';
-
-            // تحديث حالة الجرد في الجدول
         }
 
         // دالة لتحديث حالة checkbox الجرد
@@ -2212,16 +2342,14 @@
 
         // تحديث شارة الإشعارات
         function updateNotificationBadge() {
-            console.log('updateNotificationBadge called');
             const badge = document.getElementById('notification-badge');
             if (!badge) return;
 
             const unreadCount = scrapNotifications.filter(n => !n.read).length;
-            console.log('Unread notifications:', unreadCount);
 
             if (unreadCount > 0) {
                 badge.textContent = unreadCount;
-                badge.style.display = 'inline-block';
+                badge.style.display = 'flex';
             } else {
                 badge.style.display = 'none';
             }
@@ -2229,51 +2357,50 @@
 
         // عرض الإشعارات
         function showNotifications() {
-            console.log('showNotifications called');
             const container = document.getElementById('notifications-container');
             const list = document.getElementById('notifications-list');
-
-            console.log('Notifications array:', scrapNotifications);
 
             container.style.display = 'block';
             list.innerHTML = '';
 
             // Reverse the notifications array to show new notifications at the top
-            scrapNotifications.reverse().forEach(notification => {
+            scrapNotifications.slice().reverse().forEach(notification => {
                 const item = document.createElement('div');
                 item.className = `notification-item ${notification.read ? '' : 'bg-blue-50'}`;
-                item.innerHTML = `
-      <div class="notification-title">${notification.title}</div>
-      <div class="notification-content">${notification.content}</div>
-      <div class="notification-time">${notification.time}</div>
-    `;
 
-                // Translate notification text to Arabic
-                if (notification.title === 'Device Scrapped') {
-                    item.querySelector('.notification-title').textContent = 'تم إزالة الجهاز';
+                let title = notification.title;
+                let content = notification.content;
+
+                if (title === 'Device Scrapped') {
+                    title = 'تم تخريد جهاز';
                 }
-                if (notification.content.includes('You scrapped device')) {
-                    const deviceModel = notification.content.match(/device (.*) \(/)[1];
-                    const deviceSerial = notification.content.match(/\((.*)\)/)[1];
-                    item.querySelector('.notification-content').textContent = `تم إزالة جهاز ${deviceModel} (${deviceSerial})`;
+                if (content.includes('You scrapped device')) {
+                    const deviceModel = content.match(/device (.*) \(/)[1];
+                    const deviceSerial = content.match(/\((.*)\)/)[1];
+                    content = `تم تخريد جهاز ${deviceModel} (${deviceSerial})`;
                 }
+
+                item.innerHTML = `
+                    <div class="notification-title">${title}</div>
+                    <div class="notification-content">${content}</div>
+                    <div class="notification-time">${notification.time}</div>
+                `;
 
                 item.addEventListener('click', () => {
                     notification.read = true;
+                    item.classList.remove('bg-blue-50');
                     updateNotificationBadge();
-                    container.style.display = 'none';
                 });
 
                 list.appendChild(item);
             });
         }
 
+
         // =====================
         // تهيئة الصفحة عند التحميل
         // =====================
         document.addEventListener('DOMContentLoaded', function () {
-            // تعريف متغير البيانات المفلترة للتقارير
-
             // عرض الأجهزة
             displayInventory();
 
@@ -2323,8 +2450,6 @@
 
                 if (currentScrapDeviceId) {
                     scrapDevice(currentScrapDeviceId);
-                    hideScrapModal();
-                    showScrapSuccessModal();
                 }
             });
 
@@ -2345,6 +2470,18 @@
             document.getElementById('closeAddDeviceModal').addEventListener('click', hideAddDeviceModal);
             document.getElementById('cancelAddDevice').addEventListener('click', hideAddDeviceModal);
 
+            // إظهار/إخفاء حقول المواصفات حسب نوع الجهاز
+            document.getElementById('new-device-type').addEventListener('change', function () {
+                const type = this.value;
+                const specsFields = document.getElementById('specs-fields');
+
+                if (type === 'laptop' || type === 'desktop') {
+                    specsFields.classList.remove('hidden');
+                } else {
+                    specsFields.classList.add('hidden');
+                }
+            });
+
             // معالجة حفظ الجهاز الجديد
             document.getElementById('addDeviceForm').addEventListener('submit', function (e) {
                 e.preventDefault();
@@ -2363,8 +2500,16 @@
                     return;
                 }
 
+                // توليد مواصفات الجهاز
+                let specs = '';
+                if (type === 'laptop' || type === 'desktop') {
+                    const ram = document.getElementById('new-device-ram').value;
+                    const hdd = document.getElementById('new-device-hdd').value;
+                    specs = `رام: ${ram} | هارد: ${hdd}`;
+                }
+
                 const newDevice = {
-                    id: '00' + (devicesData.length + 1),
+                    id: String(devicesData.length + 1).padStart(3, '0'),
                     type: type,
                     model: model,
                     serial: serial,
@@ -2373,7 +2518,8 @@
                     user: user || '',
                     central: central,
                     notes: document.getElementById('new-device-notes').value,
-                    inventoryDone: false
+                    inventoryDone: false,
+                    specs: specs
                 };
 
                 devicesData.push(newDevice);
@@ -2400,13 +2546,15 @@
                     devicesData[deviceIndex].employeeId = newEmployeeId;
                     devicesData[deviceIndex].central = newCentral;
                     displayInventory();
-                    showMessage('تم تحديث بيانات الجهاز بنجاح', 'success');
+                    // Optional: Show a success message
+                    alert('تم تحديث بيانات الجهاز بنجاح');
                 } else {
-                    showMessage('خطأ: لم يتم العثور على الجهاز لتحديثه.', 'error');
+                    alert('خطأ: لم يتم العثور على الجهاز لتحديثه.');
                 }
 
                 hideEditDeviceModal();
             });
+
 
             // معالجة تسجيل الخروج
             document.getElementById('admin-logout-btn').addEventListener('click', function () {
@@ -2460,11 +2608,12 @@
             document.getElementById('delete-scanned-device-btn').addEventListener('click', () => {
                 const deviceId = document.getElementById('scanned-device-id').value;
                 if (deviceId) {
-                    scrapDevice(deviceId);
+                    showScrapModal(deviceId);
                 } else {
-                    alert('لم يتم تحديد جهاز للحذف');
+                    alert('لم يتم تحديد جهاز للتخريد. يرجى مسح باركود أولاً.');
                 }
             });
+
 
             // معالجة أزرار الكاميرا
             startBtn.addEventListener('click', startCamera);
