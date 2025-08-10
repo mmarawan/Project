@@ -547,7 +547,7 @@
                         class="flex flex-wrap justify-center sm:justify-start space-x-4 sm:space-x-6 space-x-reverse text-sm sm:text-base">
                         <li class="mb-1 sm:mb-0">
                             <button class="admin-nav-btn py-1 px-2 text-white border-b-2 border-white active"
-                                data-target="barcode">الجرد</button>
+                                data-target="barcode">العهد</button>
                         </li>
                         <li class="mb-1 sm:mb-0">
                             <button
@@ -620,6 +620,9 @@
                                         <button id="delete-scanned-device-btn" class="btn-danger flex-1 min-w-[120px]">
                                             تخريد
                                         </button>
+                                        <button id="add-inventory-btn" class="btn-warning flex-1 min-w-[120px]">
+                                            إضافة جهاز
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -628,16 +631,7 @@
 
                     <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4 sm:mb-6">
                         <div class="flex flex-col sm:flex-row justify-between items-center mb-3 sm:mb-4">
-                            <button id="add-inventory-btn"
-                                class="bg-primary-600 hover:bg-primary-700 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-md transition duration-300 flex items-center text-sm sm:text-base">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 ml-1"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                                إضافة جهاز جديدة
-                            </button>
+                            <h2 class="text-lg sm:text-xl font-bold text-primary-700">قائمة العهد الحالية</h2>
                             <div class="mt-3 sm:mt-0">
                                 <span class="text-sm font-medium text-gray-700">عدد الأجهزة: <span
                                         id="total-devices-count">0</span></span>
@@ -724,7 +718,7 @@
                                             class="h-4 w-4 text-primary-600 focus:ring-primary-500" checked>
                                         <label for="search-inventory"
                                             class="ml-2 block text-sm text-gray-700 cursor-pointer">
-                                            البحث في الجرد
+                                            البحث في العهد
                                         </label>
                                     </div>
                                     <div class="flex items-center">
@@ -988,22 +982,14 @@
                 </button>
                 <div class="text-center mb-4">
                     <h3 class="text-xl font-bold text-primary-700">تخريد الجهاز</h3>
-                    <!-- إضافة قسم معلومات العهدة -->
                     <div class="bg-gray-50 p-3 rounded-md border border-gray-200 mt-2 text-right">
                         <p class="font-medium text-gray-700 mb-1">معلومات العهدة</p>
-                        <!-- 1. النوع -->
                         <p><span class="text-gray-600">النوع:</span> <span id="scrap-device-type"></span></p>
-                        <!-- 2. الموديل -->
                         <p><span class="text-gray-600">الموديل:</span> <span id="scrap-device-model"></span></p>
-                        <!-- 3. الرقم التسلسلي -->
                         <p><span class="text-gray-600">الرقم التسلسلي:</span> <span id="scrap-device-serial"></span></p>
-                        <!-- 4. اسم المستخدم -->
                         <p><span class="text-gray-600">اسم المستخدم:</span> <span id="scrap-user-name"></span></p>
-                        <!-- 5. الحالة -->
                         <p><span class="text-gray-600">الحالة:</span> <span id="scrap-device-status"></span></p>
-                        <!-- 6. المواصفات -->
                         <p><span class="text-gray-600">المواصفات:</span> <span id="scrap-device-specs"></span></p>
-                        <!-- 7. السنترال -->
                         <p><span class="text-gray-600">السنترال:</span> <span id="scrap-central"></span></p>
                     </div>
                 </div>
@@ -1052,7 +1038,7 @@
 
         <div id="addDeviceModal"
             class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4 sm:p-6 z-50 hidden">
-            <div class="bg-white rounded-lg shadow-xl w-full max-w-sm sm:max-w-md p-6 relative">
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-lg p-6 relative">
                 <button id="closeAddDeviceModal"
                     class="absolute top-3 left-3 text-gray-500 hover:text-gray-700 text-2xl font-bold">
                     &times;
@@ -1061,13 +1047,14 @@
                     <h3 class="text-xl font-bold text-primary-700">إضافة جهاز جديد</h3>
                 </div>
 
-                <form id="addDeviceForm" class="space-y-4 text-sm">
-                    <div class="modal-content">
+                <form id="addDeviceForm" class="space-y-3">
+                    <div class="modal-content pr-2">
                         <div>
-                            <label for="new-device-type" class="block text-gray-700 font-medium mb-1">نوع
-                                الجهاز</label>
+                            <label for="new-device-type" class="block text-gray-700 font-medium mb-1 text-sm">نوع
+                                الجهاز *</label>
                             <select id="new-device-type"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
+                                required>
                                 <option value="">-- اختر نوع الجهاز --</option>
                                 <option value="laptop">لابتوب</option>
                                 <option value="desktop">جهاز مكتبي</option>
@@ -1077,74 +1064,73 @@
                             </select>
                         </div>
                         <div>
-                            <label for="new-device-model" class="block text-gray-700 font-medium mb-1">الموديل</label>
+                            <label for="new-device-model" class="block text-gray-700 font-medium mb-1 text-sm">الموديل
+                                *</label>
                             <input type="text" id="new-device-model"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                                placeholder="أدخل موديل الجهاز">
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
+                                placeholder="أدخل موديل الجهاز" required>
                         </div>
 
-                        <!-- قسم مواصفات الجهاز (للابتوب والكمبيوتر المكتبي فقط) -->
-                        <div id="specs-fields" class="hidden">
-                            <div>
-                                <label for="new-device-ram" class="block text-gray-700 font-medium mb-1">الرام</label>
-                                <select id="new-device-ram"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
-                                    <option value="">-- اختر حجم الرام --</option>
-                                    <option value="DDR3 4G">DDR3 4G</option>
-                                    <option value="DDR3 8G">DDR3 8G</option>
-                                    <option value="DDR3 16G">DDR3 16G</option>
-                                    <option value="DDR4 8G">DDR4 8G</option>
-                                    <option value="DDR4 16G">DDR4 16G</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="new-device-hdd" class="block text-gray-700 font-medium mb-1">الهارد</label>
-                                <select id="new-device-hdd"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
-                                    <option value="">-- اختر نوع الهارد --</option>
-                                    <option value="HDD500G">HDD500G</option>
-                                    <option value="HDD1T">HDD1T</option>
-                                    <option value="HDD500G+SSD240G">HDD500G+SSD240G</option>
-                                    <option value="HDD500G+SSD500G">HDD500G+SSD500G</option>
-                                </select>
+                        <div id="specs-fields" class="hidden space-y-3">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="new-device-ram"
+                                        class="block text-gray-700 font-medium mb-1 text-sm">الرام</label>
+                                    <select id="new-device-ram"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm">
+                                        <option value="">-- اختر حجم الرام --</option>
+                                        <option value="DDR3-4G">DDR3-4G</option>
+                                        <option value="DDR4-4G">DDR4-4G</option>
+                                        <option value="DDR4-8G">DDR4-8G</option>
+                                        <option value="DDR4-16G">DDR4-16G</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="new-device-hdd"
+                                        class="block text-gray-700 font-medium mb-1 text-sm">الهارد</label>
+                                    <select id="new-device-hdd"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm">
+                                        <option value="">-- اختر نوع الهارد --</option>
+                                        <option value="HDD500G">HDD500G</option>
+                                        <option value="HDD1T">HDD1T</option>
+                                        <option value="HDD500G+SSD240G">HDD500G+SSD240G</option>
+                                        <option value="HDD500G+SSD500G">HDD500G+SSD500G</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
                         <div>
-                            <label for="new-device-serial" class="block text-gray-700 font-medium mb-1">الرقم
-                                التسلسلي</label>
-                            <input type="text" id="new-device-serial"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                                placeholder="أدخل الرقم التسلسلي">
-                        </div>
-                        <div>
-                            <label for="new-device-status" class="block text-gray-700 font-medium mb-1">الحالة</label>
+                            <label for="new-device-status"
+                                class="block text-gray-700 font-medium mb-1 text-sm">الحالة *</label>
                             <select id="new-device-status"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
+                                required>
                                 <option value="">-- اختر الحالة --</option>
                                 <option value="in-use">مستخدم</option>
                                 <option value="maintenance">تحت الصيانة</option>
                             </select>
                         </div>
                         <div>
-                            <label for="new-device-employee-id" class="block text-gray-700 font-medium mb-1">الرقم
-                                العامل</label>
+                            <label for="new-device-employee-id" class="block text-gray-700 font-medium mb-1 text-sm">رقم
+                                العامل *</label>
                             <input type="text" id="new-device-employee-id"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                                placeholder="أدخل الرقم العامل">
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
+                                placeholder="أدخل رقم العامل" required>
                         </div>
                         <div>
-                            <label for="new-device-user" class="block text-gray-700 font-medium mb-1">المستخدم (اسم
-                                المستخدم)</label>
+                            <label for="new-device-user" class="block text-gray-700 font-medium mb-1 text-sm">اسم
+                                المستخدم</label>
                             <input type="text" id="new-device-user"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
                                 placeholder="أدخل اسم المستخدم الحالي (اختياري)">
                         </div>
                         <div>
                             <label for="new-device-central"
-                                class="block text-gray-700 font-medium mb-1">السنترال</label>
+                                class="block text-gray-700 font-medium mb-1 text-sm">السنترال *</label>
                             <select id="new-device-central"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
+                                required>
                                 <option value="سنترال1">سنترال1</option>
                                 <option value="سنترال2">سنترال2</option>
                                 <option value="سنترال3">سنترال3</option>
@@ -1155,17 +1141,18 @@
                             </select>
                         </div>
                         <div>
-                            <label for="new-device-receipt-date" class="block text-gray-700 font-medium mb-1">تاريخ
-                                الاستلام</label>
+                            <label for="new-device-receipt-date"
+                                class="block text-gray-700 font-medium mb-1 text-sm">تاريخ
+                                الاستلام *</label>
                             <input type="date" id="new-device-receipt-date"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
                                 required>
                         </div>
                         <div>
-                            <label for="new-device-notes" class="block text-gray-700 font-medium mb-1">ملاحظات
-                                (اختياري)</label>
-                            <textarea id="new-device-notes" rows="3"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                            <label for="new-device-notes" class="block text-gray-700 font-medium mb-1 text-sm">ملاحظات
+                            </label>
+                            <textarea id="new-device-notes" rows="2"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
                                 placeholder="أضف أي ملاحظات إضافية"></textarea>
                         </div>
 
@@ -1199,31 +1186,23 @@
                 <form id="editDeviceForm" class="space-y-4 text-sm">
                     <input type="hidden" id="edit-device-id">
 
-                    <!-- داخل قسم editDeviceModal -->
                     <div class="bg-gray-50 p-3 rounded-md border border-gray-200">
                         <p class="font-medium text-gray-700 mb-1">معلومات العهدة</p>
-                        <!-- 1. النوع -->
                         <p><span class="text-gray-600">النوع:</span> <span id="edit-device-type-display"></span></p>
 
-                        <!-- 2. الموديل -->
                         <p><span class="text-gray-600">الموديل:</span> <span id="edit-device-model-display"></span></p>
 
-                        <!-- 3. الرقم التسلسلي -->
                         <p><span class="text-gray-600">الرقم التسلسلي:</span> <span
                                 id="edit-device-serial-display"></span></p>
 
-                        <!-- 4. اسم المستخدم -->
                         <p><span class="text-gray-600">اسم المستخدم:</span> <span id="edit-device-user-display"></span>
                         </p>
 
-                        <!-- 5. الحالة -->
                         <p><span class="text-gray-600">الحالة:</span> <span id="edit-device-status-display"></span></p>
 
-                        <!-- 6. المواصفات -->
                         <p><span class="text-gray-600">المواصفات:</span> <span id="edit-device-specs-display"></span>
                         </p>
 
-                        <!-- 7. السنترال -->
                         <p><span class="text-gray-600">السنترال:</span> <span id="edit-device-central-display"></span>
                         </p>
                     </div>
@@ -1435,7 +1414,7 @@
         // إشعارات التخريد
         const scrapNotifications = [
             { id: 1, title: "تخريد جهاز جديد", content: "تم تخريد لابتوب من قبل محمد أحمد", time: "قبل 10 دقائق", read: false },
-            { id: 2, title: "تخريد طابعة", content: "تم تخريد طابعة HP LaserJet Pro M404dn", time: "قبل 30 دقيقة", read: false },
+            { id: 2, title: "تخريد طابعة", content: "تم تخريد طابعة HP LaserJet Pro M404n", time: "قبل 30 دقيقة", read: false },
             { id: 3, title: "تخريد شاشة", content: "تم تخريد شاشة Dell UltraSharp U2722D", time: "قبل ساعة", read: false }
         ];
 
@@ -2488,24 +2467,34 @@
 
                 const type = document.getElementById('new-device-type').value;
                 const model = document.getElementById('new-device-model').value;
-                const serial = document.getElementById('new-device-serial').value;
                 const status = document.getElementById('new-device-status').value;
                 const employeeId = document.getElementById('new-device-employee-id').value;
                 const user = document.getElementById('new-device-user').value;
                 const central = document.getElementById('new-device-central').value;
                 const receiptDate = document.getElementById('new-device-receipt-date').value;
 
-                if (!type || !model || !serial || !status || !receiptDate || !employeeId) {
-                    alert('الرجاء ملء جميع الحقول المطلوبة');
+                if (!type || !model || !status || !receiptDate || !employeeId) {
+                    alert('الرجاء ملء جميع الحقول الإلزامية (*)');
                     return;
                 }
+
+                // توليد الرقم التسلسلي
+                const prefixes = { laptop: 'LA', desktop: 'DE', printer: 'PR', monitor: 'MO', tablet: 'TA', other: 'OT' };
+                const prefix = prefixes[type] || 'XX';
+                const serial = prefix + String(Date.now()).slice(-8);
+
 
                 // توليد مواصفات الجهاز
                 let specs = '';
                 if (type === 'laptop' || type === 'desktop') {
                     const ram = document.getElementById('new-device-ram').value;
                     const hdd = document.getElementById('new-device-hdd').value;
-                    specs = `رام: ${ram} | هارد: ${hdd}`;
+                    if (ram && hdd) {
+                        specs = `رام: ${ram} | هارد: ${hdd}`;
+                    } else {
+                        alert('الرجاء اختيار مواصفات الجهاز (الرام والهارد)');
+                        return;
+                    }
                 }
 
                 const newDevice = {
@@ -2525,6 +2514,7 @@
                 devicesData.push(newDevice);
                 displayInventory();
                 hideAddDeviceModal();
+                alert('تمت إضافة الجهاز بنجاح!');
             });
 
             // معالجة تعديل الجهاز
