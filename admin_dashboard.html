@@ -735,7 +735,7 @@
                             <div id="inventory-search-section" class="mb-6">
                                 <h3 class="text-md font-medium text-blue-700 mb-3 border-b border-blue-200 pb-2">🔍
                                     البحث في الجرد</h3>
-                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                                     <div>
                                         <label for="deviceType" class="block text-sm font-medium text-gray-700 mb-2">نوع
                                             الجهاز</label>
@@ -770,9 +770,33 @@
                                         <select id="inventoryYear"
                                             class="w-full p-2 sm:p-3 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
                                             <option value="all">جميع السنوات</option>
-                                            <option value="2024">2024</option>
-                                            <option value="2023">2023</option>
-                                            <option value="2022">2022</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="inventory-specs-filters"
+                                    class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mt-4">
+                                    <div>
+                                        <label for="inventory-ram-filter"
+                                            class="block text-sm font-medium text-gray-700 mb-2">الرام</label>
+                                        <select id="inventory-ram-filter"
+                                            class="w-full p-2 sm:p-3 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                            <option value="all">الكل</option>
+                                            <option value="DDR3-4G">DDR3-4G</option>
+                                            <option value="DDR4-4G">DDR4-4G</option>
+                                            <option value="DDR4-8G">DDR4-8G</option>
+                                            <option value="DDR4-16G">DDR4-16G</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="inventory-hdd-filter"
+                                            class="block text-sm font-medium text-gray-700 mb-2">الهارد</label>
+                                        <select id="inventory-hdd-filter"
+                                            class="w-full p-2 sm:p-3 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                            <option value="all">الكل</option>
+                                            <option value="HDD500G">HDD500G</option>
+                                            <option value="HDD1T">HDD1T</option>
+                                            <option value="HDD500G+SSD240G">HDD500G+SSD240G</option>
+                                            <option value="HDD500G+SSD500G">HDD500G+SSD500G</option>
                                         </select>
                                     </div>
                                 </div>
@@ -781,7 +805,7 @@
                             <div id="scrap-search-section" class="mb-6 hidden">
                                 <h3 class="text-md font-medium text-red-700 mb-3 border-b border-red-200 pb-2">🗑️ البحث
                                     في المخردات</h3>
-                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                                     <div>
                                         <label for="scrapDeviceType"
                                             class="block text-sm font-medium text-gray-700 mb-2">نوع الجهاز</label>
@@ -816,9 +840,33 @@
                                         <select id="scrapYear"
                                             class="w-full p-2 sm:p-3 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
                                             <option value="all">جميع السنوات</option>
-                                            <option value="2024">2024</option>
-                                            <option value="2023">2023</option>
-                                            <option value="2022">2022</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="scrap-specs-filters"
+                                    class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mt-4">
+                                    <div>
+                                        <label for="scrap-ram-filter"
+                                            class="block text-sm font-medium text-gray-700 mb-2">الرام</label>
+                                        <select id="scrap-ram-filter"
+                                            class="w-full p-2 sm:p-3 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                            <option value="all">الكل</option>
+                                            <option value="DDR3-4G">DDR3-4G</option>
+                                            <option value="DDR4-4G">DDR4-4G</option>
+                                            <option value="DDR4-8G">DDR4-8G</option>
+                                            <option value="DDR4-16G">DDR4-16G</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="scrap-hdd-filter"
+                                            class="block text-sm font-medium text-gray-700 mb-2">الهارد</label>
+                                        <select id="scrap-hdd-filter"
+                                            class="w-full p-2 sm:p-3 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                            <option value="all">الكل</option>
+                                            <option value="HDD500G">HDD500G</option>
+                                            <option value="HDD1T">HDD1T</option>
+                                            <option value="HDD500G+SSD240G">HDD500G+SSD240G</option>
+                                            <option value="HDD500G+SSD500G">HDD500G+SSD500G</option>
                                         </select>
                                     </div>
                                 </div>
@@ -931,6 +979,11 @@
                                         </tr>
                                     </thead>
                                     <tbody id="deviceTableBody">
+                                        <tr>
+                                            <td colspan="6" class="text-center py-10 text-gray-500">
+                                                الرجاء استخدام الفلاتر أعلاه لعرض البيانات
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -1070,14 +1123,33 @@
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
                                 placeholder="أدخل موديل الجهاز" required>
                         </div>
+                        
+                        <div>
+                            <label for="new-device-serial" class="block text-gray-700 font-medium mb-1 text-sm">الرقم
+                                التسلسلي *</label>
+                            <div class="relative flex items-center">
+                                <input type="text" id="new-device-serial"
+                                    class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
+                                    placeholder="أدخل الرقم التسلسلي يدوياً" required>
+                                <button type="button" id="scan-serial-btn" title="مسح الرقم التسلسلي"
+                                    class="absolute left-2 top-1/2 -translate-y-1/2 p-1 text-gray-500 hover:text-primary-600 transition-colors">
+                                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                        fill="currentColor">
+                                        <path
+                                            d="M3 11H5V13H3V11ZM3 5H5V9H3V5ZM9 5H11V9H9V5ZM13 5H15V9H13V5ZM19 5H21V9H19V5ZM3 15H5V19H3V15ZM19 15H21V19H19V15ZM15 11H21V13H15V11ZM15 15H17V19H15V15ZM13 15H11V19H13V15ZM9 15H7V19H9V15ZM9 11H13V13H9V11ZM7 11H5V13H7V11ZM15 3H19V1H15V3ZM5 3H9V1H5V3Z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
 
                         <div id="specs-fields" class="hidden space-y-3">
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label for="new-device-ram"
-                                        class="block text-gray-700 font-medium mb-1 text-sm">الرام</label>
+                                        class="block text-gray-700 font-medium mb-1 text-sm">الرام *</label>
                                     <select id="new-device-ram"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm">
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
+                                        required>
                                         <option value="">-- اختر حجم الرام --</option>
                                         <option value="DDR3-4G">DDR3-4G</option>
                                         <option value="DDR4-4G">DDR4-4G</option>
@@ -1087,9 +1159,10 @@
                                 </div>
                                 <div>
                                     <label for="new-device-hdd"
-                                        class="block text-gray-700 font-medium mb-1 text-sm">الهارد</label>
+                                        class="block text-gray-700 font-medium mb-1 text-sm">الهارد *</label>
                                     <select id="new-device-hdd"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm">
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
+                                        required>
                                         <option value="">-- اختر نوع الهارد --</option>
                                         <option value="HDD500G">HDD500G</option>
                                         <option value="HDD1T">HDD1T</option>
@@ -1101,29 +1174,11 @@
                         </div>
 
                         <div>
-                            <label for="new-device-status"
-                                class="block text-gray-700 font-medium mb-1 text-sm">الحالة *</label>
-                            <select id="new-device-status"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
-                                required>
-                                <option value="">-- اختر الحالة --</option>
-                                <option value="in-use">مستخدم</option>
-                                <option value="maintenance">تحت الصيانة</option>
-                            </select>
-                        </div>
-                        <div>
                             <label for="new-device-employee-id" class="block text-gray-700 font-medium mb-1 text-sm">رقم
                                 العامل *</label>
                             <input type="text" id="new-device-employee-id"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
                                 placeholder="أدخل رقم العامل" required>
-                        </div>
-                        <div>
-                            <label for="new-device-user" class="block text-gray-700 font-medium mb-1 text-sm">اسم
-                                المستخدم</label>
-                            <input type="text" id="new-device-user"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
-                                placeholder="أدخل اسم المستخدم الحالي (اختياري)">
                         </div>
                         <div>
                             <label for="new-device-central"
@@ -1296,7 +1351,7 @@
 
         // توليد مواصفات عشوائية للأجهزة
         function generateRandomSpecs() {
-            const rams = ['DDR3 4G', 'DDR3 8G', 'DDR3 16G', 'DDR4 8G', 'DDR4 16G'];
+            const rams = ['DDR3-4G', 'DDR4-4G', 'DDR4-8G', 'DDR4-16G'];
             const hdds = ['HDD500G', 'HDD1T', 'HDD500G+SSD240G', 'HDD500G+SSD500G'];
 
             const ram = rams[Math.floor(Math.random() * rams.length)];
@@ -1445,7 +1500,8 @@
                     scrapDate: device.status === 'scrapped' ? device.scrapDate || 'تاريخ التخريد غير محدد' : null,
                     status: device.status,
                     area: device.central,
-                    inventoryYear: new Date().getFullYear() // Simplified for example
+                    inventoryYear: new Date().getFullYear(), // Simplified for example
+                    specs: device.specs // **تمت إضافة المواصفات هنا**
                 };
             });
         }
@@ -1666,6 +1722,12 @@
             const tbody = document.getElementById('deviceTableBody');
             tbody.innerHTML = '';
 
+            if (reportData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center py-10 text-gray-500">الرجاء استخدام الفلاتر أعلاه لعرض البيانات أو لا توجد بيانات تطابق بحثك.</td></tr>`;
+                return;
+            }
+
+
             reportData.forEach(device => {
                 const row = document.createElement('tr');
                 const isScrapped = device.status === 'scrapped';
@@ -1713,7 +1775,7 @@
             document.getElementById('printerNewCount').textContent = '+' + stats.printerNew;
 
             // تحديث شريط تقدم الأجهزة المخردة
-            const totalDevices = reportData.length;
+            const totalDevices = reportData.length > 0 ? reportData.length : devicesData.length;
             const scrappedPercentage = totalDevices > 0 ? Math.round((stats.scrapped / totalDevices) * 100) : 0;
             document.getElementById('scrap-progress-bar').style.width = scrappedPercentage + '%';
             document.getElementById('scrap-percentage').textContent = scrappedPercentage + '%';
@@ -1722,29 +1784,56 @@
         // تطبيق الفلاتر
         function applyReportFilters() {
             const searchType = document.querySelector('input[name="searchType"]:checked').value;
-            const deviceType = document.getElementById('deviceType').value;
-            const area = document.getElementById('area').value;
-            const inventoryYear = document.getElementById('inventoryYear').value;
-            const scrapDeviceType = document.getElementById('scrapDeviceType').value;
-            const scrapArea = document.getElementById('scrapArea').value;
-            const scrapYear = document.getElementById('scrapYear').value;
-
             // توليد البيانات الأصلية
             const allReportData = generateReportData();
+            let filteredReportData;
 
             // فلترة البيانات
-            const filteredReportData = allReportData.filter(device => {
-                if (searchType === 'inventory') {
-                    return (deviceType === 'all' || device.type === deviceType) &&
-                        (area === 'all' || device.area === area) &&
-                        (inventoryYear === 'all' || device.inventoryYear.toString() === inventoryYear);
-                } else {
-                    return device.status === 'scrapped' &&
-                        (scrapDeviceType === 'all' || device.type === scrapDeviceType) &&
-                        (scrapArea === 'all' || device.area === scrapArea) &&
-                        (scrapYear === 'all' || (device.scrapYear && device.scrapYear.toString() === scrapYear));
-                }
-            });
+            if (searchType === 'inventory') {
+                const deviceType = document.getElementById('deviceType').value;
+                const area = document.getElementById('area').value;
+                const inventoryYear = document.getElementById('inventoryYear').value;
+                const ram = document.getElementById('inventory-ram-filter').value;
+                const hdd = document.getElementById('inventory-hdd-filter').value;
+
+                filteredReportData = allReportData.filter(device => {
+                    const typeMatch = deviceType === 'all' || device.type === deviceType;
+                    const areaMatch = area === 'all' || device.area === area;
+                    const yearMatch = inventoryYear === 'all' || device.inventoryYear.toString() === inventoryYear;
+
+                    let specsMatch = true;
+                    if (device.type === 'laptop' || device.type === 'desktop') {
+                        const ramMatch = ram === 'all' || (device.specs && device.specs.includes(ram));
+                        const hddMatch = hdd === 'all' || (device.specs && device.specs.includes(hdd));
+                        specsMatch = ramMatch && hddMatch;
+                    }
+
+                    return typeMatch && areaMatch && yearMatch && specsMatch;
+                });
+
+            } else { // searchType === 'scrap'
+                const scrapDeviceType = document.getElementById('scrapDeviceType').value;
+                const scrapArea = document.getElementById('scrapArea').value;
+                const scrapYear = document.getElementById('scrapYear').value;
+                const ram = document.getElementById('scrap-ram-filter').value;
+                const hdd = document.getElementById('scrap-hdd-filter').value;
+
+                filteredReportData = allReportData.filter(device => {
+                    const statusMatch = device.status === 'scrapped';
+                    const typeMatch = scrapDeviceType === 'all' || device.type === scrapDeviceType;
+                    const areaMatch = scrapArea === 'all' || device.area === scrapArea;
+                    const yearMatch = scrapYear === 'all' || (device.scrapYear && device.scrapYear.toString() === scrapYear);
+
+                    let specsMatch = true;
+                    if (device.type === 'laptop' || device.type === 'desktop') {
+                        const ramMatch = ram === 'all' || (device.specs && device.specs.includes(ram));
+                        const hddMatch = hdd === 'all' || (device.specs && device.specs.includes(hdd));
+                        specsMatch = ramMatch && hddMatch;
+                    }
+
+                    return statusMatch && typeMatch && areaMatch && yearMatch && specsMatch;
+                });
+            }
 
             // تحديث المكونات بالبيانات المفلترة
             updateReportTable(filteredReportData);
@@ -1760,14 +1849,24 @@
             });
         }
 
+
         // إعادة تعيين الفلاتر
         function resetReportFilters() {
+            // Reset inventory filters
             document.getElementById('deviceType').value = 'all';
             document.getElementById('area').value = 'all';
             document.getElementById('inventoryYear').value = 'all';
+            document.getElementById('inventory-ram-filter').value = 'all';
+            document.getElementById('inventory-hdd-filter').value = 'all';
+            document.getElementById('inventory-specs-filters').classList.add('hidden');
+
+            // Reset scrap filters
             document.getElementById('scrapDeviceType').value = 'all';
             document.getElementById('scrapArea').value = 'all';
             document.getElementById('scrapYear').value = 'all';
+            document.getElementById('scrap-ram-filter').value = 'all';
+            document.getElementById('scrap-hdd-filter').value = 'all';
+            document.getElementById('scrap-specs-filters').classList.add('hidden');
 
             // إعادة تعيين Radio Buttons
             document.getElementById('search-inventory').checked = true;
@@ -1775,8 +1874,9 @@
             document.getElementById('scrap-search-section').classList.add('hidden');
 
             // تطبيق الفلاتر بعد الإعادة
-            applyReportFilters();
+            initReportsPage();
         }
+
 
         // دالة لإظهار/إخفاء أقسام الفلاتر بناءً على الاختيار
         function toggleSearchSections() {
@@ -1863,27 +1963,9 @@
 
         // تهيئة صفحة التقارير
         function initReportsPage() {
-            const reportData = generateReportData();
-            updateReportTable(reportData);
-            updateReportStats(reportData);
-            initReportsCharts(reportData);
-
-            // إضافة تأثير تمييز للقسم
-            const reportsSection = document.getElementById('reports-section');
-            reportsSection.classList.add('report-highlight');
-            setTimeout(() => {
-                reportsSection.classList.remove('report-highlight');
-            }, 2000);
-
-            // إضافة تأثير للأجهزة المخردة
-            document.querySelectorAll('#deviceTableBody tr').forEach(row => {
-                if (row.classList.contains('scrapped-row')) {
-                    row.classList.add('highlight-row');
-                    setTimeout(() => {
-                        row.classList.remove('highlight-row');
-                    }, 3000);
-                }
-            });
+            updateReportTable([]);
+            updateReportStats([]);
+            initReportsCharts([]);
         }
 
         // =====================================
@@ -2375,6 +2457,25 @@
             });
         }
 
+        function populateYearDropdowns() {
+            const inventoryYearSelect = document.getElementById('inventoryYear');
+            const scrapYearSelect = document.getElementById('scrapYear');
+            const currentYear = new Date().getFullYear();
+            const startYear = 2000;
+
+            for (let year = currentYear; year >= startYear; year--) {
+                const option1 = document.createElement('option');
+                option1.value = year;
+                option1.textContent = year;
+                inventoryYearSelect.appendChild(option1);
+
+                const option2 = document.createElement('option');
+                option2.value = year;
+                option2.textContent = year;
+                scrapYearSelect.appendChild(option2);
+            }
+        }
+
 
         // =====================
         // تهيئة الصفحة عند التحميل
@@ -2385,6 +2486,9 @@
 
             // تحديث شارة الإشعارات
             updateNotificationBadge();
+            
+            // تعبئة فلاتر السنوات
+            populateYearDropdowns();
 
             // معالجة النقر على أزرار الجرد
             document.addEventListener('click', function (e) {
@@ -2449,15 +2553,33 @@
             document.getElementById('closeAddDeviceModal').addEventListener('click', hideAddDeviceModal);
             document.getElementById('cancelAddDevice').addEventListener('click', hideAddDeviceModal);
 
+            // زر مسح الرقم التسلسلي
+            document.getElementById('scan-serial-btn').addEventListener('click', function() {
+                hideAddDeviceModal();
+                switchAdminSection('barcode');
+                // Optional: Automatically start the camera
+                setTimeout(() => {
+                    startCamera();
+                    scannerMessage.textContent = 'وجه الكاميرا نحو باركود الرقم التسلسلي';
+                }, 300);
+            });
+
+
             // إظهار/إخفاء حقول المواصفات حسب نوع الجهاز
             document.getElementById('new-device-type').addEventListener('change', function () {
                 const type = this.value;
                 const specsFields = document.getElementById('specs-fields');
+                const ramInput = document.getElementById('new-device-ram');
+                const hddInput = document.getElementById('new-device-hdd');
 
                 if (type === 'laptop' || type === 'desktop') {
                     specsFields.classList.remove('hidden');
+                    ramInput.required = true;
+                    hddInput.required = true;
                 } else {
                     specsFields.classList.add('hidden');
+                    ramInput.required = false;
+                    hddInput.required = false;
                 }
             });
 
@@ -2467,22 +2589,16 @@
 
                 const type = document.getElementById('new-device-type').value;
                 const model = document.getElementById('new-device-model').value;
-                const status = document.getElementById('new-device-status').value;
+                const serial = document.getElementById('new-device-serial').value;
                 const employeeId = document.getElementById('new-device-employee-id').value;
                 const user = document.getElementById('new-device-user').value;
                 const central = document.getElementById('new-device-central').value;
                 const receiptDate = document.getElementById('new-device-receipt-date').value;
 
-                if (!type || !model || !status || !receiptDate || !employeeId) {
+                if (!type || !model || !serial || !receiptDate || !employeeId || !user) {
                     alert('الرجاء ملء جميع الحقول الإلزامية (*)');
                     return;
                 }
-
-                // توليد الرقم التسلسلي
-                const prefixes = { laptop: 'LA', desktop: 'DE', printer: 'PR', monitor: 'MO', tablet: 'TA', other: 'OT' };
-                const prefix = prefixes[type] || 'XX';
-                const serial = prefix + String(Date.now()).slice(-8);
-
 
                 // توليد مواصفات الجهاز
                 let specs = '';
@@ -2502,9 +2618,9 @@
                     type: type,
                     model: model,
                     serial: serial,
-                    status: status,
+                    status: 'in-use', // **الحالة دائما "مستخدم"**
                     employeeId: employeeId,
-                    user: user || '',
+                    user: user,
                     central: central,
                     notes: document.getElementById('new-device-notes').value,
                     inventoryDone: false,
@@ -2616,6 +2732,32 @@
             document.getElementById('exportReport').addEventListener('click', exportReport);
             document.getElementById('searchInput').addEventListener('keyup', searchReportTable);
 
+            // إظهار/إخفاء فلاتر المواصفات في قسم العهد
+            document.getElementById('deviceType').addEventListener('change', function () {
+                const specsFilters = document.getElementById('inventory-specs-filters');
+                if (this.value === 'laptop' || this.value === 'desktop') {
+                    specsFilters.classList.remove('hidden');
+                } else {
+                    specsFilters.classList.add('hidden');
+                    // Reset and apply filters when hiding
+                    document.getElementById('inventory-ram-filter').value = 'all';
+                    document.getElementById('inventory-hdd-filter').value = 'all';
+                }
+            });
+
+            // إظهار/إخفاء فلاتر المواصفات في قسم المخردات
+            document.getElementById('scrapDeviceType').addEventListener('change', function () {
+                const specsFilters = document.getElementById('scrap-specs-filters');
+                if (this.value === 'laptop' || this.value === 'desktop') {
+                    specsFilters.classList.remove('hidden');
+                } else {
+                    specsFilters.classList.add('hidden');
+                    // Reset and apply filters when hiding
+                    document.getElementById('scrap-ram-filter').value = 'all';
+                    document.getElementById('scrap-hdd-filter').value = 'all';
+                }
+            });
+
             // أحداث Radio Buttons
             document.querySelectorAll('input[name="searchType"]').forEach(radio => {
                 radio.addEventListener('change', function () {
@@ -2652,3 +2794,5 @@
 </body>
 
 </html>
+}
+أريد منك أن تجعل حقل الرقم التسلسلي في شاشة إضافة جهاز جديد في المنتصف ويكون شكله جذاب وايضا أيقونة qr code اجعلها في المنتصف أيضا وعندما أقوم بمسح الباركود الخاص بالرقم التسلسلي من شاشة مسح الباركود ويظهر لي الرقم التسلسلي أريد منك أن تضع لي زر بجانب تعديل وتخريد وتم الجرد اسمه نقل البيانات إلى شاشة إضافة جهاز جديد وعندما أضغط عليه ينقلني إلى شاشة إضافة جهاز جديد ويضع لي الرقم التسلسلي الذي تم مسحه في حقل الرقم التسلسلي وايضا أريد منك أن تعدل على شاشة التقارير بحيث يكون البحث في العهد والبحث في المخردات بجانب بعضهما البعض وايضا الفلاتر الخاصة بالبحث في العهد والبحث في المخردات اجعلها تحت كل منهما
