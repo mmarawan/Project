@@ -175,7 +175,7 @@
         .notification-btn:active {
             transform: scale(0.95);
         }
-        
+
         /* نافذة الإشعارات */
         #notifications-container {
             position: fixed;
@@ -224,15 +224,12 @@
 
 <body class="bg-gray-50 min-h-screen">
     <div class="fade-screen">
-        <!-- واجهة المستخدم العادي -->
         <div id="user-dashboard" class="min-h-screen bg-gray-100">
-            <!-- Header -->
             <header class="bg-primary-700 text-white shadow-md">
                 <div
                     class="container mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center text-center sm:text-right">
                     <h1 class="text-xl sm:text-2xl font-bold mb-2 sm:mb-0">نظام إدارة العُهد الشخصية</h1>
                     <div class="flex items-center space-x-2 sm:space-x-4 space-x-reverse">
-                        <!-- زر الإشعارات الجديد -->
                         <div class="relative">
                             <button id="notification-btn"
                                 class="notification-btn text-white p-1 rounded-full hover:bg-primary-600 transition">
@@ -254,17 +251,14 @@
                 </div>
             </header>
 
-            <!-- نافذة الإشعارات -->
             <div id="notifications-container">
                 <div class="p-3 border-b bg-gray-50">
                     <h3 class="font-bold text-lg text-gray-800">الإشعارات</h3>
                 </div>
                 <div id="notifications-list">
-                    <!-- سيتم ملؤه ديناميكيًا -->
                 </div>
             </div>
 
-            <!-- Main Content -->
             <main class="container mx-auto px-4 py-4 sm:py-6">
                 <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-4 sm:mb-6">
                     <h2 class="text-lg sm:text-xl font-bold text-primary-700 mb-3 sm:mb-4">العُهد الخاصة بك</h2>
@@ -317,13 +311,6 @@
                     <h2 class="text-lg sm:text-xl font-bold text-primary-700 mb-3 sm:mb-4"> تعديل عهدة </h2>
                     <form id="issue-report-form" class="space-y-4">
                         <div class="mb-3 sm:mb-4">
-                            <label for="employee-id" class="block text-sm font-medium text-gray-700 mb-1">رقم
-                                العامل المستلم</label>
-                            <input type="text" id="employee-id"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm"
-                                placeholder="أدخل رقم العامل الخاص بك" required>
-                        </div>
-                        <div class="mb-3 sm:mb-4">
                             <label for="issue-device" class="block text-sm font-medium text-gray-700 mb-1">اختر
                                 الجهاز</label>
                             <select id="issue-device"
@@ -338,7 +325,7 @@
 
                         <div class="mb-3 sm:mb-4">
                             <label for="receipt-upload" class="block text-sm font-medium text-gray-700 mb-1">إرفاق إيصال
-                                الاستلام</label>
+                                الاستلام او إيصال التخريد</label>
                             <div class="flex items-center">
                                 <input type="file" id="receipt-upload" class="hidden" accept=".pdf,.jpg,.jpeg,.png">
                                 <input type="text" id="receipt-file-name"
@@ -392,7 +379,6 @@
             </main>
         </div>
     </div>
-    <!-- Popup Success Message -->
     <div id="popup-overlay" class="popup-overlay">
         <div class="popup-content">
             <div class="popup-icon">
@@ -420,7 +406,7 @@
         function updateNotificationBadge() {
             const unreadCount = userNotifications.filter(n => !n.read).length;
             const badge = document.getElementById('notification-badge');
-            
+
             if (unreadCount > 0) {
                 badge.textContent = unreadCount;
                 badge.style.display = 'flex';
@@ -438,10 +424,10 @@
         function showNotifications() {
             const container = document.getElementById('notifications-container');
             const list = document.getElementById('notifications-list');
-            
+
             container.style.display = 'block';
             list.innerHTML = '';
-            
+
             userNotifications.forEach(notification => {
                 const item = document.createElement('div');
                 item.className = `notification-item ${notification.read ? '' : 'bg-blue-50'}`;
@@ -450,25 +436,25 @@
                     <div class="notification-content">${notification.content}</div>
                     <div class="notification-time">${notification.time}</div>
                 `;
-                
+
                 item.addEventListener('click', () => {
                     // عند النقر على الإشعار، نجعله مقروءًا ونخفي النافذة
                     notification.read = true;
                     updateNotificationBadge();
                     container.style.display = 'none';
                 });
-                
+
                 list.appendChild(item);
             });
         }
 
         // إغلاق الإشعارات عند النقر خارجها
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             const notifications = document.getElementById('notifications-container');
             const bell = document.getElementById('notification-btn');
-            
-            if (notifications.style.display === 'block' && 
-                !notifications.contains(e.target) && 
+
+            if (notifications.style.display === 'block' &&
+                !notifications.contains(e.target) &&
                 !bell.contains(e.target)) {
                 notifications.style.display = 'none';
             }
@@ -481,6 +467,7 @@
         });
 
         // معالجة إرسال النموذج مع Popup
+        // معالجة إرسال النموذج مع Popup
         document.getElementById('issue-report-form').addEventListener('submit', function (e) {
             e.preventDefault();
 
@@ -489,6 +476,11 @@
             const submitLoading = document.getElementById('submit-loading');
             const popupOverlay = document.getElementById('popup-overlay');
 
+            // -- الخطوة 1: الحصول على اسم الجهاز قبل أي شيء آخر --
+            const deviceSelect = document.getElementById('issue-device');
+            const selectedDeviceName = deviceSelect.options[deviceSelect.selectedIndex].text;
+            const selectedDeviceValue = deviceSelect.value;
+
             // عرض حالة التحميل
             submitText.classList.add('hidden');
             submitLoading.classList.remove('hidden');
@@ -496,37 +488,41 @@
 
             // محاكاة إرسال البيانات إلى الخادم
             setTimeout(() => {
-                submitLoading.classList.add('hidden');
 
-                // عرض Popup النجاح
+                // -- الخطوة 2: إنشاء الإشعار وتحديث الواجهة فورًا --
+                // التأكد من أن المستخدم اختار جهازاً
+                if (selectedDeviceValue) {
+                    const newNotification = {
+                        id: userNotifications.length + 1,
+                        title: "تأكيد إرسال",
+                        content: `تم إرسال طلب التعديل لجهاز: ${selectedDeviceName}`,
+                        time: "الآن",
+                        read: false
+                    };
+                    userNotifications.unshift(newNotification);
+                    updateNotificationBadge(); // تحديث أيقونة الجرس مباشرة
+                }
+
+                // -- الخطوة 3: إظهار رسالة النجاح وإعداد زر الإغلاق --
+                submitLoading.classList.add('hidden');
                 popupOverlay.classList.add('active');
 
-                // إعادة تعيين النموذج عند إغلاق الـ Popup
+                // زر الإغلاق الآن وظيفته فقط إغلاق النافذة وإعادة تعيين النموذج
                 document.getElementById('popup-close-btn').addEventListener('click', function () {
                     popupOverlay.classList.remove('active');
                     submitText.classList.remove('hidden');
                     submitBtn.disabled = false;
                     e.target.reset();
                     document.getElementById('receipt-file-name').value = '';
-                    
-                    // إضافة إشعار جديد بعد الإرسال
-                    const newNotification = {
-                        id: userNotifications.length + 1,
-                        title: "تأكيد إرسال",
-                        content: "تم استلام بلاغك بنجاح",
-                        time: "الآن",
-                        read: false
-                    };
-                    userNotifications.unshift(newNotification);
-                    updateNotificationBadge();
-                }, { once: true }); // يتم تشغيل الحدث مرة واحدة فقط
+                }, { once: true });
+
             }, 2000);
         });
 
         // وظيفة الجرس (للنقر)
         document.getElementById('notification-btn').addEventListener('click', function () {
             showNotifications();
-            
+
             // إخفاء الفقاعة بعد النقر
             const badge = this.querySelector('.notification-badge');
             if (badge) {
@@ -535,7 +531,7 @@
         });
 
         // حل مشكلة زر تسجيل الخروج
-        document.getElementById('logout-btn').addEventListener('click', function() {
+        document.getElementById('logout-btn').addEventListener('click', function () {
             // توجيه المستخدم إلى صفحة تسجيل الدخول
             window.location.href = 'index.html';
         });

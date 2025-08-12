@@ -769,7 +769,7 @@
                                             class="block text-sm font-medium text-gray-700 mb-2">سنة الجرد</label>
                                         <select id="inventoryYear"
                                             class="w-full p-2 sm:p-3 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
-                                            <option value="all">جميع السنوات</option>
+                                            <option value="all">اختر سنة الجرد</option>
                                         </select>
                                     </div>
                                 </div>
@@ -839,7 +839,7 @@
                                             التخريد</label>
                                         <select id="scrapYear"
                                             class="w-full p-2 sm:p-3 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500">
-                                            <option value="all">جميع السنوات</option>
+                                            <option value="all">اختر سنة التخريد</option>
                                         </select>
                                     </div>
                                 </div>
@@ -1123,7 +1123,7 @@
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
                                 placeholder="أدخل موديل الجهاز" required>
                         </div>
-                        
+
                         <div>
                             <label for="new-device-serial" class="block text-gray-700 font-medium mb-1 text-sm">الرقم
                                 التسلسلي *</label>
@@ -1466,12 +1466,15 @@
             { "id": "100", "employeeId": "1100", "type": "tablet", "model": "HONOR Pad 8", "serial": "TA00000100", "status": "in-use", "user": "سامح رفعت", "central": "سنترال2", "notes": "", "inventoryDone": false, "specs": "" }
         ];
 
-        // إشعارات التخريد
-        const scrapNotifications = [
-            { id: 1, title: "تخريد جهاز جديد", content: "تم تخريد لابتوب من قبل محمد أحمد", time: "قبل 10 دقائق", read: false },
-            { id: 2, title: "تخريد طابعة", content: "تم تخريد طابعة HP LaserJet Pro M404n", time: "قبل 30 دقيقة", read: false },
-            { id: 3, title: "تخريد شاشة", content: "تم تخريد شاشة Dell UltraSharp U2722D", time: "قبل ساعة", read: false }
+        // --- بداية الكود المعدل ---
+        // بيانات الإشعارات الخاصة بالمسؤول
+        const adminNotifications = [
+            { id: 4, title: "طلب تعديل عهدة", content: "تم إرسال طلب التعديل من رقم العامل: 1001 لجهاز: لابتوب - HP ProBook 450 G8", time: "الآن", read: false },
+            { id: 3, title: "تخريد جهاز", content: "تم تخريد طابعة HP LaserJet Pro M404n", time: "قبل 30 دقيقة", read: false },
+            { id: 2, title: "تخريد جهاز", content: "تم تخريد شاشة Dell UltraSharp U2722D", time: "قبل ساعة", read: true },
+            { id: 1, title: "طلب تعديل عهدة", content: "تم إرسال طلب التعديل من رقم العامل: 1002 لجهاز: جهاز كمبيوتر - HP EliteDesk 800 G5", time: "قبل 4 ساعات", read: true }
         ];
+        // --- نهاية الكود المعدل ---
 
         // =====================================
         // كود التقارير والإحصائيات - مع التعديلات
@@ -2173,46 +2176,44 @@
             document.getElementById('editDeviceForm').reset();
         }
 
+        // --- بداية الكود المعدل ---
         // حذف الجهاز من المخزون مع تحديث التقارير
         function scrapDevice(deviceId) {
             const device = devicesData.find(d => d.id === deviceId);
             if (device) {
                 device.status = 'scrapped';
-                device.scrapDate = new Date().toISOString().split('T')[0]; // Set scrap date to today
+                device.scrapDate = new Date().toISOString().split('T')[0];
 
-                // Refresh the inventory display
                 displayInventory();
 
-                // Update the reports data and stats
                 const reportData = generateReportData();
                 updateReportTable(reportData);
                 updateReportStats(reportData);
                 initReportsCharts(reportData);
 
-                // Add a new notification
-                const notification = {
-                    title: 'Device Scrapped',
-                    content: `You scrapped device ${device.model} (${device.serial})`,
-                    time: new Date().toLocaleTimeString(),
+                const newNotification = {
+                    id: Math.max(...adminNotifications.map(n => n.id)) + 1, // Generate a new unique ID
+                    title: 'تخريد جهاز',
+                    content: `تم تخريد جهاز ${device.model} (${device.serial})`,
+                    time: "الآن",
                     read: false
                 };
-                scrapNotifications.push(notification);
+                adminNotifications.unshift(newNotification);
                 updateNotificationBadge();
 
-                // Show success message
                 const message = document.getElementById('delete-success-message');
                 message.style.display = 'block';
                 setTimeout(() => {
                     message.style.display = 'none';
                 }, 3000);
 
-                // Hide scrap modal and show success modal
                 hideScrapModal();
                 showScrapSuccessModal();
             } else {
                 alert('Device not found');
             }
         }
+        // --- نهاية الكود المعدل ---
 
 
         // تبديل بين أقسام لوحة التحكم
@@ -2401,12 +2402,13 @@
             }
         }
 
+        // --- بداية الكود المعدل ---
         // تحديث شارة الإشعارات
         function updateNotificationBadge() {
             const badge = document.getElementById('notification-badge');
             if (!badge) return;
 
-            const unreadCount = scrapNotifications.filter(n => !n.read).length;
+            const unreadCount = adminNotifications.filter(n => !n.read).length;
 
             if (unreadCount > 0) {
                 badge.textContent = unreadCount;
@@ -2424,26 +2426,14 @@
             container.style.display = 'block';
             list.innerHTML = '';
 
-            // Reverse the notifications array to show new notifications at the top
-            scrapNotifications.slice().reverse().forEach(notification => {
+            // عرض الإشعارات مرتبة حسب الـ ID (الأحدث أولاً)
+            adminNotifications.sort((a, b) => b.id - a.id).forEach(notification => {
                 const item = document.createElement('div');
                 item.className = `notification-item ${notification.read ? '' : 'bg-blue-50'}`;
 
-                let title = notification.title;
-                let content = notification.content;
-
-                if (title === 'Device Scrapped') {
-                    title = 'تم تخريد جهاز';
-                }
-                if (content.includes('You scrapped device')) {
-                    const deviceModel = content.match(/device (.*) \(/)[1];
-                    const deviceSerial = content.match(/\((.*)\)/)[1];
-                    content = `تم تخريد جهاز ${deviceModel} (${deviceSerial})`;
-                }
-
                 item.innerHTML = `
-                    <div class="notification-title">${title}</div>
-                    <div class="notification-content">${content}</div>
+                    <div class="notification-title">${notification.title}</div>
+                    <div class="notification-content">${notification.content}</div>
                     <div class="notification-time">${notification.time}</div>
                 `;
 
@@ -2456,14 +2446,15 @@
                 list.appendChild(item);
             });
         }
+        // --- نهاية الكود المعدل ---
 
         function populateYearDropdowns() {
             const inventoryYearSelect = document.getElementById('inventoryYear');
             const scrapYearSelect = document.getElementById('scrapYear');
-            const currentYear = new Date().getFullYear();
-            const startYear = 2000;
+            const endYear = 2025;
+            const startYear = 2020;
 
-            for (let year = currentYear; year >= startYear; year--) {
+            for (let year = endYear; year >= startYear; year--) {
                 const option1 = document.createElement('option');
                 option1.value = year;
                 option1.textContent = year;
@@ -2486,7 +2477,7 @@
 
             // تحديث شارة الإشعارات
             updateNotificationBadge();
-            
+
             // تعبئة فلاتر السنوات
             populateYearDropdowns();
 
@@ -2554,7 +2545,7 @@
             document.getElementById('cancelAddDevice').addEventListener('click', hideAddDeviceModal);
 
             // زر مسح الرقم التسلسلي
-            document.getElementById('scan-serial-btn').addEventListener('click', function() {
+            document.getElementById('scan-serial-btn').addEventListener('click', function () {
                 hideAddDeviceModal();
                 switchAdminSection('barcode');
                 // Optional: Automatically start the camera
